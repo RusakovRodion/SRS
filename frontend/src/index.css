@@ -16,4 +16,6 @@
 body {
     background-color: var(--main-bg);
     color: var(--main-text);
+    padding: 0;
+    margin: 0;
 }

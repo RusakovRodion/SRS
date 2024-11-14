@@ -1,15 +1,51 @@
 import { useState } from "react";
 import "./App.css";
+
+import { Route, Routes, Outlet, Navigate } from "react-router-dom";
+
 import { UiDemoPageForTest } from "./ui/demo_page";
+import NavBar from "./ui/navbar";
 
 function App() {
-    const [count, setCount] = useState(0);
-
     return (
         <>
-            <h1>hic sunt dracones</h1>
+            <NavBar />
 
-            <UiDemoPageForTest />
+            <Routes>
+                {/* Содержимое element == страница */}
+                <Route path="/for-dev" element={<UiDemoPageForTest />} />
+                <Route
+                    path="/projects"
+                    element={<div>Страница проектов</div>}
+                />
+                <Route path="/objects" element={<div>Страница объектов</div>} />
+                <Route
+                    path="/hardware"
+                    element={<div>Страница оборудования</div>}
+                />
+                <Route
+                    path="/handbook"
+                    element={<div>Страница справочников</div>}
+                />
+                <Route
+                    path="/change-history"
+                    element={<div>Страница истории изменений</div>}
+                />
+                <Route
+                    path="/users"
+                    element={<div>Страница пользователей</div>}
+                />
+                <Route path="/search" element={<div>Страница поиска</div>} />
+
+                {/* Для невалидного пути будет открываться первая страница - проекты */}
+                <Route
+                    path="*"
+                    element={<Navigate to="/projects" replace={true} />}
+                />
+            </Routes>
+
+            {/* В Outlet подставляется текущая страница */}
+            <Outlet />
         </>
     );
 }

@@ -18,10 +18,9 @@ function App() {
             <Routes>
                 {/* Содержимое element == страница */}
                 <Route path="/for-dev" element={<UiDemoPageForTest />} />
-                <Route
-                    path="/projects"
-                   element={<ProjectsPage />}
-                />
+                <Route path="/projects" element={<ProjectsPage />}/>
+                    <Route path=":project_id" element={<div>Страница проекта</div>}/>
+                <Route/>
                 <Route path="/objects" element={<ObjectsPage />} />
                 <Route
                     path="/hardware"

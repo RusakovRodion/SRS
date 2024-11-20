@@ -9,6 +9,7 @@ import {
 
 import "./page.css";
 import "./../list_component.module.css";
+import { useNavigate  } from "react-router-dom";
 
 
 export function ProjectsPage() {
@@ -34,6 +35,7 @@ export function ProjectsPage() {
       type_id: 2,
     },
   ]
+    const navigate = useNavigate();
     return (
         <content>
             <h2>Проекты</h2>
@@ -50,7 +52,7 @@ export function ProjectsPage() {
                         <tools>
                             <AddButtonOnlyIcon onClick={() => console.log("add button")} />
                             <ChangesButtonOnlyIcon onClick={() => console.log("changes button")} />
-                            <WatchButtonOnlyIcon onClick={() => console.log("watch button")} />
+                            <WatchButtonOnlyIcon onClick={() => navigate("/projects:" + project.id)} />
                             <EditButtonOnlyIcon onClick={() => console.log("edit button")} />
                             <DeleteButtonOnlyIcon onClick={() => console.log("delete button")} />
                         </tools>

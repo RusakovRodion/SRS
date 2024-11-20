@@ -1,13 +1,14 @@
-import { AddButtonOnlyIcon, ChangesButtonOnlyIcon, AddButton, EditButtonOnlyIcon, DeleteButtonOnlyIcon, WatchButtonOnlyIcon } from "./buttons";
-import { ListComponent } from './list_component'
-import { Project } from './project'
+import { AddButtonOnlyIcon, ChangesButtonOnlyIcon, AddButton, EditButtonOnlyIcon, DeleteButtonOnlyIcon, WatchButtonOnlyIcon }
+    from "./../buttons";
+import { ListComponent } from './../list_component'
+import { Project } from './../project'
 import {
     list_item,
     list_item_info,
-} from "./list_component.module.css";
+} from "./../list_component.module.css";
 
 import "./page.css";
-import "./list_component.module.css";
+import "./../list_component.module.css";
 
 
 export function ProjectsPage() {

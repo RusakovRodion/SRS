@@ -1,5 +1,5 @@
 import { Trash2 } from "react-feather";
-import { AddButton, Button, DoneButton, SaveButton } from "./buttons";
+import { AddButton, Button, DoneButton, SaveButton } from "./../buttons";
 
 export function UiDemoPageForTest() {
     return (

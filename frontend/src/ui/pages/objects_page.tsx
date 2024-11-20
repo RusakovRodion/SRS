@@ -13,7 +13,7 @@ import {objects } from "./../fake_backend_data"
 
 export function ObjectsPage() {
     return (
-        <content>
+        <div className="content">
             <h2>Объекты</h2>
             <div className="add_button_and_search">
                 <AddButton onClick={() => console.log("add button")} />
@@ -35,6 +35,6 @@ export function ObjectsPage() {
                     </div>
                 )}
            />
-        </content>
+        </div>
     );
 }

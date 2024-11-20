@@ -6,7 +6,7 @@ import {
     list_item_info,
 } from "./list_component.module.css";
 
-import "./objects_page.css";
+import "./page.css";
 import "./list_component.module.css";
 
 
@@ -35,7 +35,7 @@ export function ProjectsPage() {
   ]
     return (
         <content>
-            <h2>Проеты</h2>
+            <h2>Проекты</h2>
             <div className="add_button_and_search">
                 <AddButton onClick={() => console.log("add button")} />
                 <input type="search" placeholder="Поиск"/>

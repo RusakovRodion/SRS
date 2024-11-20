@@ -6,7 +6,7 @@ import {
     list_item_info,
 } from "./list_component.module.css";
 
-import "./objects_page.css";
+import "./page.css";
 import "./list_component.module.css";
 
 

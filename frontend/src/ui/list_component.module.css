@@ -1,0 +1,14 @@
+.list_item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1em;
+    background-color: #545454;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.list_item_info {
+    text-align: center;
+    vertical-align: middle;
+    line-height: 2em;
+}

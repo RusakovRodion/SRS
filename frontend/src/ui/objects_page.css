@@ -1,0 +1,25 @@
+content {}
+
+h2 {
+    margin-left: 1em
+}
+
+tools {
+    display: flex;
+    text-align: right;
+}
+
+input[type="search"] {
+    border-radius: 5px;
+    width: 20%;
+}
+
+.add_button_and_search {
+    display: flex;
+    margin: 1em;
+    justify-content: space-between;
+}
+
+.list {
+    margin: 1em;
+}

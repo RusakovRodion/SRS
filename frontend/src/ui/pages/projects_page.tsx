@@ -16,7 +16,7 @@ import {projects } from "./../fake_backend_data"
 export function ProjectsPage() {
     const navigate = useNavigate();
     return (
-        <content>
+        <div className="content">
             <h2>Проекты</h2>
             <div className="add_button_and_search">
                 <AddButton onClick={() => console.log("add button")} />
@@ -38,6 +38,6 @@ export function ProjectsPage() {
                     </div>
                 )}
            />
-        </content>
+        </div>
     );
 }

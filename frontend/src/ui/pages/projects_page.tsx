@@ -19,7 +19,7 @@ export function ProjectsPage() {
         <div className="content">
             <h2>Проекты</h2>
             <div className="add_button_and_search">
-                <AddButton onClick={() => console.log("add button")} />
+                <AddButton onClick={() => navigate("/projects/add")} />
                 <input type="search" placeholder="Поиск"/>
             </div>
            <ListComponent<Project>

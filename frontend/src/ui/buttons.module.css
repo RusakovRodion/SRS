@@ -20,3 +20,12 @@
 .button:hover {
     background-color: var(--color-4);
 }
+.icon_button {
+    background-color: transparent;
+    color: white;
+    border: none;
+}
+
+.icon_button:hover {
+     background-color: #2D2D2D;
+}

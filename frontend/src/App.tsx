@@ -4,9 +4,12 @@ import "./App.css";
 import { Route, Routes, Outlet, Navigate } from "react-router-dom";
 
 import { UiDemoPageForTest } from "./ui/demo_page";
+import { ObjectsPage } from "./ui/objects_page";
+
 import NavBar from "./ui/navbar";
 
 function App() {
+    // @ts-ignore
     return (
         <>
             <NavBar />
@@ -18,7 +21,7 @@ function App() {
                     path="/projects"
                     element={<div>Страница проектов</div>}
                 />
-                <Route path="/objects" element={<div>Страница объектов</div>} />
+                <Route path="/objects" element={<ObjectsPage />} />
                 <Route
                     path="/hardware"
                     element={<div>Страница оборудования</div>}

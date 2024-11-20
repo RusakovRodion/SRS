@@ -16,22 +16,22 @@ export function ProjectsPage() {
     {
       id: 1,
       name: 'project1',
-      projectType: 'type1',
+      type_id: 1,
     },
     {
       id: 2,
       name: 'project2',
-      projectType: 'type2',
+      type_id: 2,
     },
     {
       id: 3,
       name: 'project3',
-      projectType: 'type1',
+      type_id: 1,
     },
     {
       id: 4,
       name: 'project4',
-      projectType: 'type2',
+      type_id: 2,
     },
   ]
     return (
@@ -46,7 +46,7 @@ export function ProjectsPage() {
                 renderOption={(project) => (
                     <div className={list_item}>
                         <div className={list_item_info}>{project.name}</div>
-                        <div className={list_item_info}>{project.projectType}</div>
+                        <div className={list_item_info}>{project.type_id}</div>
                         <tools>
                             <AddButtonOnlyIcon onClick={() => console.log("add button")} />
                             <ChangesButtonOnlyIcon onClick={() => console.log("changes button")} />

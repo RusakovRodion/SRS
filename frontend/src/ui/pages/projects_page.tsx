@@ -31,7 +31,7 @@ export function ProjectsPage() {
                         <tools>
                             <AddButtonOnlyIcon onClick={() => console.log("add button")} />
                             <ChangesButtonOnlyIcon onClick={() => console.log("changes button")} />
-                            <WatchButtonOnlyIcon onClick={() => navigate("/" + project.id)} />
+                            <WatchButtonOnlyIcon onClick={() => navigate("/projects/" + project.id)} />
                             <EditButtonOnlyIcon onClick={() => console.log("edit button")} />
                             <DeleteButtonOnlyIcon onClick={() => console.log("delete button")} />
                         </tools>

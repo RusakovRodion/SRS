@@ -20,7 +20,7 @@ function App() {
                 {/* Содержимое element == страница */}
                 <Route path="/for-dev" element={<UiDemoPageForTest />} />
                 <Route path="/projects" element={<ProjectsPage />}/>
-                    <Route path=":project_id" element={<ProjectInfoPage />}/>
+                    <Route path="/projects/:project_id" element={<ProjectInfoPage />}/>
                 <Route/>
                 <Route path="/objects" element={<ObjectsPage />} />
                 <Route

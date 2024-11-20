@@ -3,8 +3,9 @@ import "./App.css";
 
 import { Route, Routes, Outlet, Navigate } from "react-router-dom";
 
-import { UiDemoPageForTest } from "./ui/demo_page";
-import { ObjectsPage } from "./ui/objects_page";
+import { UiDemoPageForTest } from "./ui/pages/demo_page";
+import { ObjectsPage } from "./ui/pages/objects_page";
+import { ProjectsPage } from "./ui/pages/projects_page";
 
 import NavBar from "./ui/navbar";
 
@@ -19,7 +20,7 @@ function App() {
                 <Route path="/for-dev" element={<UiDemoPageForTest />} />
                 <Route
                     path="/projects"
-                    element={<div>Страница проектов</div>}
+                   element={<ProjectsPage />}
                 />
                 <Route path="/objects" element={<ObjectsPage />} />
                 <Route

@@ -9,31 +9,12 @@ import {
 
 import "./page.css";
 import "./../list_component.module.css";
+import { useNavigate  } from "react-router-dom";
+import {projects } from "./../fake_backend_data"
 
 
 export function ProjectsPage() {
-    const projects: Project[] = [
-    {
-      id: 1,
-      name: 'project1',
-      type_id: 1,
-    },
-    {
-      id: 2,
-      name: 'project2',
-      type_id: 2,
-    },
-    {
-      id: 3,
-      name: 'project3',
-      type_id: 1,
-    },
-    {
-      id: 4,
-      name: 'project4',
-      type_id: 2,
-    },
-  ]
+    const navigate = useNavigate();
     return (
         <content>
             <h2>Проекты</h2>
@@ -50,7 +31,7 @@ export function ProjectsPage() {
                         <tools>
                             <AddButtonOnlyIcon onClick={() => console.log("add button")} />
                             <ChangesButtonOnlyIcon onClick={() => console.log("changes button")} />
-                            <WatchButtonOnlyIcon onClick={() => console.log("watch button")} />
+                            <WatchButtonOnlyIcon onClick={() => navigate("/" + project.id)} />
                             <EditButtonOnlyIcon onClick={() => console.log("edit button")} />
                             <DeleteButtonOnlyIcon onClick={() => console.log("delete button")} />
                         </tools>

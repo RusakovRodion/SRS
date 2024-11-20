@@ -8,23 +8,10 @@ import {
 
 import "./page.css";
 import "./../list_component.module.css";
+import {objects } from "./../fake_backend_data"
 
 
 export function ObjectsPage() {
-    const objects: Object[] = [
-    {
-      id: 1,
-      name: 'object1',
-      projectId: 1,
-      regNumber: "hg12"
-    },
-    {
-      id: 2,
-      name: 'object2',
-      projectId: 3,
-      regNumber: "hg112"
-    },
-  ]
     return (
         <content>
             <h2>Объекты</h2>

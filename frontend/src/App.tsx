@@ -6,6 +6,7 @@ import { Route, Routes, Outlet, Navigate } from "react-router-dom";
 import { UiDemoPageForTest } from "./ui/pages/demo_page";
 import { ObjectsPage } from "./ui/pages/objects_page";
 import { ProjectsPage } from "./ui/pages/projects_page";
+import { ProjectInfoPage } from "./ui/pages/project_info_page"
 
 import NavBar from "./ui/navbar";
 
@@ -18,10 +19,9 @@ function App() {
             <Routes>
                 {/* Содержимое element == страница */}
                 <Route path="/for-dev" element={<UiDemoPageForTest />} />
-                <Route
-                    path="/projects"
-                   element={<ProjectsPage />}
-                />
+                <Route path="/projects" element={<ProjectsPage />}/>
+                    <Route path=":project_id" element={<ProjectInfoPage />}/>
+                <Route/>
                 <Route path="/objects" element={<ObjectsPage />} />
                 <Route
                     path="/hardware"

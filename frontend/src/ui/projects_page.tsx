@@ -1,4 +1,4 @@
-import { ChangesButtonOnlyIcon, AddButton, EditButtonOnlyIcon, DeleteButtonOnlyIcon, WatchButtonOnlyIcon } from "./buttons";
+import { AddButtonOnlyIcon, ChangesButtonOnlyIcon, AddButton, EditButtonOnlyIcon, DeleteButtonOnlyIcon, WatchButtonOnlyIcon } from "./buttons";
 import { ListComponent } from './list_component'
 import { Project } from './project'
 import {
@@ -47,6 +47,7 @@ export function ProjectsPage() {
                         <div className={list_item_info}>{project.name}</div>
                         <div className={list_item_info}>{project.projectType}</div>
                         <tools>
+                            <AddButtonOnlyIcon onClick={() => console.log("add button")} />
                             <ChangesButtonOnlyIcon onClick={() => console.log("changes button")} />
                             <WatchButtonOnlyIcon onClick={() => console.log("watch button")} />
                             <EditButtonOnlyIcon onClick={() => console.log("edit button")} />

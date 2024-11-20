@@ -27,6 +27,10 @@ export function Button({
     );
 }
 
+export function AddButtonOnlyIcon({ onClick }: ClickableProps) {
+    return <Button className={icon_button} icon={Plus} onClick={onClick} />;
+}
+
 export function ChangesButtonOnlyIcon({ onClick }: ClickableProps) {
     return <Button className={icon_button} icon={Clock} onClick={onClick} />;
 }

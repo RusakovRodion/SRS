@@ -5,3 +5,8 @@ export interface Project {
   added: string
   type_id: number
 }
+
+export interface ProjectType {
+  id: number
+  name: string
+}

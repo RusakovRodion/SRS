@@ -1,5 +1,6 @@
 import { Project, ProjectType } from './../project'
 import { Object } from './../object'
+import { Hardware, HardwareType } from './../hardware'
 
 export const project_types: ProjectType[] = [
     {
@@ -15,6 +16,48 @@ export const project_types: ProjectType[] = [
         name: 'Обычное судно'
     }
 ]
+
+export const hardware_types: HardwareType[] = [
+    {
+        id: 1,
+        name: 'Двигатель'
+    },
+    {
+        id: 2,
+        name: 'Штурвал'
+    },
+]
+
+export const hardwares: Hardware[] = [
+    {
+        id: 1,
+        name: "Engine1",
+        brand: "Adidas",
+        model: "Abrams",
+        description: "lorem ipsum ",
+        added: "",
+        type_id: 1,
+    },
+    {
+        id: 2,
+        name: "Engine2",
+        brand: "Adidas",
+        model: "Gilios",
+        description: "lorem ipsum ",
+        added: "",
+        type_id: 1,
+    },
+    {
+        id: 3,
+        name: "1",
+        brand: "Abidas",
+        model: "roundsfdsf",
+        description: "lorem ipsum ",
+        added: "",
+        type_id: 2,
+    }
+]
+
 
 export const projects: Project[] = [
     {

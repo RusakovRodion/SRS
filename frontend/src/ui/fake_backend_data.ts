@@ -1,5 +1,20 @@
-import { Project } from './../project'
+import { Project, ProjectType } from './../project'
 import { Object } from './../object'
+
+export const project_types: ProjectType[] = [
+    {
+        id: 1,
+        name: 'Грузовое судно'
+    },
+    {
+        id: 2,
+        name: 'Трактор'
+    },
+    {
+        id: 3,
+        name: 'Обычное судно'
+    }
+]
 
 export const projects: Project[] = [
     {

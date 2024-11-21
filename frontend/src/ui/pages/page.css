@@ -8,9 +8,29 @@ tools {
     text-align: right;
 }
 
+form > .save_btn_block{
+    margin-top: 1em;
+    float: right;
+}
+
 input[type="search"] {
     border-radius: 5px;
     width: 20%;
+}
+
+input[type="text"] {
+    border-radius: 5px;
+    width: 100%;
+}
+
+select {
+    border-radius: 5px;
+    width: 100%;
+}
+
+textarea {
+    border-radius: 5px;
+    width: 100%;
 }
 
 .add_button_and_search {

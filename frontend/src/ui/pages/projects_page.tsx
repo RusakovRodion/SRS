@@ -19,7 +19,7 @@ export function ProjectsPage() {
         <div className="content">
             <h2>Проекты</h2>
             <div className="add_button_and_search">
-                <AddButton onClick={() => console.log("add button")} />
+                <AddButton onClick={() => navigate("/projects/add")} />
                 <input type="search" placeholder="Поиск"/>
             </div>
            <ListComponent<Project>
@@ -31,7 +31,7 @@ export function ProjectsPage() {
                         <tools>
                             <AddButtonOnlyIcon onClick={() => console.log("add button")} />
                             <ChangesButtonOnlyIcon onClick={() => console.log("changes button")} />
-                            <WatchButtonOnlyIcon onClick={() => navigate("/" + project.id)} />
+                            <WatchButtonOnlyIcon onClick={() => navigate("/projects/" + project.id)} />
                             <EditButtonOnlyIcon onClick={() => console.log("edit button")} />
                             <DeleteButtonOnlyIcon onClick={() => console.log("delete button")} />
                         </tools>

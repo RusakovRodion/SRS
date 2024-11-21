@@ -8,6 +8,7 @@ import { ObjectsPage } from "./ui/pages/objects_page";
 import { ProjectsPage } from "./ui/pages/projects_page";
 import { ProjectInfoPage } from "./ui/pages/project_info_page"
 import { EditProjectForm } from "./ui/pages/edit_project_form"
+import { HardwarePage } from "./ui/pages/hardware_page"
 
 import NavBar from "./ui/navbar";
 
@@ -25,10 +26,7 @@ function App() {
                     <Route path="/projects/add" element={<EditProjectForm mode={'new'}/>}/>
                 <Route/>
                 <Route path="/objects" element={<ObjectsPage />} />
-                <Route
-                    path="/hardware"
-                    element={<div>Страница оборудования</div>}
-                />
+                <Route path="/hardware" element={<HardwarePage />}/>
                 <Route
                     path="/handbook"
                     element={<div>Страница справочников</div>}

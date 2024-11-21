@@ -1,8 +1,6 @@
-import { Project, ProjectType } from './../project'
-import { Object } from './../object'
-import { Hardware, HardwareType } from './../hardware'
+import * as type from "./data_interfaces"
 
-export const project_types: ProjectType[] = [
+export const project_types: type.ProjectType[] = [
     {
         id: 1,
         name: 'Грузовое судно'
@@ -17,7 +15,7 @@ export const project_types: ProjectType[] = [
     }
 ]
 
-export const hardware_types: HardwareType[] = [
+export const hardware_types: type.HardwareType[] = [
     {
         id: 1,
         name: 'Двигатель'
@@ -28,7 +26,7 @@ export const hardware_types: HardwareType[] = [
     },
 ]
 
-export const hardwares: Hardware[] = [
+export const hardwares: type.Hardware[] = [
     {
         id: 1,
         name: "Engine1",
@@ -59,34 +57,38 @@ export const hardwares: Hardware[] = [
 ]
 
 
-export const projects: Project[] = [
+export const projects: type.Project[] = [
     {
       id: 1,
       name: 'project1',
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
       type_id: 1,
+      added: ""
     },
     {
       id: 2,
       name: 'project2',
       description: "",
       type_id: 2,
+      added: ""
     },
     {
       id: 3,
       name: 'project3',
       description: "",
       type_id: 1,
+      added: ""
     },
     {
       id: 4,
       name: 'project4',
       description: "",
       type_id: 2,
+      added: ""
     },
   ]
 
-export const objects: Object[] = [
+export const objects: type.Object[] = [
     {
       id: 1,
       name: 'object1',
@@ -100,3 +102,27 @@ export const objects: Object[] = [
       regNumber: "hg112"
     },
   ]
+
+export const characteristics: type.Characteristic[] = [
+    {
+        id: 1,
+        name: "Мощность",
+    },
+    {
+        id: 2,
+        name: "Объем",
+    }
+]
+
+export const ums: type.UM[] = [
+    {
+        id: 1,
+        name: "км/ч",
+        accuracy: "4"
+    },
+    {
+        id: 2,
+        name: "м/с",
+        accuracy: "2"
+    }
+]

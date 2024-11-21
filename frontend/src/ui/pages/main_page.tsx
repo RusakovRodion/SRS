@@ -1,7 +1,6 @@
 import { AddButtonOnlyIcon, ChangesButtonOnlyIcon, AddButton, EditButtonOnlyIcon, DeleteButtonOnlyIcon, WatchButtonOnlyIcon }
     from "./../buttons";
 import { ListComponent } from './../list_component'
-import { Project } from './../project'
 import {
     list_item,
     list_item_info,

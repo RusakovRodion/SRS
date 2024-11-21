@@ -54,7 +54,7 @@ export default function NavBar() {
             <div className={nav_links_container}>
                 <NavLink location={"/projects"} text={"Проекты"} />
                 <NavLink location={"/objects"} text={"Объекты"} />
-                <NavLink location={"/hardware"} text={"Оборудование"} />
+                <NavLink location={"/hardwares"} text={"Оборудование"} />
                 <div className={dropdown_container} ref={container} onClick={handleDropdownClick}>
                   <NavLink location={''} text={"Справочники"}/>
                 {dropdownState.open && (

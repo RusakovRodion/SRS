@@ -32,3 +32,14 @@ export interface HardwareType {
   id: number
   name: string
 }
+
+export interface Characteristic {
+  id: number
+  name: string
+}
+
+export interface UM {
+  id: number
+  name: string
+  accuracy: string
+}

@@ -1,2 +1,0 @@
-# SRS
- Ship registration system

@@ -4,11 +4,11 @@ import "./App.css";
 import { Route, Routes, Outlet, Navigate } from "react-router-dom";
 
 import { UiDemoPageForTest } from "./ui/pages/demo_page";
-import { ObjectsPage } from "./ui/pages/objects_page";
-import { ProjectsPage } from "./ui/pages/projects_page";
 import { ProjectInfoPage } from "./ui/pages/project_info_page"
 import { EditProjectForm } from "./ui/pages/edit_project_form"
-import { HardwarePage } from "./ui/pages/hardware_page"
+import { MainPage } from "./ui/pages/main_page"
+import * as fake_data from './ui/fake_backend_data'
+import * as type from'./ui/data_interfaces'
 
 import NavBar from "./ui/navbar";
 
@@ -21,12 +21,18 @@ function App() {
             <Routes>
                 {/* Содержимое element == страница */}
                 <Route path="/for-dev" element={<UiDemoPageForTest />} />
-                <Route path="/projects" element={<ProjectsPage />}/>
+                <Route path="/projects" element={MainPage<type.Project>("Проекты", "projects", fake_data.projects, ['name', 'type_id'])}/>
                     <Route path="/projects/:project_id" element={<ProjectInfoPage />}/>
                     <Route path="/projects/add" element={<EditProjectForm mode={'new'}/>}/>
                 <Route/>
-                <Route path="/objects" element={<ObjectsPage />} />
-                <Route path="/hardware" element={<HardwarePage />}/>
+                <Route path="/objects" element={MainPage<type.Object>("Объекты", "objects", fake_data.objects, ['name', 'projectId',  'regNumber'])} />
+                    <Route path="/objects/:objects_id" element={<div>Объект</div>}/>
+                    <Route path="/objects/add" element={<div>Добавить объект</div>}/>
+                <Route/>
+                <Route path="/hardware" element={MainPage<type.Hardware>("Оборудование", "hardware", fake_data.hardwares, ['name', 'type', 'brand', 'model'])}/>
+                    <Route path="/hardware/:hardware_id" element={<div>Оборудование</div>}/>
+                    <Route path="/hardware/add" element={<div>Добавить оборудование</div>}/>
+                <Route/>
                 <Route path="/handbook" element={<div>Страница справочников</div>}/>
                     <Route path="/handbook/project_types" element={<div>Типы проектов</div>}/>
                     <Route path="/handbook/hardware_types" element={<div>Типы оборудования</div>}/>

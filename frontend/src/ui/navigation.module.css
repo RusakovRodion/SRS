@@ -20,6 +20,20 @@
     font-size: 20px;
 }
 
+.dropdown_container{
+
+}
+
+.dropdown_items{
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+}
+
+.dropdown_items > .nav_link{
+    margin-top: 1em;
+}
+
 .nav_link_current {
     font-weight: bold;
 }

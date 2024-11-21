@@ -27,10 +27,12 @@ function App() {
                 <Route/>
                 <Route path="/objects" element={<ObjectsPage />} />
                 <Route path="/hardware" element={<HardwarePage />}/>
-                <Route
-                    path="/handbook"
-                    element={<div>Страница справочников</div>}
-                />
+                <Route path="/handbook" element={<div>Страница справочников</div>}/>
+                    <Route path="/handbook/project_types" element={<div>Типы проектов</div>}/>
+                    <Route path="/handbook/hardware_types" element={<div>Типы оборудования</div>}/>
+                    <Route path="/handbook/characteristics" element={<div>Характеристики</div>}/>
+                    <Route path="/handbook/values" element={<div>Единицы измерения</div>}/>
+                <Route/>
                 <Route
                     path="/change-history"
                     element={<div>Страница истории изменений</div>}

@@ -46,7 +46,7 @@ export function EditProjectForm(mode: string) {
                     <h3>Тип</h3>
                     <input type="text" id="type" {...register("type")} placeholder="Тип" required/>
                     <h3>Описание</h3>
-                    <input type="text" id="description" {...register("description")} placeholder="Описание" required/>
+                    <textarea  type="text" id="description"  {...register("description")}  rows="5" placeholder="Описание" required/>
                     <div className="save_btn_block">
                         <SaveButton onClick={handleSubmit(onSubmit)}/>
                     </div>

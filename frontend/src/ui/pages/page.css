@@ -23,6 +23,11 @@ input[type="text"] {
     width: 100%;
 }
 
+textarea {
+    border-radius: 5px;
+    width: 100%;
+}
+
 .add_button_and_search {
     display: flex;
     justify-content: space-between;

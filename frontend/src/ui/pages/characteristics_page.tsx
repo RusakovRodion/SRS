@@ -17,7 +17,7 @@ export function CharacteristicsPage({
 }: CharacteristicsPageProps) {
     return (
         <div className="content">
-            <h2>Типы проектов</h2>
+            <h2>Характеристики</h2>
             <div className="add_button_and_search">
                 <AddButton onClick={() => onAdd()} />
                 <input type="search" placeholder="Поиск" />

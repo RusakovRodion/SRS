@@ -21,16 +21,25 @@
 }
 
 .dropdown_container {
+    position: relative;
 }
 
 .dropdown_items {
+    padding-top: 1em;
     display: flex;
     flex-direction: column;
     justify-items: center;
+    position: absolute;
+    background: var(--color-1);
+    white-space: nowrap;
 }
 
 .dropdown_items > .nav_link {
-    margin-top: 1em;
+    padding: 0.5em 0.25em;
+}
+
+.dropdown_items > .nav_link:hover {
+    background: var(--color-2);
 }
 
 .nav_link_current {

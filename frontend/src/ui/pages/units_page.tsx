@@ -13,7 +13,7 @@ export interface UnitsPageProps {
 export function UnitsPage({ unitsList, onAdd, onView }: UnitsPageProps) {
     return (
         <div className="content">
-            <h2>Типы проектов</h2>
+            <h2>Единицы измерения</h2>
             <div className="add_button_and_search">
                 <AddButton onClick={() => onAdd()} />
                 <input type="search" placeholder="Поиск" />

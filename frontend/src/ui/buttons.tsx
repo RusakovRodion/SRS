@@ -2,11 +2,11 @@ import { Icon, Plus, Clock, Eye, Edit2, Trash2 } from "react-feather";
 import { button, icon_button } from "./buttons.module.css";
 
 export interface ButtonProps {
-    text: string;
+    text?: string;
     className: string;
 
     // https://feathericons.com/
-    icon: Icon | undefined;
+    icon?: Icon | undefined;
 }
 
 export interface ClickableProps {

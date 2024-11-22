@@ -1,6 +1,6 @@
-.content{
+.content {
     margin-left: 1em;
-    margin-right: 1em
+    margin-right: 1em;
 }
 
 tools {
@@ -8,7 +8,7 @@ tools {
     text-align: right;
 }
 
-form > .save_btn_block{
+form > .save_btn_block {
     margin-top: 1em;
     float: right;
 }
@@ -39,5 +39,5 @@ textarea {
 }
 
 .list {
-    margin-top: 1em
+    margin-top: 1em;
 }

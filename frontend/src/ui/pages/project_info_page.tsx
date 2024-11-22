@@ -1,10 +1,10 @@
 import "./page.css";
-import { useParams } from 'react-router-dom';
-import {projects } from "./../fake_backend_data"
+import { useParams } from "react-router-dom";
+import { projects } from "./../fake_backend_data";
 
 export function ProjectInfoPage() {
     const params = useParams();
-    const project = projects.find(e => e.id === Number(params['project_id']));
+    const project = projects.find((e) => e.id === Number(params["project_id"]));
 
     return (
         <div className="content">

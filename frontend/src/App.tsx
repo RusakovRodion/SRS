@@ -4,7 +4,6 @@ import { Route, Routes, Outlet, Navigate, useNavigate } from "react-router-dom";
 
 import { UiDemoPageForTest } from "./ui/pages/demo_page";
 import { ProjectInfoPage } from "./ui/pages/project_info_page";
-import { EditProjectForm } from "./ui/pages/edit_project_form";
 import * as fake_data from "./ui/fake_backend_data";
 
 import NavBar from "./ui/navbar";
@@ -15,9 +14,13 @@ import { ProjectTypesPage } from "./ui/pages/project_types_page";
 import { HardwareTypesPage } from "./ui/pages/hardware_types_page";
 import { CharacteristicsPage } from "./ui/pages/characteristics_page";
 import { UnitsPage } from "./ui/pages/units_page";
+import { AddProjectForm } from "./ui/pages/add_project_form";
+import { useState } from "react";
 
 function App() {
     const navigate = useNavigate();
+
+    const [fakeProjects, setFakeProjects] = useState(fake_data.projects);
 
     return (
         <>
@@ -30,7 +33,7 @@ function App() {
                     path="/projects"
                     element={
                         <ProjectsPage
-                            projectsList={fake_data.projects}
+                            projectsList={fakeProjects}
                             onAdd={() => {
                                 navigate("/projects/add");
                             }}
@@ -42,11 +45,32 @@ function App() {
                 />
                 <Route
                     path="/projects/:project_id"
-                    element={<ProjectInfoPage />}
+                    element={<ProjectInfoPage projects={fakeProjects} />}
                 />
                 <Route
                     path="/projects/add"
-                    element={<EditProjectForm mode={"new"} />}
+                    element={
+                        <AddProjectForm
+                            onAdd={(newProject) => {
+                                console.log("new project", newProject);
+                                const fakeDataNewID =
+                                    Math.max(
+                                        ...fakeProjects.map(
+                                            (project) => project.id,
+                                        ),
+                                    ) + 1;
+                                newProject.id = fakeDataNewID;
+                                newProject.added = "";
+
+                                setFakeProjects(
+                                    fakeProjects.concat([newProject]),
+                                );
+
+                                navigate("/projects");
+                            }}
+                            projectTypes={fake_data.project_types}
+                        />
+                    }
                 />
                 <Route />
                 <Route

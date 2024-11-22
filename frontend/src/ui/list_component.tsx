@@ -7,14 +7,10 @@ export interface IProps<T> {
     options: Array<T>;
 }
 
-export function ListComponent<T>({
-    options,
-    renderOption,
- }: IProps<T>) {
-
+export function ListComponent<T>({ options, renderOption }: IProps<T>) {
     return (
         <div className="list">
-            {options.map((option: T)=>renderOption(option))}
+            {options.map((option: T) => renderOption(option))}
         </div>
     );
 }

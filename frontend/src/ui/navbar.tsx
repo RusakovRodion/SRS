@@ -34,37 +34,58 @@ export function NavLink({ location, text }: NavLinkProps) {
 }
 
 export default function NavBar() {
-    const container = useRef();
-    const [dropdownState, setDropdownState] = useState({ open: false });
+    const dropdownRef = useRef<HTMLDivElement>(null);
+    const [dropdownState, setDropdownState] = useState(false);
 
-    const handleDropdownClick = () => setDropdownState({ open: !dropdownState.open });
-    const handleClickOutside = (e) => {
-         if (container.current && !container.current.contains(e.target)) {
-         setDropdownState({ open: false });
-         }
-         };
+    const handleDropdownClick = () => setDropdownState(!dropdownState);
+    const handleClickOutside = (e: MouseEvent) => {
+        if (
+            dropdownRef.current &&
+            e.target instanceof HTMLElement &&
+            !dropdownRef.current.contains(e.target)
+        ) {
+            setDropdownState(false);
+        }
+    };
 
-     useEffect(() => {
-     document.addEventListener("mousedown", handleClickOutside);
-     // optionally returning a func in useEffect runs like componentWillUnmount to cleanup
-     return () => document.removeEventListener("mousedown", handleClickOutside);
-     }, []);
+    useEffect(() => {
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
     return (
         <nav className={nav_bar}>
             <div className={nav_links_container}>
                 <NavLink location={"/projects"} text={"Проекты"} />
                 <NavLink location={"/objects"} text={"Объекты"} />
                 <NavLink location={"/hardwares"} text={"Оборудование"} />
-                <div className={dropdown_container} ref={container} onClick={handleDropdownClick}>
-                  <NavLink location={''} text={"Справочники"}/>
-                {dropdownState.open && (
-                <div className={dropdown_items}>
-                    <NavLink location={'/handbook/project_types'} text={"Типы проектов"}/>
-                    <NavLink location={'/handbook/hardware_types'} text={"Типы оборудования"}/>
-                    <NavLink location={'/handbook/characteristics'} text={"Характеристики"}/>
-                    <NavLink location={'/handbook/values'} text={"Единицы измерения"}/>
-                </div>
-                  )}
+                <div
+                    className={dropdown_container}
+                    onClick={handleDropdownClick}
+                    ref={dropdownRef}
+                >
+                    <span className={nav_link}>Справочники</span>
+                    {dropdownState && (
+                        <div className={dropdown_items}>
+                            <NavLink
+                                location={"/handbook/project_types"}
+                                text={"Типы проектов"}
+                            />
+                            <NavLink
+                                location={"/handbook/hardware_types"}
+                                text={"Типы оборудования"}
+                            />
+                            <NavLink
+                                location={"/handbook/characteristics"}
+                                text={"Характеристики"}
+                            />
+                            <NavLink
+                                location={"/handbook/values"}
+                                text={"Единицы измерения"}
+                            />
+                        </div>
+                    )}
                 </div>
                 <NavLink
                     location={"/change-history"}

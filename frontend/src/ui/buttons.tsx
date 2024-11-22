@@ -3,7 +3,7 @@ import { button, icon_button } from "./buttons.module.css";
 
 export interface ButtonProps {
     text: string;
-    className: string
+    className: string;
 
     // https://feathericons.com/
     icon: Icon | undefined;
@@ -36,7 +36,7 @@ export function ChangesButtonOnlyIcon({ onClick }: ClickableProps) {
 }
 
 export function WatchButtonOnlyIcon({ onClick }: ClickableProps) {
-    return <Button className={icon_button} icon={Eye} onClick={onClick}/>;
+    return <Button className={icon_button} icon={Eye} onClick={onClick} />;
 }
 
 export function EditButtonOnlyIcon({ onClick }: ClickableProps) {
@@ -44,11 +44,18 @@ export function EditButtonOnlyIcon({ onClick }: ClickableProps) {
 }
 
 export function DeleteButtonOnlyIcon({ onClick }: ClickableProps) {
-    return <Button className={icon_button} icon={Trash2} onClick={onClick}/>;
+    return <Button className={icon_button} icon={Trash2} onClick={onClick} />;
 }
 
 export function AddButton({ onClick }: ClickableProps) {
-    return <Button text={"Добавить"} className={button} icon={Plus} onClick={onClick} />;
+    return (
+        <Button
+            text={"Добавить"}
+            className={button}
+            icon={Plus}
+            onClick={onClick}
+        />
+    );
 }
 
 export function SaveButton({ onClick }: ClickableProps) {

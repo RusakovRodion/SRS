@@ -1,17 +1,24 @@
 import "./App.css";
 
-import { Route, Routes, Outlet, Navigate } from "react-router-dom";
+import { Route, Routes, Outlet, Navigate, useNavigate } from "react-router-dom";
 
 import { UiDemoPageForTest } from "./ui/pages/demo_page";
 import { ProjectInfoPage } from "./ui/pages/project_info_page";
 import { EditProjectForm } from "./ui/pages/edit_project_form";
-import { MainPage } from "./ui/pages/main_page";
 import * as fake_data from "./ui/fake_backend_data";
-import * as type from "./ui/data_interfaces";
 
 import NavBar from "./ui/navbar";
+import { ProjectsPage } from "./ui/pages/projects_page";
+import { ObjectsPage } from "./ui/pages/objects_page";
+import { HardwarePage } from "./ui/pages/hardware_page";
+import { ProjectTypesPage } from "./ui/pages/project_types_page";
+import { HardwareTypesPage } from "./ui/pages/hardware_types_page";
+import { CharacteristicsPage } from "./ui/pages/characteristics_page";
+import { UnitsPage } from "./ui/pages/units_page";
 
 function App() {
+    const navigate = useNavigate();
+
     return (
         <>
             <NavBar />
@@ -21,12 +28,17 @@ function App() {
                 <Route path="/for-dev" element={<UiDemoPageForTest />} />
                 <Route
                     path="/projects"
-                    element={MainPage<type.Project>(
-                        "Проекты",
-                        "projects",
-                        fake_data.projects,
-                        ["name", "type_id"],
-                    )}
+                    element={
+                        <ProjectsPage
+                            projectsList={fake_data.projects}
+                            onAdd={() => {
+                                navigate("/projects/add");
+                            }}
+                            onView={(projectId: number) => {
+                                navigate(`/projects/${projectId}`);
+                            }}
+                        />
+                    }
                 />
                 <Route
                     path="/projects/:project_id"
@@ -39,12 +51,15 @@ function App() {
                 <Route />
                 <Route
                     path="/objects"
-                    element={MainPage<type.Object>(
-                        "Объекты",
-                        "objects",
-                        fake_data.objects,
-                        ["name", "projectId", "regNumber"],
-                    )}
+                    element={
+                        <ObjectsPage
+                            objectsList={fake_data.objects}
+                            onAdd={() => navigate("/objects/add")}
+                            onView={(objectId: number) =>
+                                navigate(`/objects/${objectId}`)
+                            }
+                        />
+                    }
                 />
                 <Route
                     path="/objects/:objects_id"
@@ -57,12 +72,15 @@ function App() {
                 <Route />
                 <Route
                     path="/hardwares"
-                    element={MainPage<type.Hardware>(
-                        "Оборудование",
-                        "hardwares",
-                        fake_data.hardwares,
-                        ["name", "type", "brand", "model"],
-                    )}
+                    element={
+                        <HardwarePage
+                            hardwareList={fake_data.hardwares}
+                            onAdd={() => navigate("/hardwares/add")}
+                            onView={(hardwareId: number) =>
+                                navigate(`/hardwares/${hardwareId}`)
+                            }
+                        />
+                    }
                 />
                 <Route
                     path="/hardwares/:hardware_id"
@@ -79,12 +97,19 @@ function App() {
                 />
                 <Route
                     path="/handbook/project_types"
-                    element={MainPage<type.ProjectType>(
-                        "Типы проектов",
-                        "handbook/project_types",
-                        fake_data.project_types,
-                        ["name"],
-                    )}
+                    element={
+                        <ProjectTypesPage
+                            projectTypesList={fake_data.project_types}
+                            onAdd={() =>
+                                navigate("/handbook/project_types/add")
+                            }
+                            onView={(projectTypeId: number) =>
+                                navigate(
+                                    `/handbook/project_types/${projectTypeId}`,
+                                )
+                            }
+                        />
+                    }
                 />
                 <Route
                     path="/handbook/project_types/:project_type_id"
@@ -93,12 +118,19 @@ function App() {
                 <Route />
                 <Route
                     path="/handbook/hardware_types"
-                    element={MainPage<type.HardwareType>(
-                        "Типы оборудования",
-                        "handbook/hardware_types",
-                        fake_data.hardware_types,
-                        ["name"],
-                    )}
+                    element={
+                        <HardwareTypesPage
+                            hardwareTypesList={fake_data.hardware_types}
+                            onAdd={() =>
+                                navigate("/handbook/hardware_types/add")
+                            }
+                            onView={(hardwareTypeId: number) =>
+                                navigate(
+                                    `/handbook/hardware_types/${hardwareTypeId}`,
+                                )
+                            }
+                        />
+                    }
                 />
                 <Route
                     path="/handbook/hardware_types/:hardware_type_id"
@@ -107,12 +139,19 @@ function App() {
                 <Route />
                 <Route
                     path="/handbook/characteristics"
-                    element={MainPage<type.Characteristic>(
-                        "Характеристики",
-                        "handbook/characteristics",
-                        fake_data.characteristics,
-                        ["name"],
-                    )}
+                    element={
+                        <CharacteristicsPage
+                            characteristicList={fake_data.characteristics}
+                            onAdd={() =>
+                                navigate("/handbook/characteristics/add")
+                            }
+                            onView={(characteristicId: number) =>
+                                navigate(
+                                    `/handbook/characteristics/${characteristicId}`,
+                                )
+                            }
+                        />
+                    }
                 />
                 <Route
                     path="/handbook/characteristics/:characteristic_id"
@@ -121,12 +160,15 @@ function App() {
                 <Route />
                 <Route
                     path="/handbook/values"
-                    element={MainPage<type.UM>(
-                        "Единицы измерения",
-                        "handbook/values",
-                        fake_data.ums,
-                        ["name", "accuracy"],
-                    )}
+                    element={
+                        <UnitsPage
+                            unitsList={fake_data.ums}
+                            onAdd={() => navigate("/handbook/values/add")}
+                            onView={(unitId: number) =>
+                                navigate(`/handbook/values/${unitId}`)
+                            }
+                        />
+                    }
                 />
                 <Route
                     path="/handbook/values/:value_id"

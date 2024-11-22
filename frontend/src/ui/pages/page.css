@@ -3,7 +3,7 @@
     margin-right: 1em;
 }
 
-tools {
+.tools {
     display: flex;
     text-align: right;
 }

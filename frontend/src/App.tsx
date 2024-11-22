@@ -1,4 +1,3 @@
-import { useState } from "react";
 import "./App.css";
 
 import { Route, Routes, Outlet, Navigate } from "react-router-dom";
@@ -13,7 +12,6 @@ import * as type from'./ui/data_interfaces'
 import NavBar from "./ui/navbar";
 
 function App() {
-    // @ts-ignore
     return (
         <>
             <NavBar />

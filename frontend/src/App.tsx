@@ -21,6 +21,7 @@ function App() {
     const navigate = useNavigate();
 
     const [fakeProjects, setFakeProjects] = useState(fake_data.projects);
+    const [fakeUMs, setfakeUMs] = useState(fake_data.ums);
 
     return (
         <>
@@ -186,8 +187,23 @@ function App() {
                     path="/handbook/values"
                     element={
                         <UnitsPage
-                            unitsList={fake_data.ums}
-                            onAdd={() => navigate("/handbook/values/add")}
+                            unitsList={fakeUMs}
+                            onAdd={(newUM) => {
+                                console.log("new UM", newUM);
+                                const fakeDataNewID =
+                                    Math.max(
+                                        ...fakeUMs.map(
+                                            (um) => um.id,
+                                        ),
+                                    ) + 1;
+                                newUM.id = fakeDataNewID;
+
+                                setfakeUMs(
+                                    fakeUMs.concat([newUM]),
+                                );
+                                console.log(fakeUMs)
+                                navigate('/handbook/values')
+                            }}
                             onView={(unitId: number) =>
                                 navigate(`/handbook/values/${unitId}`)
                             }

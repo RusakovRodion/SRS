@@ -41,3 +41,7 @@ textarea {
 .list {
     margin-top: 1em;
 }
+
+.form-row + .form-row {
+  margin-top: 1em;
+}

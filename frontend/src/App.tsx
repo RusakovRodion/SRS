@@ -189,7 +189,6 @@ function App() {
                         <UnitsPage
                             unitsList={fakeUMs}
                             onAdd={(newUM) => {
-                                console.log("new UM", newUM);
                                 const fakeDataNewID =
                                     Math.max(
                                         ...fakeUMs.map(
@@ -201,14 +200,20 @@ function App() {
                                 setfakeUMs(
                                     fakeUMs.concat([newUM]),
                                 );
-                                console.log(fakeUMs)
                                 navigate('/handbook/values')
+                                console.log(fakeUMs)
                             }}
                             onView={(unitId: number) =>
                                 navigate(`/handbook/values/${unitId}`)
                             }
+                            onEdit={(unitId: number, newUM) =>{
+                                let index = fakeUMs.findIndex(d => d.id === unitId)
+                                newUM.id = unitId
+                                fakeUMs[index] = newUM
+                                console.log(fakeUMs);
+                            }}
                             onDelete={(unitId: number) => {
-                                let index = fakeUMs.findIndex(d => d.id === unitId); //find index in your array
+                                let index = fakeUMs.findIndex(d => d.id === unitId)
                                 fakeUMs.splice(index, 1)
                                 console.log('delete unit with id ', index)
                                 navigate('/handbook/values')

@@ -4,11 +4,13 @@ import { SaveButton }  from './buttons'
 import "./modal.module.css"
 
 export interface AddUnitFormData {
+  id: number
   name: string;
   accuracy: string;
 }
 
-const initialNewsletterModalData: AddUnitFormData = {
+export let InitialData: AddUnitFormData = {
+  id: -1,
   name:'',
   accuracy: '',
 };
@@ -19,7 +21,7 @@ interface AddUnitFormProps {
   onClose: () => void;
 }
 
-const AddUnitForm: React.FC<AddUnitFormProps> = ({
+export const AddUnitForm: React.FC<AddUnitFormProps> = ({
   onSubmit,
   isOpen,
   onClose,
@@ -27,7 +29,7 @@ const AddUnitForm: React.FC<AddUnitFormProps> = ({
 
   const focusInputRef = useRef<HTMLInputElement | null>(null);
   const [formState, setFormState] = useState<AddUnitFormData>(
-    initialNewsletterModalData
+    InitialData
   );
 
   useEffect(() => {
@@ -50,8 +52,9 @@ const AddUnitForm: React.FC<AddUnitFormProps> = ({
 
   const handleSubmit = (event: React.FormEvent): void => {
     event.preventDefault();
+    formState.id = InitialData.id
     onSubmit(formState);
-    setFormState(initialNewsletterModalData);
+    setFormState(InitialData);
   };
 
   return (

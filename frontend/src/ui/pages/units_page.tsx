@@ -12,6 +12,7 @@ export interface UnitsPageProps {
     unitsList: UM[];
     onAdd: (um: UM) => void;
     onView: (id: number) => void;
+    onDelete: (id: number) => void;
 }
 
 export function UnitsPage({ unitsList, onAdd, onView, onDelete }: UnitsPageProps) {

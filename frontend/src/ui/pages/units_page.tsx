@@ -3,8 +3,8 @@ import { list_item, list_item_info } from "./../list_component.module.css";
 import "./page.css";
 import { ListTools } from "../list_tools";
 import { UM } from "../data_interfaces";
-import AddUnitForm, {
-  AddUnitFormData,
+import AddUnitForm,  {
+  AddUnitFormData, InitialData
 } from '../add_unit_form';
 import { useState } from "react";
 
@@ -12,28 +12,46 @@ export interface UnitsPageProps {
     unitsList: UM[];
     onAdd: (um: UM) => void;
     onView: (id: number) => void;
+    onEdit: (id: number, um: UM) => void;
+    onDelete: (id: number) => void;
 }
 
-export function UnitsPage({ unitsList, onAdd, onView }: UnitsPageProps) {
+export function UnitsPage({ unitsList, onAdd, onView,onEdit, onDelete }: UnitsPageProps) {
      const [isFromOpen, setFormOpen] = useState<boolean>(false);
 
-      const handleOpenForm = () => {
+
+      const handleOpenForm = (um: UM) => {
+        if (um !== undefined) {
+            InitialData.id = um.id
+            InitialData.name = um.name
+            InitialData.accuracy = um.accuracy
+        }
         setFormOpen(true);
       };
 
       const handleCloseForm = () => {
         setFormOpen(false);
+        InitialData.id = -1
+        InitialData.name = ''
+        InitialData.accuracy = ''
       };
 
       const handleFormSubmit = (data: AddUnitFormData): void => {
-        console.log(data);
+        console.log(data)
         const um = {
+            id: -1,
             name: data.name,
             accuracy: data.accuracy,
         } as UM;
-
-        onAdd(um);
-        handleCloseForm();
+        if (data.id == -1){
+            onAdd(um);
+            handleCloseForm();
+        }
+        else {
+            console.log(data.id)
+            onEdit(data.id, um);
+            handleCloseForm();
+        }
       };
 
     return (
@@ -49,7 +67,7 @@ export function UnitsPage({ unitsList, onAdd, onView }: UnitsPageProps) {
                     <div key={unit.id} className={list_item}>
                         <div className={list_item_info}>{unit.name}</div>
                         <div className={list_item_info}>{unit.accuracy}</div>
-                        <ListTools onView={() => onView(unit.id)} onEdit={()=> handleOpenForm()} />
+                        <ListTools onView={() => onView(unit.id)} onEdit={()=> handleOpenForm(unit)} onDelete={() => onDelete(unit.id)} />
                     </div>
                 ))}
             </div>

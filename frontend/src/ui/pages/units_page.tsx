@@ -14,7 +14,7 @@ export interface UnitsPageProps {
     onView: (id: number) => void;
 }
 
-export function UnitsPage({ unitsList, onAdd, onView }: UnitsPageProps) {
+export function UnitsPage({ unitsList, onAdd, onView, onDelete }: UnitsPageProps) {
      const [isFromOpen, setFormOpen] = useState<boolean>(false);
 
       const handleOpenForm = () => {
@@ -49,7 +49,7 @@ export function UnitsPage({ unitsList, onAdd, onView }: UnitsPageProps) {
                     <div key={unit.id} className={list_item}>
                         <div className={list_item_info}>{unit.name}</div>
                         <div className={list_item_info}>{unit.accuracy}</div>
-                        <ListTools onView={() => onView(unit.id)} onEdit={()=> handleOpenForm()} />
+                        <ListTools onView={() => onView(unit.id)} onEdit={()=> handleOpenForm()} onDelete={() => onDelete(unit.id)} />
                     </div>
                 ))}
             </div>

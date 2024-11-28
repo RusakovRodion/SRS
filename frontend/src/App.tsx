@@ -207,6 +207,13 @@ function App() {
                             onView={(unitId: number) =>
                                 navigate(`/handbook/values/${unitId}`)
                             }
+                            onDelete={(unitId: number) => {
+                                let index = fakeUMs.findIndex(d => d.id === unitId); //find index in your array
+                                fakeUMs.splice(index, 1)
+                                console.log('delete unit with id ', index)
+                                navigate('/handbook/values')
+                            }
+                            }
                         />
                     }
                 />

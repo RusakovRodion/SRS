@@ -25,7 +25,7 @@ export function ObjectsPage({ objectsList, onAdd, onView }: ObjectPageProps) {
                         <div className={list_item_info}>{object.name}</div>
                         <div className={list_item_info}>{object.projectId}</div>
                         <div className={list_item_info}>{object.regNumber}</div>
-                        <ListTools onView={() => onView(object.id)} />
+                        <ListTools onAdd={null} onView={() => onView(object.id)} />
                     </div>
                 ))}
             </div>

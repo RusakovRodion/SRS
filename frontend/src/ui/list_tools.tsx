@@ -1,4 +1,5 @@
 import {
+    AddButtonOnlyIcon,
     ChangesButtonOnlyIcon,
     DeleteButtonOnlyIcon,
     EditButtonOnlyIcon,
@@ -7,6 +8,7 @@ import {
 import { tools } from "./list_tools.module.css";
 
 export interface ListToolsProps {
+    onAdd?: () => void;
     onChanges?: () => void;
     onView?: () => void;
     onEdit?: () => void;
@@ -14,6 +16,7 @@ export interface ListToolsProps {
 }
 
 export function ListTools({
+    onAdd = () => {},
     onChanges = () => {},
     onView = () => {},
     onEdit = () => {},
@@ -21,10 +24,11 @@ export function ListTools({
 }: ListToolsProps) {
     return (
         <div className={tools}>
-            <ChangesButtonOnlyIcon onClick={() => onChanges()} />
-            <WatchButtonOnlyIcon onClick={() => onView()} />
-            <EditButtonOnlyIcon onClick={() => onEdit()} />
-            <DeleteButtonOnlyIcon onClick={() => onDelete()} />
+            {onAdd ? <AddButtonOnlyIcon onClick={() => onAdd()} /> : ''}
+            {onChanges ? <ChangesButtonOnlyIcon onClick={() => onChanges()} /> : ''}
+            {onView ? <WatchButtonOnlyIcon onClick={() => onView()} /> : ''}
+            {onEdit ? <EditButtonOnlyIcon onClick={() => onEdit()} /> : ''}
+            {onDelete ? <DeleteButtonOnlyIcon onClick={() => onDelete()} /> : ''}
         </div>
     );
 }

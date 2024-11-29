@@ -27,7 +27,7 @@ export function ProjectTypesPage({
                 {projectTypesList.map((projectType) => (
                     <div key={projectType.id} className={list_item}>
                         <div className={list_item_info}>{projectType.name}</div>
-                        <ListTools onView={() => onView(projectType.id)} />
+                        <ListTools onAdd={null} onView={() => onView(projectType.id)} />
                     </div>
                 ))}
             </div>

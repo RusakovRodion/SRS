@@ -203,9 +203,6 @@ function App() {
                                 navigate('/handbook/values')
                                 console.log(fakeUMs)
                             }}
-                            onView={(unitId: number) =>
-                                navigate(`/handbook/values/${unitId}`)
-                            }
                             onEdit={(unitId: number, newUM) =>{
                                 let index = fakeUMs.findIndex(d => d.id === unitId)
                                 newUM.id = unitId

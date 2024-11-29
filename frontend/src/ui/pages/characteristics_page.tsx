@@ -29,7 +29,7 @@ export function CharacteristicsPage({
                         <div className={list_item_info}>
                             {characteristic.name}
                         </div>
-                        <ListTools onView={() => onView(characteristic.id)} />
+                        <ListTools onAdd={null} onView={() => onView(characteristic.id)} />
                     </div>
                 ))}
             </div>

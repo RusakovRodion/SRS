@@ -7,6 +7,7 @@ export interface ButtonProps {
 
     // https://feathericons.com/
     icon?: Icon | undefined;
+    type?: string
 }
 
 export interface ClickableProps {
@@ -18,9 +19,10 @@ export function Button({
     className,
     icon: UiIcon,
     onClick,
+    type,
 }: ButtonProps & ClickableProps) {
     return (
-        <button className={className} onClick={onClick}>
+        <button className={className} onClick={onClick} type={type}>
             {text}
             {UiIcon && <UiIcon size={16} />}
         </button>
@@ -28,7 +30,7 @@ export function Button({
 }
 
 export function AddButtonOnlyIcon({ onClick }: ClickableProps) {
-    return <Button className={icon_button} icon={Plus} onClick={onClick} />;
+    return <Button className={icon_button} icon={Plus} onClick={onClick} type={'button'} />;
 }
 
 export function ChangesButtonOnlyIcon({ onClick }: ClickableProps) {
@@ -58,8 +60,30 @@ export function AddButton({ onClick }: ClickableProps) {
     );
 }
 
+export function CompleteButton({ onClick }: ClickableProps) {
+    return (
+        <Button
+            text={"Готово"}
+            className={button}
+            onClick={onClick}
+            type={'submit'}
+        />
+    );
+}
+
+export function CreateButton({ onClick }: ClickableProps) {
+    return (
+        <Button
+            text={"Создать"}
+            className={button}
+            icon={Plus}
+            onClick={onClick}
+        />
+    );
+}
+
 export function SaveButton({ onClick }: ClickableProps) {
-    return <Button text={"Сохранить"} className={button} onClick={onClick} />;
+    return <Button text={"Сохранить"} className={button} onClick={onClick} type={'submit'}/>;
 }
 
 export function DoneButton({ onClick }: ClickableProps) {

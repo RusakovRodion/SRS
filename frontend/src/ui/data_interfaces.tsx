@@ -36,6 +36,7 @@ export interface HardwareType {
 export interface Characteristic {
     id: number;
     name: string;
+    ums: UM[]
 }
 
 export interface UM {

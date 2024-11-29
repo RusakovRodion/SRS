@@ -8,12 +8,14 @@ export interface CharacteristicsPageProps {
     characteristicList: Characteristic[];
     onAdd: () => void;
     onView: (id: number) => void;
+    onDelete: (id: number) => void;
 }
 
 export function CharacteristicsPage({
     characteristicList,
     onAdd,
     onView,
+    onDelete,
 }: CharacteristicsPageProps) {
     return (
         <div className="content">
@@ -29,7 +31,7 @@ export function CharacteristicsPage({
                         <div className={list_item_info}>
                             {characteristic.name}
                         </div>
-                        <ListTools onAdd={null} onView={() => onView(characteristic.id)} />
+                        <ListTools onAdd={null} onView={() => onView(characteristic.id)} onDelete={() => onDelete(characteristic.id)} />
                     </div>
                 ))}
             </div>

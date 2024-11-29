@@ -15,6 +15,7 @@ import { HardwareTypesPage } from "./ui/pages/hardware_types_page";
 import { CharacteristicsPage } from "./ui/pages/characteristics_page";
 import { UnitsPage } from "./ui/pages/units_page";
 import { AddProjectForm } from "./ui/pages/add_project_form";
+import { AddChForm } from "./ui/pages/add_characteristic_form";
 import { useState } from "react";
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
 
     const [fakeProjects, setFakeProjects] = useState(fake_data.projects);
     const [fakeUMs, setfakeUMs] = useState(fake_data.ums);
+    const [fakeChs, setfakeChs] = useState(fake_data.characteristics);
 
     return (
         <>
@@ -166,21 +168,50 @@ function App() {
                     path="/handbook/characteristics"
                     element={
                         <CharacteristicsPage
-                            characteristicList={fake_data.characteristics}
-                            onAdd={() =>
-                                navigate("/handbook/characteristics/add")
-                            }
+                            characteristicList={fakeChs}
+                            onAdd={() => {
+                                navigate("/handbook/characteristics/add");
+                            }}
                             onView={(characteristicId: number) =>
                                 navigate(
                                     `/handbook/characteristics/${characteristicId}`,
                                 )
                             }
+                            onDelete={(characteristicId: number) => {
+                                let index = fakeChs.findIndex(d => d.id === characteristicId)
+                                fakeChs.splice(index, 1)
+                                console.log('delete characteristic with id ', index)
+                                navigate('/handbook/characteristics')
+                            }
+                        }
                         />
                     }
                 />
                 <Route
                     path="/handbook/characteristics/:characteristic_id"
                     element={<div>Хар-ка</div>}
+                />
+                <Route
+                    path="/handbook/characteristics/add"
+                    element={
+                        <AddChForm
+                            onAdd={(newCh) => {
+                                const fakeDataNewID =
+                                    Math.max(
+                                        ...fakeChs.map(
+                                            (ch) => ch.id,
+                                        ),
+                                    ) + 1;
+                                newCh.id = fakeDataNewID;
+
+                                setfakeChs(
+                                    fakeChs.concat([newCh]),
+                                );
+                                navigate('/handbook/characteristics')
+                                console.log(fakeChs)
+                            }}
+                        />
+                    }
                 />
                 <Route />
                 <Route

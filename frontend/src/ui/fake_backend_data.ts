@@ -1,5 +1,20 @@
 import * as type from "./data_interfaces";
 
+
+export const ums: type.UM[] = [
+    {
+        id: 1,
+        name: "км/ч",
+        accuracy: "4",
+    },
+    {
+        id: 2,
+        name: "м/с",
+        accuracy: "2",
+    },
+];
+
+
 export const project_types: type.ProjectType[] = [
     {
         id: 1,
@@ -107,22 +122,11 @@ export const characteristics: type.Characteristic[] = [
     {
         id: 1,
         name: "Мощность",
+        ums: ums,
     },
     {
         id: 2,
         name: "Объем",
-    },
-];
-
-export const ums: type.UM[] = [
-    {
-        id: 1,
-        name: "км/ч",
-        accuracy: "4",
-    },
-    {
-        id: 2,
-        name: "м/с",
-        accuracy: "2",
+        ums: []
     },
 ];

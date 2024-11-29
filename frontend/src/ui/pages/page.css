@@ -38,6 +38,12 @@ textarea {
     justify-content: space-between;
 }
 
+.label_and_add_button {
+    margin-top: 1em;
+    display: flex;
+    justify-content: space-between;
+}
+
 .list {
     margin-top: 1em;
 }

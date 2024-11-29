@@ -20,7 +20,7 @@ export function Button({
     onClick,
 }: ButtonProps & ClickableProps) {
     return (
-        <button className={className} onClick={onClick}>
+        <button className={className} onClick={onClick} type="button">
             {text}
             {UiIcon && <UiIcon size={16} />}
         </button>
@@ -51,6 +51,27 @@ export function AddButton({ onClick }: ClickableProps) {
     return (
         <Button
             text={"Добавить"}
+            className={button}
+            icon={Plus}
+            onClick={onClick}
+        />
+    );
+}
+
+export function CompleteButton({ onClick }: ClickableProps) {
+    return (
+        <Button
+            text={"Готово"}
+            className={button}
+            onClick={onClick}
+        />
+    );
+}
+
+export function CreateButton({ onClick }: ClickableProps) {
+    return (
+        <Button
+            text={"Создать"}
             className={button}
             icon={Plus}
             onClick={onClick}

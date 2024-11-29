@@ -16,7 +16,7 @@ export interface UnitsPageProps {
     onDelete: (id: number) => void;
 }
 
-export function UnitsPage({ unitsList, onAdd, onView,onEdit, onDelete }: UnitsPageProps) {
+export function UnitsPage({ unitsList, onAdd, onView, onEdit, onDelete }: UnitsPageProps) {
      const [isFromOpen, setFormOpen] = useState<boolean>(false);
 
 

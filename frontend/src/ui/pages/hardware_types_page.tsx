@@ -29,7 +29,7 @@ export function HardwareTypesPage({
                         <div className={list_item_info}>
                             {hardwareType.name}
                         </div>
-                        <ListTools onView={() => onView(hardwareType.id)} />
+                        <ListTools onAdd={null} onView={() => onView(hardwareType.id)} />
                     </div>
                 ))}
             </div>

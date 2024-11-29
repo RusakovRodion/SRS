@@ -67,7 +67,7 @@ export function UnitsPage({ unitsList, onAdd, onView,onEdit, onDelete }: UnitsPa
                     <div key={unit.id} className={list_item}>
                         <div className={list_item_info}>{unit.name}</div>
                         <div className={list_item_info}>{unit.accuracy}</div>
-                        <ListTools onView={() => onView(unit.id)} onEdit={()=> handleOpenForm(unit)} onDelete={() => onDelete(unit.id)} />
+                        <ListTools onAdd={null} onView={null} onEdit={()=> handleOpenForm(unit)} onDelete={() => onDelete(unit.id)} />
                     </div>
                 ))}
             </div>

@@ -31,7 +31,7 @@ export function HardwarePage({
                         <div className={list_item_info}>{hardware.brand}</div>
                         <div className={list_item_info}>{hardware.model}</div>
 
-                        <ListTools onView={() => onView(hardware.id)} />
+                        <ListTools onAdd={null} onView={() => onView(hardware.id)} />
                     </div>
                 ))}
             </div>

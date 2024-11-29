@@ -54,7 +54,7 @@ export function AddChForm({ onAdd }: AddChFormProps) {
     return (
         <div className="content">
             <h2>Новая характеристика</h2>
-            <form id="add_ch_form">
+            <form id="add_ch_form" onSubmit={handleSubmit(onSubmit)}>
                 <h3>Название</h3>
                 <input
                     type="text"
@@ -76,7 +76,7 @@ export function AddChForm({ onAdd }: AddChFormProps) {
                     ))}
            </div>
                 <div className="save_btn_block">
-                    <SaveButton onClick={handleSubmit(onSubmit)} />
+                    <SaveButton/>
                 </div>
             </form>
             <AddUnitForm

@@ -1,33 +1,31 @@
 dialog {
     width: 50%;
-    background-color: #2D2D2D;
+    background-color: #2d2d2d;
     color: var(--main-text);
     border: none;
 }
 
 .modal {
-  max-width: 20rem;
-  position: relative;
-  box-shadow: hsl(0 0% 0% / 10%) 0 0 0.5rem 0.25rem;
+    max-width: 40rem;
+    box-shadow: hsl(0 0% 0% / 10%) 0 0 0.5rem 0.25rem;
 }
 
-
-.modal-close-btn {
-  font-size: 0.75em;
-  position: absolute;
-  top: 0.25em;
-  right: 0.25em;
+.modal_close_btn {
+    font-size: 0.75em;
+    position: absolute;
+    top: 0.25em;
+    right: 0.25em;
 }
 
-.modal-backdrop {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: rgba(0, 0, 0, 0.4);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 2;
+.modal_backdrop {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
 }

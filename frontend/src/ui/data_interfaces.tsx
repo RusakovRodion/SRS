@@ -14,8 +14,10 @@ export interface ProjectType {
 export interface Object {
     id: number;
     name: string;
-    projectId: number;
-    regNumber: string;
+    description: string;
+    project_id: number;
+    registration_number: string;
+    added: string;
 }
 
 export interface Hardware {

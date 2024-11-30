@@ -107,14 +107,18 @@ export const objects: type.Object[] = [
     {
         id: 1,
         name: "object1",
-        projectId: 1,
-        regNumber: "hg12",
+        project_id: 1,
+        registration_number: "hg12",
+        added: "",
+        description: "",
     },
     {
         id: 2,
         name: "object2",
-        projectId: 3,
-        regNumber: "hg112",
+        project_id: 3,
+        registration_number: "hg112",
+        added: "",
+        description: "",
     },
 ];
 

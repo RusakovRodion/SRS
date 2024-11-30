@@ -23,8 +23,8 @@ export function ObjectsPage({ objectsList, onAdd, onView }: ObjectPageProps) {
                 {objectsList.map((object) => (
                     <div key={object.id} className={list_item}>
                         <div className={list_item_info}>{object.name}</div>
-                        <div className={list_item_info}>{object.projectId}</div>
-                        <div className={list_item_info}>{object.regNumber}</div>
+                        <div className={list_item_info}>{object.project_id}</div>
+                        <div className={list_item_info}>{object.registration_number}</div>
                         <ListTools onAdd={null} onView={() => onView(object.id)} />
                     </div>
                 ))}

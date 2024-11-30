@@ -23,7 +23,7 @@ export async function getUnitOfMeasurementById(id: number): Promise<UM> {
     }
 
     const json = await response.json();
-    return json as UnitOfMeasurement;
+    return json as UM;
 }
 
 export async function updateUnitOfMeasurement(um: UM): Promise<void> {

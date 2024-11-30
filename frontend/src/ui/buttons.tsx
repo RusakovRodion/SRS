@@ -56,6 +56,7 @@ export function AddButton({ onClick }: ClickableProps) {
             className={button}
             icon={Plus}
             onClick={onClick}
+            type={'button'}
         />
     );
 }

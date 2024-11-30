@@ -14,8 +14,10 @@ export interface ProjectType {
 export interface Object {
     id: number;
     name: string;
-    projectId: number;
-    regNumber: string;
+    description: string;
+    project_id: number;
+    registration_number: string;
+    added: string;
 }
 
 export interface Hardware {
@@ -36,11 +38,23 @@ export interface HardwareType {
 export interface Characteristic {
     id: number;
     name: string;
-    ums: UM[]
+    ums: UM[];
 }
 
 export interface UM {
     id: number;
     name: string;
     accuracy: string;
+}
+
+export interface User {
+    id: number;
+    first_name: string;
+    middle_name: string;
+    last_name: string;
+    login: string;
+    password: string;
+    role_id: number;
+    active: boolean;
+    added: string;
 }

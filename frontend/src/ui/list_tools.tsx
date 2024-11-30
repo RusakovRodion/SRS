@@ -16,19 +16,29 @@ export interface ListToolsProps {
 }
 
 export function ListTools({
-    onAdd = () => {},
-    onChanges = () => {},
-    onView = () => {},
-    onEdit = () => {},
-    onDelete = () => {},
+    onAdd = undefined,
+    onChanges = undefined,
+    onView = undefined,
+    onEdit = undefined,
+    onDelete = undefined,
 }: ListToolsProps) {
+    console.log(onDelete);
+
     return (
         <div className={tools}>
-            {onAdd ? <AddButtonOnlyIcon onClick={() => onAdd()} /> : ''}
-            {onChanges ? <ChangesButtonOnlyIcon onClick={() => onChanges()} /> : ''}
-            {onView ? <WatchButtonOnlyIcon onClick={() => onView()} /> : ''}
-            {onEdit ? <EditButtonOnlyIcon onClick={() => onEdit()} /> : ''}
-            {onDelete ? <DeleteButtonOnlyIcon onClick={() => onDelete()} /> : ''}
+            {onAdd ? <AddButtonOnlyIcon onClick={() => onAdd()} /> : ""}
+            {onChanges ? (
+                <ChangesButtonOnlyIcon onClick={() => onChanges()} />
+            ) : (
+                ""
+            )}
+            {onView ? <WatchButtonOnlyIcon onClick={() => onView()} /> : ""}
+            {onEdit ? <EditButtonOnlyIcon onClick={() => onEdit()} /> : ""}
+            {onDelete ? (
+                <DeleteButtonOnlyIcon onClick={() => onDelete()} />
+            ) : (
+                ""
+            )}
         </div>
     );
 }

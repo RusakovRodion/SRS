@@ -3,6 +3,7 @@ import { list_item, list_item_info } from "./../list_component.module.css";
 import "./page.css";
 import { ListTools } from "../list_tools";
 import { Characteristic } from "../data_interfaces";
+import { useNavigate } from "react-router-dom";
 
 export interface CharacteristicsPageProps {
     characteristicList: Characteristic[];
@@ -17,6 +18,8 @@ export function CharacteristicsPage({
     onView,
     onDelete,
 }: CharacteristicsPageProps) {
+    const navigate = useNavigate();
+    console.log("ch_list:", characteristicList)
     return (
         <div className="content">
             <h2>Характеристики</h2>
@@ -31,7 +34,9 @@ export function CharacteristicsPage({
                         <div className={list_item_info}>
                             {characteristic.name}
                         </div>
-                        <ListTools onAdd={null} onView={() => onView(characteristic.id)} onDelete={() => onDelete(characteristic.id)} />
+                        <ListTools onAdd={null} onView={() => onView(characteristic.id)} onEdit={() => {
+                            navigate('/handbook/characteristics/add', { state: { id:characteristic.id} });
+                        }} onDelete={() => onDelete(characteristic.id)} />
                     </div>
                 ))}
             </div>

@@ -195,6 +195,7 @@ function App() {
                     path="/handbook/characteristics/add"
                     element={
                         <AddChForm
+                            characteristicList={fakeChs}
                             onAdd={(newCh) => {
                                 const fakeDataNewID =
                                     Math.max(
@@ -210,6 +211,13 @@ function App() {
                                 navigate('/handbook/characteristics')
                                 console.log(fakeChs)
                             }}
+                            onEdit={(newCh) =>{
+                                let index = fakeChs.findIndex(d => d.id === newCh.id)
+                                fakeChs[index] = newCh
+                                navigate('/handbook/characteristics')
+                                console.log(fakeChs);
+                            }
+                        }
                         />
                     }
                 />

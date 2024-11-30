@@ -6,9 +6,10 @@ import { UM } from "../data_interfaces";
 import { useState, useEffect, useRef } from "react";
 import Modal from '../modal';
 import "../modal.module.css"
-import { ums } from "../fake_backend_data"
+import { ums, characteristics } from "../fake_backend_data"
 import { list_item, list_item_info } from "./../list_component.module.css";
 import { ListTools } from "../list_tools";
+import { useLocation } from "react-router-dom";
 
 let units_list : UM[] = []
 
@@ -19,25 +20,49 @@ type FormValues = {
 
 export interface AddChFormProps {
     onAdd: (ch: Characteristic) => void;
+    onEdit: (ch: Characteristic) => void;
+    characteristicList: Characteristic[];
 }
 
-export function AddChForm({ onAdd }: AddChFormProps) {
-    const { register, handleSubmit } = useForm<FormValues>();
+export function AddChForm({ onAdd , onEdit, characteristicList}: AddChFormProps) {
+    const { resetField, register, handleSubmit} = useForm<FormValues>();
+    const location = useLocation();
+    var id = -1
+    if (location.state !== null) {
+        id = location.state.id;
+    }
+    var input_val = ""
+    if (id != -1) {
+        let ch = characteristicList[characteristicList.findIndex(a => a.id == id)]
+        console.log(characteristicList)
+        console.log("finding_ch:", ch)
+        input_val = ch.name
+        units_list = ch.ums
+        useEffect(() => {
+           resetField('name', {defaultValue:input_val});
+        },[input_val])
+    }
+    console.log("id:", id, ", units_list:", units_list, ", state:", useForm.state)
+
+    //console.log(FormValues)
     const onSubmit: SubmitHandler<FormValues> = (data) => {
         const ch = {
-            id: -1,
+            id: id,
             name: data.name,
             ums: units_list,
         } as Characteristic;
-        console.log(units_list)
+        console.log("data", data.ums)
         units_list = []
-        onAdd(ch)
+        if(ch.id==-1)
+            onAdd(ch)
+        else onEdit(ch)
     };
     const [isFromOpen, setFormOpen] = useState<boolean>(false);
 
      const handleOpenForm = () => {
+        console.log("id:", id, ", units_list:", units_list)
         units_list = []
-        InitialData.ums = []
+        InitialData = []
         setFormOpen(true);
       };
 
@@ -45,15 +70,14 @@ export function AddChForm({ onAdd }: AddChFormProps) {
         setFormOpen(false);
       };
 
-      const handleFormSubmit = (data: AddUnitFormData): void => {
-        units_list = data.ums
+      const handleFormSubmit = (data: UM[]): void => {
+        units_list = data
         handleCloseForm();
       };
 
-
     return (
         <div className="content">
-            <h2>Новая характеристика</h2>
+
             <form id="add_ch_form" onSubmit={handleSubmit(onSubmit)}>
                 <h3>Название</h3>
                 <input
@@ -67,7 +91,7 @@ export function AddChForm({ onAdd }: AddChFormProps) {
                     <label>Единицы измерения</label>
                     <AddButton onClick={handleOpenForm} />
                 </div>
-                <div className="list">
+                <div className="list" {...register("ums")}>
                     {units_list.map((um) => (
                         <div key={um.id} className={list_item}>
                             <div className={list_item_info}>{um.name}</div>
@@ -82,22 +106,19 @@ export function AddChForm({ onAdd }: AddChFormProps) {
             <AddUnitForm
             isOpen={isFromOpen}
             onSubmit={handleFormSubmit}
-            onClose={handleCloseForm} />
+            onClose={handleCloseForm}
+            umsList={ums}/>
         </div>
     );
 }
 
-interface AddUnitFormData {
-  ums: UM[]
-}
 
-let InitialData: AddUnitFormData = {
-  ums: []
-};
+let InitialData: UM[] = []
+
 
 interface AddUnitFormProps {
   isOpen: boolean;
-  onSubmit: (data: AddUnitFormData) => void;
+  onSubmit: (data: UM[]) => void;
   onClose: () => void;
 }
 
@@ -105,10 +126,11 @@ const AddUnitForm: React.FC<AddUnitFormProps> = ({
   onSubmit,
   isOpen,
   onClose,
+  umsList,
 }) => {
 
   const focusInputRef = useRef<HTMLInputElement | null>(null);
-  const [formState, setFormState] = useState<AddUnitFormData>(
+  const [formState, setFormState] = useState<UM[]>(
     InitialData
   );
 
@@ -149,10 +171,16 @@ const AddUnitForm: React.FC<AddUnitFormProps> = ({
             <CreateButton/>
         </div>
            <div className="list">
-                    {ums.map((um) => (
+                    {umsList.map((um) => (
                         <div key={um.id} className={list_item}>
                             <div className={list_item_info}>{um.name}</div>
-                            <ListTools onAdd={() => formState.ums.push(ums[ums.findIndex(d => d.id === um.id)])} onView={null} onEdit={null} onChanges={null} onDelete={null} />
+                            <ListTools onAdd={
+                                () => {
+                                    let index = ums.findIndex(d => d.id === um.id)
+                                    formState.push(ums[index])
+
+                                }
+                            } onView={null} onEdit={null} onChanges={null} onDelete={null} />
                         </div>
                     ))}
            </div>

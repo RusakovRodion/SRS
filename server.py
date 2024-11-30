@@ -1,14 +1,15 @@
 from flask import Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
 import os
+from api import api_blueprint
+from api import db
 
-db = SQLAlchemy()
 
 # Configuration for the database
 DB_USER = "postgres"
 DB_PASSWORD = "7540f8b9f393f8ba"
-DB_NAME = "srs_db"
-DB_HOST = "localhost"
+DB_NAME = "srs_db_copy"
+DB_HOST = "127.0.0.1"
 DB_PORT = 5432
 
 
@@ -18,7 +19,7 @@ def create_app():
     # Configure the Flask app with the database connection
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'default_secret_key')
     app.config['SQLALCHEMY_DATABASE_URI'] = (
-        f"postgresql://{DB_USER}:{DB_PASSWORD}@127.0.0.1:{DB_PORT}/{DB_NAME}"
+        f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
     )
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -53,6 +54,8 @@ def create_app():
     @app.teardown_appcontext
     def shutdown_session(exception=None):
         db.session.remove()
+
+    app.register_blueprint(api_blueprint, url_prefix='/api')
 
     return app
 

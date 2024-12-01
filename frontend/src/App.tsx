@@ -12,7 +12,7 @@ import { ObjectsPage } from "./ui/pages/objects_page";
 import { HardwarePage } from "./ui/pages/hardware_page";
 import { ProjectTypesPage } from "./ui/pages/project_types_page";
 import { HardwareTypesPage } from "./ui/pages/hardware_types_page";
-import { CharacteristicsPage } from "./ui/pages/characteristics_page";
+import { CharacteristicsPage, CharacteristicsInfoPage } from "./ui/pages/characteristics_page";
 import { UnitsPage } from "./ui/pages/units_page";
 import { AddProjectForm } from "./ui/pages/add_project_form";
 import { AddChForm } from "./ui/pages/add_characteristic_form";
@@ -189,7 +189,7 @@ function App() {
                 />
                 <Route
                     path="/handbook/characteristics/:characteristic_id"
-                    element={<div>Хар-ка</div>}
+                    element={<CharacteristicsInfoPage chs={fakeChs} />}
                 />
                 <Route
                     path="/handbook/characteristics/add"

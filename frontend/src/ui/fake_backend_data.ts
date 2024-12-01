@@ -124,12 +124,12 @@ export const objects: type.Object[] = [
 
 export const characteristics: type.Characteristic[] = [
     {
-        id: 1,
+        id: 0,
         name: "Мощность",
         ums: ums,
     },
     {
-        id: 2,
+        id: 1,
         name: "Объем",
         ums: []
     },

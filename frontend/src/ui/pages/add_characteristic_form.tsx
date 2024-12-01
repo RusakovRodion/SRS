@@ -35,7 +35,6 @@ export function AddChForm({
     characteristicList,
 }: AddChFormProps) {
     const { resetField, register, handleSubmit } = useForm<FormValues>();
-    const [addedUms, setAddedUms] = useState(new Array<UM>());
     const location = useLocation();
     var id = -1;
     if (location.state !== null) {
@@ -48,11 +47,11 @@ export function AddChForm({
         input_val = ch.name;
         add_ums = ch.ums.map((element) => element);
         useEffect(() => {
-            setAddedUms(add_ums)
+            //setAddedUms(add_ums)
             resetField("name", { defaultValue: input_val });
         }, [input_val, ch.ums]);
     }
-
+    const [addedUms, setAddedUms] = useState(add_ums);
     const onSubmit: SubmitHandler<FormValues> = (data) => {
         const ch = {
             id: id,
@@ -68,13 +67,15 @@ export function AddChForm({
         let index = addedUms.findIndex(
             (d) => d.id === id,
         );
-        if (addedUms.length == 1) {
+        /*if (addedUms.length == 1) {
             setAddedUms([])
         }
         else {
             let addedUms_del = addedUms.splice(index - 1, 1)
             setAddedUms(addedUms_del)
-        }
+        }*/
+        let addedUms_del = [...addedUms.slice(0, index), ...addedUms.slice(index + 1)]
+        setAddedUms(addedUms_del)
     }
 
     const handleOpenForm = () => {
@@ -122,7 +123,7 @@ export function AddChForm({
                 onSubmit={handleFormSubmit}
                 onClose={handleCloseForm}
                 umsList={ums}
-                addedUmsList={id != -1? add_ums : addedUms}
+                addedUmsList={addedUms}
             />
         </div>
     );
@@ -145,6 +146,9 @@ const AddUnitForm = ({
 }: AddUnitFormProps) => {
     const focusInputRef = useRef<HTMLInputElement | null>(null);
     const [addedUms1, setAddedUms1] = useState(addedUmsList);
+    useEffect(() => {
+        setAddedUms1(addedUmsList)
+    }, [addedUmsList]);
 
     useEffect(() => {
         if (isOpen && focusInputRef.current) {
@@ -186,7 +190,7 @@ const AddUnitForm = ({
             setAddedUms1([])
         }
         else {
-            let addedUms_del = addedUms1.splice(index - 1, 1)
+            let addedUms_del = [...addedUms1.slice(0, index), ...addedUms1.slice(index + 1)]
             setAddedUms1(addedUms_del)
         }
     }

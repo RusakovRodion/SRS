@@ -35,7 +35,6 @@ export function AddChForm({
     characteristicList,
 }: AddChFormProps) {
     const { resetField, register, handleSubmit } = useForm<FormValues>();
-    const [addedUms, setAddedUms] = useState(new Array<UM>());
     const location = useLocation();
     var id = -1;
     if (location.state !== null) {
@@ -48,11 +47,12 @@ export function AddChForm({
         input_val = ch.name;
         add_ums = ch.ums.map((element) => element);
         useEffect(() => {
-            setAddedUms(add_ums)
+            //setAddedUms(add_ums)
             resetField("name", { defaultValue: input_val });
         }, [input_val, ch.ums]);
     }
-
+    const [addedUms, setAddedUms] = useState(add_ums);
+    console.log("addedUms on form:", addedUms)
     const onSubmit: SubmitHandler<FormValues> = (data) => {
         const ch = {
             id: id,
@@ -65,16 +65,24 @@ export function AddChForm({
     const [isFromOpen, setFormOpen] = useState<boolean>(false);
 
     const handleDel = (id:number) => {
+        console.log("before delete on main form:")
+        console.log("addedUms:", addedUms)
         let index = addedUms.findIndex(
             (d) => d.id === id,
         );
-        if (addedUms.length == 1) {
+        /*if (addedUms.length == 1) {
             setAddedUms([])
         }
         else {
             let addedUms_del = addedUms.splice(index - 1, 1)
             setAddedUms(addedUms_del)
-        }
+        }*/
+        let addedUms_del = [...addedUms.slice(0, index), ...addedUms.slice(index + 1)]
+        console.log("addedUms_del:", addedUms_del)
+        setAddedUms(addedUms_del)
+        console.log("delete index:", index)
+        console.log("after delete on main form::  ")
+        console.log("addedUms:", addedUms)
     }
 
     const handleOpenForm = () => {
@@ -106,6 +114,7 @@ export function AddChForm({
                     <AddButton onClick={handleOpenForm} />
                 </div>
                 <div className="list" {...register("ums")}>
+                    {console.log("addedUmsbeforeList:", addedUms)}
                     {addedUms.map((um) => (
                         <div key={um.id} className={list_item}>
                             <div className={list_item_info}>{um.name}</div>
@@ -122,7 +131,7 @@ export function AddChForm({
                 onSubmit={handleFormSubmit}
                 onClose={handleCloseForm}
                 umsList={ums}
-                addedUmsList={id != -1? add_ums : addedUms}
+                addedUmsList={addedUms}
             />
         </div>
     );
@@ -145,6 +154,11 @@ const AddUnitForm = ({
 }: AddUnitFormProps) => {
     const focusInputRef = useRef<HTMLInputElement | null>(null);
     const [addedUms1, setAddedUms1] = useState(addedUmsList);
+    console.log("addedUms1 on modalform:", addedUms1)
+    console.log("addedUmsList on modalform:", addedUmsList)
+    useEffect(() => {
+        setAddedUms1(addedUmsList)
+    }, [addedUmsList]);
 
     useEffect(() => {
         if (isOpen && focusInputRef.current) {
@@ -170,6 +184,8 @@ const AddUnitForm = ({
     };
 
     const handleAdd = (id:number) => {
+        console.log("before add on main form::  ")
+        console.log("addedUms1:", addedUms1)
         let index = umsList.findIndex(
             (d) => d.id === id,
         );
@@ -177,8 +193,12 @@ const AddUnitForm = ({
         setAddedUms1(
             addedUms1.concat([umsList[index]])
         );
+        console.log("after add on main form::  ")
+        console.log("addedUms1:", addedUms1)
     }
     const handleDel = (id:number) => {
+        console.log("before delete on main form::  ")
+        console.log("addedUms1:", addedUms1)
         let index = addedUms1.findIndex(
             (d) => d.id === id,
         );
@@ -186,9 +206,11 @@ const AddUnitForm = ({
             setAddedUms1([])
         }
         else {
-            let addedUms_del = addedUms1.splice(index - 1, 1)
+            let addedUms_del = [...addedUms1.slice(0, index), ...addedUms1.slice(index + 1)]
             setAddedUms1(addedUms_del)
         }
+        console.log("after delete on main form::  ")
+        console.log("addedUms1:", addedUms1)
     }
 
     return (

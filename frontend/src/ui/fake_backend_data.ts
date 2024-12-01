@@ -12,6 +12,16 @@ export const ums: type.UM[] = [
         name: "м/с",
         accuracy: "2",
     },
+    {
+        id: 3,
+        name: "см/с",
+        accuracy: "2",
+    },
+    {
+        id: 4,
+        name: "мм/с",
+        accuracy: "2",
+    },
 ];
 
 
@@ -122,15 +132,21 @@ export const objects: type.Object[] = [
     },
 ];
 
+
 export const characteristics: type.Characteristic[] = [
     {
         id: 0,
         name: "Мощность",
-        ums: ums,
+        ums: [ums[0]]
     },
     {
         id: 1,
         name: "Объем",
-        ums: []
+        ums: [ums[1]]
+    },
+    {
+        id: 4,
+        name: "Скорость",
+        ums: ums
     },
 ];

@@ -46,7 +46,7 @@ export function EditButtonOnlyIcon({ onClick }: ClickableProps) {
 }
 
 export function DeleteButtonOnlyIcon({ onClick }: ClickableProps) {
-    return <Button className={icon_button} icon={Trash2} onClick={onClick} />;
+    return <Button className={icon_button} icon={Trash2} onClick={onClick} type={'button'}/>;
 }
 
 export function AddButton({ onClick }: ClickableProps) {

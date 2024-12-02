@@ -1,7 +1,8 @@
 import "./page.css";
 import { SaveButton } from "./../buttons";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Project, ProjectType } from "../data_interfaces";
+import { Project, ProjectType, Object } from "../data_interfaces";
+import { list_item, list_item_info } from "./../list_component.module.css";
 
 type FormValues = {
     name: string;
@@ -12,9 +13,12 @@ type FormValues = {
 export interface AddProjectFormProps {
     onAdd: (project: Project) => void;
     projectTypes: ProjectType[];
+    objectsList: Object[];
 }
 
-export function AddProjectForm({ onAdd, projectTypes }: AddProjectFormProps) {
+export function AddProjectForm({ onAdd, projectTypes, objectsList }: AddProjectFormProps) {
+    var id = -1
+
     const { register, handleSubmit } = useForm<FormValues>();
     const onSubmit: SubmitHandler<FormValues> = (data) => {
         console.log(data);
@@ -29,6 +33,7 @@ export function AddProjectForm({ onAdd, projectTypes }: AddProjectFormProps) {
     };
 
     return (
+        <>
         <div className="content">
             <h2>Новый проект</h2>
             <form id="edit_project_form">
@@ -67,5 +72,22 @@ export function AddProjectForm({ onAdd, projectTypes }: AddProjectFormProps) {
                 </div>
             </form>
         </div>
+        <div>
+                { id != -1 ? (
+                <div>
+                    <hr/>
+                    <h1>Объекты:</h1>
+                    <div className="list">
+                        {objectsList.map((obj) => ( obj.project_id == id ?
+                            <div key={obj.id} className={list_item}>
+                                <div className={list_item_info}>{obj.name}</div>
+                                <div className={list_item_info}>{obj.registration_number}</div>
+                            </div> : ''
+                        ))}
+                    </div>
+                </div>
+            ) : ''}
+        </div>
+        </>
     );
 }

@@ -76,7 +76,8 @@ function App() {
 
                                 navigate("/projects");
                             }}
-                            projectTypes={fake_data.project_types}
+                            projectTypes={fakePts}
+                            objectsList={fakeObjects}
                         />
                     }
                 />

@@ -40,17 +40,6 @@ export const project_types: type.ProjectType[] = [
     },
 ];
 
-export const hardware_types: type.HardwareType[] = [
-    {
-        id: 1,
-        name: "Двигатель",
-    },
-    {
-        id: 2,
-        name: "Штурвал",
-    },
-];
-
 export const hardwares: type.Hardware[] = [
     {
         id: 1,
@@ -150,3 +139,17 @@ export const characteristics: type.Characteristic[] = [
         ums: ums
     },
 ];
+
+export const hardware_types: type.HardwareType[] = [
+    {
+        id: 1,
+        name: "Двигатель",
+        chs: [characteristics[0]],
+    },
+    {
+        id: 2,
+        name: "Штурвал",
+        chs: characteristics,
+    },
+];
+

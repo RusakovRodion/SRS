@@ -10,6 +10,7 @@ export interface CharacteristicsPageProps {
     characteristicList: Characteristic[];
     onAdd: () => void;
     onView: (id: number) => void;
+    onEdit: (id: number) => void;
     onDelete: (id: number) => void;
 }
 
@@ -17,9 +18,9 @@ export function CharacteristicsPage({
     characteristicList,
     onAdd,
     onView,
+    onEdit,
     onDelete,
 }: CharacteristicsPageProps) {
-    const navigate = useNavigate();
     console.log("ch_list:", characteristicList)
     return (
         <div className="content">
@@ -35,9 +36,7 @@ export function CharacteristicsPage({
                         <div className={list_item_info}>
                             {characteristic.name}
                         </div>
-                        <ListTools onAdd={null} onView={() => onView(characteristic.id)} onEdit={() => {
-                            navigate('/handbook/characteristics/add', { state: { id:characteristic.id} });
-                        }} onDelete={() => onDelete(characteristic.id)} />
+                        <ListTools onAdd={null} onView={() => onView(characteristic.id)} onEdit={() => onEdit(characteristic.id)} onDelete={() => onDelete(characteristic.id)} />
                     </div>
                 ))}
             </div>

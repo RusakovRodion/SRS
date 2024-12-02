@@ -16,6 +16,7 @@ import { CharacteristicsPage, CharacteristicsInfoPage } from "./ui/pages/charact
 import { UnitsPage } from "./ui/pages/units_page";
 import { AddProjectForm } from "./ui/pages/add_project_form";
 import { AddChForm } from "./ui/pages/add_characteristic_form";
+import { AddHtForm } from "./ui/pages/add_hardware_type";
 import { useState } from "react";
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
     const [fakeProjects, setFakeProjects] = useState(fake_data.projects);
     const [fakeUMs, setfakeUMs] = useState(fake_data.ums);
     const [fakeChs, setfakeChs] = useState(fake_data.characteristics);
+    const [fakeHts, setfakeHts] = useState(fake_data.hardware_types);
 
     return (
         <>
@@ -147,7 +149,7 @@ function App() {
                     path="/handbook/hardware_types"
                     element={
                         <HardwareTypesPage
-                            hardwareTypesList={fake_data.hardware_types}
+                            hardwareTypesList={fakeHts}
                             onAdd={() =>
                                 navigate("/handbook/hardware_types/add")
                             }
@@ -156,12 +158,45 @@ function App() {
                                     `/handbook/hardware_types/${hardwareTypeId}`,
                                 )
                             }
+                            onEdit={(hardwareTypeId: number) =>
+                                navigate("/handbook/hardware_types/add",  { state: { id:hardwareTypeId} })
+                            }
                         />
                     }
                 />
                 <Route
                     path="/handbook/hardware_types/:hardware_type_id"
                     element={<div>Тип оборудования</div>}
+                />
+                 <Route
+                    path="/handbook/hardware_types/add"
+                    element={
+                        <AddHtForm
+                            htList={fakeHts}
+                            onAdd={(newHt) => {
+                                const fakeDataNewID =
+                                    Math.max(
+                                        ...fakeHts.map(
+                                            (ht) => ht.id,
+                                        ),
+                                    ) + 1;
+                                newHt.id = fakeDataNewID;
+
+                                setfakeHts(
+                                    fakeHts.concat([newHt]),
+                                );
+                                navigate('/handbook/hardware_types')
+                                console.log(fakeHts)
+                            }}
+                            onEdit={(newHt) =>{
+                                let index = fakeHts.findIndex(d => d.id === newHt.id)
+                                fakeHts[index] = newHt
+                                navigate('/handbook/hardware_types')
+                                console.log(fakeChs);
+                            }
+                        }
+                        />
+                    }
                 />
                 <Route />
                 <Route
@@ -177,6 +212,9 @@ function App() {
                                     `/handbook/characteristics/${characteristicId}`,
                                 )
                             }
+                            onEdit={(characteristicId: number) => {
+                                navigate('/handbook/characteristics/add', { state: { id:characteristicId} })
+                            }}
                             onDelete={(characteristicId: number) => {
                                 let index = fakeChs.findIndex(d => d.id === characteristicId)
                                 fakeChs.splice(index, 1)

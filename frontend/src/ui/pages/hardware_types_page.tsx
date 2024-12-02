@@ -8,12 +8,14 @@ export interface HardwareTypesPageProps {
     hardwareTypesList: HardwareType[];
     onAdd: () => void;
     onView: (id: number) => void;
+    onEdit: (id: number) =>  void;
 }
 
 export function HardwareTypesPage({
     hardwareTypesList,
     onAdd,
     onView,
+    onEdit,
 }: HardwareTypesPageProps) {
     return (
         <div className="content">
@@ -29,7 +31,7 @@ export function HardwareTypesPage({
                         <div className={list_item_info}>
                             {hardwareType.name}
                         </div>
-                        <ListTools onAdd={null} onView={() => onView(hardwareType.id)} />
+                        <ListTools onAdd={null} onEdit={() => onEdit(hardwareType.id)} onView={() => onView(hardwareType.id)} />
                     </div>
                 ))}
             </div>

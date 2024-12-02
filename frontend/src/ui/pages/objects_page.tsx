@@ -1,8 +1,12 @@
-import { AddButton } from "./../buttons";
+import { Button, SaveButton, CompleteButton, CreateButton, AddButton } from "./../buttons";
 import { list_item, list_item_info } from "./../list_component.module.css";
 import "./page.css";
-import { Object } from "../data_interfaces";
+import { Object, Project } from "../data_interfaces";
 import { ListTools } from "../list_tools";
+import Modal from "../modal";
+import { useState, useEffect, useRef } from "react";
+import { projects } from "../fake_backend_data";
+import { button, icon_button } from "../buttons.module.css";
 
 export interface ObjectPageProps {
     objectsList: Object[];
@@ -11,11 +15,25 @@ export interface ObjectPageProps {
 }
 
 export function ObjectsPage({ objectsList, onAdd, onView }: ObjectPageProps) {
+    const [isFormOpen, setFormOpen] = useState<boolean>(false);
+    const handleOpenForm = () => {
+        setFormOpen(true);
+    };
+
+    const handleCloseForm = () => {
+        setFormOpen(false);
+    };
+
+    const handleFormSubmit = (prId: number): void => {
+        console.log(prId)
+        handleCloseForm();
+        onAdd(prId)
+    };
     return (
         <div className="content">
-            <h2>Проекты</h2>
+            <h2>Объекты</h2>
             <div className="add_button_and_search">
-                <AddButton onClick={() => onAdd()} />
+                <AddButton onClick={() => handleOpenForm()} />
                 <input type="search" placeholder="Поиск" />
             </div>
 
@@ -29,6 +47,53 @@ export function ObjectsPage({ objectsList, onAdd, onView }: ObjectPageProps) {
                     </div>
                 ))}
             </div>
+            <AddProjectForm
+                isOpen={isFormOpen}
+                onSubmit={handleFormSubmit}
+                onClose={handleCloseForm}
+                projectsList={projects}
+            />
         </div>
     );
 }
+
+interface AddProjectFormProps {
+    isOpen: boolean;
+    onSubmit: (data: number) => void;
+    onClose: () => void;
+    projectsList: Project[];
+}
+
+const AddProjectForm = ({
+    onSubmit,
+    isOpen,
+    onClose,
+    projectsList,
+}: AddProjectFormProps) => {
+    const handleAdd = (id: number): void => {
+        onSubmit(id)
+    };
+
+    return (
+        <Modal hasCloseBtn={false} isOpen={isOpen} onClose={onClose}>
+            <form>
+                <label>Выбрать проект</label>
+                <div className={"label_and_add_button"}>
+                    <input type="search" placeholder="Поиск" />
+                    <Button className={button} text={"Без проекта +"} onClick={() => {handleAdd(-1)}} type={'button'}/>
+                </div>
+                <div className="list" >
+                    {projectsList.map((p) => (
+                        <div key={p.id}  className={list_item} >
+                            <div className={list_item_info}>{p.name}</div>
+                            <div className={list_item_info}>{p.type_id}</div>
+                            <ListTools onAdd={() => {handleAdd(p.id)}}/>
+                        </div>
+                    ))}
+                </div>
+            </form>
+        </Modal>
+    );
+};
+
+

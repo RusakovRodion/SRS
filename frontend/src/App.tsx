@@ -10,7 +10,7 @@ import NavBar from "./ui/navbar";
 import { ProjectsPage } from "./ui/pages/projects_page";
 import { ObjectsPage } from "./ui/pages/objects_page";
 import { HardwarePage } from "./ui/pages/hardware_page";
-import { ProjectTypesPage } from "./ui/pages/project_types_page";
+import { ProjectTypesPage, PtInfoPage } from "./ui/pages/project_types_page";
 import { HardwareTypesPage, HtInfoPage } from "./ui/pages/hardware_types_page";
 import { CharacteristicsPage, CharacteristicsInfoPage } from "./ui/pages/characteristics_page";
 import { UnitsPage } from "./ui/pages/units_page";
@@ -27,6 +27,7 @@ function App() {
     const [fakeChs, setfakeChs] = useState(fake_data.characteristics);
     const [fakeHts, setfakeHts] = useState(fake_data.hardware_types);
     const [fakeHardwares, setfakeHardwares] = useState(fake_data.hardwares);
+    const [fakePts, setfakePts] = useState(fake_data.project_types);
 
     return (
         <>
@@ -129,10 +130,34 @@ function App() {
                     path="/handbook/project_types"
                     element={
                         <ProjectTypesPage
-                            projectTypesList={fake_data.project_types}
-                            onAdd={() =>
-                                navigate("/handbook/project_types/add")
-                            }
+                            projectTypesList={fakePts}
+                            onAdd={(newPt) => {
+                                const fakeDataNewID =
+                                    Math.max(
+                                        ...fakePts.map(
+                                            (pt) => pt.id,
+                                        ),
+                                    ) + 1;
+                                newPt.id = fakeDataNewID;
+
+                                setfakePts(
+                                    fakePts.concat([newPt]),
+                                );
+                                navigate('/handbook/project_types')
+                                console.log(fakePts)
+                            }}
+                            onEdit={(ptId: number, newPt) =>{
+                                let index = fakePts.findIndex(d => d.id === ptId)
+                                newPt.id = ptId
+                                fakePts[index] = newPt
+                                console.log(fakePts);
+                            }}
+                            onDelete={(ptId: number) => {
+                                let index = fakePts.findIndex(d => d.id === ptId)
+                                fakePts.splice(index, 1)
+                                console.log('delete unit with id ', index)
+                                navigate('/handbook/project_types')
+                            }}
                             onView={(projectTypeId: number) =>
                                 navigate(
                                     `/handbook/project_types/${projectTypeId}`,
@@ -143,7 +168,7 @@ function App() {
                 />
                 <Route
                     path="/handbook/project_types/:project_type_id"
-                    element={<div>Тип проекта</div>}
+                    element={<PtInfoPage pts={fakePts} projectList={fakeProjects} />}
                 />
                 <Route />
                 <Route

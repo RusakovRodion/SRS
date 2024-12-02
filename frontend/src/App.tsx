@@ -8,7 +8,7 @@ import * as fake_data from "./ui/fake_backend_data";
 
 import NavBar from "./ui/navbar";
 import { ProjectsPage } from "./ui/pages/projects_page";
-import { ObjectsPage } from "./ui/pages/objects_page";
+import { ObjectsPage, AddObjectForm, ObjectInfoPage } from "./ui/pages/objects_page";
 import { HardwarePage } from "./ui/pages/hardware_page";
 import { ProjectTypesPage, PtInfoPage } from "./ui/pages/project_types_page";
 import { HardwareTypesPage, HtInfoPage } from "./ui/pages/hardware_types_page";
@@ -29,7 +29,7 @@ function App() {
     const [fakeHts, setfakeHts] = useState(fake_data.hardware_types);
     const [fakeHardwares, setfakeHardwares] = useState(fake_data.hardwares);
     const [fakePts, setfakePts] = useState(fake_data.project_types);
-
+    
     return (
         <>
             <NavBar />
@@ -103,8 +103,10 @@ function App() {
                     path="/objects"
                     element={
                         <ObjectsPage
-                            objectsList={fake_data.objects}
-                            onAdd={() => navigate("/objects/add")}
+                            objectsList={fakeObjects}
+                            projectsList={fakeProjects}
+                            onAdd={(prId) => navigate("/objects/add", { state: { id:prId} })}
+                            onEdit={(objId) => navigate("/objects/add", { state: { objId: objId} })}
                             onView={(objectId: number) =>
                                 navigate(`/objects/${objectId}`)
                             }
@@ -112,12 +114,44 @@ function App() {
                     }
                 />
                 <Route
-                    path="/objects/:objects_id"
-                    element={<div>Объект</div>}
+                    path="/objects/:object_id"
+                    element={<ObjectInfoPage
+                        objects={fakeObjects}
+                        projects={fakeProjects}
+                        hts={fakeHts}
+                    />}
                 />
                 <Route
                     path="/objects/add"
-                    element={<div>Добавить объект</div>}
+                    element={
+                        <AddObjectForm
+                            onAdd={(newObject) => {
+                                console.log("new object", newObject);
+                                const fakeDataNewID =
+                                    Math.max(
+                                        ...fakeObjects.map(
+                                            (object) => object.id,
+                                        ),
+                                    ) + 1;
+                                newObject.id = fakeDataNewID;
+                                newObject.added = "";
+
+                                setfakeObjects(
+                                    fakeObjects.concat([newObject]),
+                                );
+
+                                 navigate('/objects')
+                            }}
+                            onEdit={(newObject) =>{
+                                let index = fakeObjects.findIndex(d => d.id === newObject.id)
+                                fakeObjects[index] = newObject
+                                navigate('/objects')
+                                console.log(fakeObjects)
+                            }}
+                            projects={fakeProjects}
+                            objects={fakeObjects}
+                        />
+                    }
                 />
                 <Route />
                 <Route

@@ -114,6 +114,7 @@ export const objects: type.Object[] = [
         registration_number: "hg12",
         added: "",
         description: "",
+        hardwares: projects[projects.findIndex((p) => p.id == 1)].hardwares.map((element) => element),
     },
     {
         id: 2,
@@ -122,6 +123,7 @@ export const objects: type.Object[] = [
         registration_number: "hg112",
         added: "",
         description: "",
+        hardwares: projects[projects.findIndex((p) => p.id == 2)].hardwares.map((element) => element),
     },
     {
         id: 3,
@@ -130,6 +132,7 @@ export const objects: type.Object[] = [
         registration_number: "hg12231",
         added: "",
         description: "xcvxcvxcv",
+        hardwares: projects[projects.findIndex((p) => p.id == 1)].hardwares.map((element) => element),
     },
     {
         id: 4,
@@ -138,6 +141,7 @@ export const objects: type.Object[] = [
         registration_number: "hg12sdfsdfsd",
         added: "",
         description: "sdfsdf",
+        hardwares: projects[projects.findIndex((p) => p.id == 1)].hardwares.map((element) => element),
     },
     {
         id: 5,
@@ -146,6 +150,7 @@ export const objects: type.Object[] = [
         registration_number: "hg12sdfsdfsd",
         added: "",
         description: "sdfsdf",
+        hardwares: projects[projects.findIndex((p) => p.id == 2)].hardwares.map((element) => element),
     },
 ];
 

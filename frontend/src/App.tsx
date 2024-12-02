@@ -23,6 +23,7 @@ function App() {
     const navigate = useNavigate();
 
     const [fakeProjects, setFakeProjects] = useState(fake_data.projects);
+    const [fakeObjects, setfakeObjects] = useState(fake_data.objects);
     const [fakeUMs, setfakeUMs] = useState(fake_data.ums);
     const [fakeChs, setfakeChs] = useState(fake_data.characteristics);
     const [fakeHts, setfakeHts] = useState(fake_data.hardware_types);
@@ -41,18 +42,28 @@ function App() {
                     element={
                         <ProjectsPage
                             projectsList={fakeProjects}
+                            pts={fakePts}
                             onAdd={() => {
                                 navigate("/projects/add");
                             }}
                             onView={(projectId: number) => {
                                 navigate(`/projects/${projectId}`);
                             }}
+                            onEdit={(projectId: number) =>
+                                navigate("/projects/add",  { state: { id:projectId} })
+                            }
+                            onDelete={(projectId: number) => {
+                                let index = fakeProjects.findIndex(d => d.id === projectId)
+                                fakeProjects.splice(index, 1)
+                                console.log('delete project with id ', index)
+                                navigate('/projects')
+                            }}
                         />
                     }
                 />
                 <Route
                     path="/projects/:project_id"
-                    element={<ProjectInfoPage projects={fakeProjects} />}
+                    element={<ProjectInfoPage projects={fakeProjects} objects={fakeObjects} hts={fakeHts} pts={fakePts}/>}
                 />
                 <Route
                     path="/projects/add"
@@ -75,7 +86,15 @@ function App() {
 
                                 navigate("/projects");
                             }}
-                            projectTypes={fake_data.project_types}
+                            onEdit={(newProject) =>{
+                                let index = fakeProjects.findIndex(d => d.id === newProject.id)
+                                fakeProjects[index] = newProject
+                                navigate('/projects')
+                                console.log(fakeProjects)
+                            }}
+                            projectTypes={fakePts}
+                            objectsList={fakeObjects}
+                            projectsList={fakeProjects}
                         />
                     }
                 />

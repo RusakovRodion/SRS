@@ -116,7 +116,7 @@ export function AddHtForm({
                     <SaveButton />
                 </div>
             </form>
-            <AddUnitForm
+            <AddCharacteristicsForm
                 isOpen={isFromOpen}
                 onSubmit={handleFormSubmit}
                 onClose={handleCloseForm}
@@ -146,7 +146,7 @@ export function AddHtForm({
     );
 }
 
-interface AddUnitFormProps {
+interface AddCharacteristicsFormProps {
     isOpen: boolean;
     onSubmit: (data: Characteristic[]) => void;
     onClose: () => void;
@@ -154,13 +154,13 @@ interface AddUnitFormProps {
     addedChsList: Characteristic[];
 }
 
-const AddUnitForm = ({
+const AddCharacteristicsForm = ({
     onSubmit,
     isOpen,
     onClose,
     chsList,
     addedChsList,
-}: AddUnitFormProps) => {
+}: AddCharacteristicsFormProps) => {
     const focusInputRef = useRef<HTMLInputElement | null>(null);
     const [addedChs1, setAddedChs1] = useState(addedChsList);
     useEffect(() => {
@@ -215,7 +215,7 @@ const AddUnitForm = ({
     return (
         <Modal hasCloseBtn={false} isOpen={isOpen} onClose={onClose}>
             <form onSubmit={handleSubmit}>
-                <label>Добавить единицу измерения</label>
+                <label>Добавить характеристики</label>
                 <div className={"label_and_add_button"}>
                     <input type="search" placeholder="Поиск" />
                     <CreateButton onClick={() => {}} />

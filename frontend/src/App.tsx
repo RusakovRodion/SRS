@@ -23,6 +23,7 @@ function App() {
     const navigate = useNavigate();
 
     const [fakeProjects, setFakeProjects] = useState(fake_data.projects);
+    const [fakeObjects, setfakeObjects] = useState(fake_data.objects);
     const [fakeUMs, setfakeUMs] = useState(fake_data.ums);
     const [fakeChs, setfakeChs] = useState(fake_data.characteristics);
     const [fakeHts, setfakeHts] = useState(fake_data.hardware_types);
@@ -52,7 +53,7 @@ function App() {
                 />
                 <Route
                     path="/projects/:project_id"
-                    element={<ProjectInfoPage projects={fakeProjects} />}
+                    element={<ProjectInfoPage projects={fakeProjects} objects={fakeObjects} hts={fakeHts}/>}
                 />
                 <Route
                     path="/projects/add"

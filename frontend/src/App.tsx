@@ -8,7 +8,7 @@ import * as fake_data from "./ui/fake_backend_data";
 
 import NavBar from "./ui/navbar";
 import { ProjectsPage } from "./ui/pages/projects_page";
-import { ObjectsPage, AddObjectForm } from "./ui/pages/objects_page";
+import { ObjectsPage, AddObjectForm, ObjectInfoPage } from "./ui/pages/objects_page";
 import { HardwarePage } from "./ui/pages/hardware_page";
 import { ProjectTypesPage, PtInfoPage } from "./ui/pages/project_types_page";
 import { HardwareTypesPage, HtInfoPage } from "./ui/pages/hardware_types_page";
@@ -114,8 +114,12 @@ function App() {
                     }
                 />
                 <Route
-                    path="/objects/:objects_id"
-                    element={<div>Объект</div>}
+                    path="/objects/:object_id"
+                    element={<ObjectInfoPage
+                        objects={fakeObjects}
+                        projects={fakeProjects}
+                        hts={fakeHts}
+                    />}
                 />
                 <Route
                     path="/objects/add"

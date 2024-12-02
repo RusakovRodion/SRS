@@ -1,7 +1,7 @@
 import { Button, SaveButton, CompleteButton, CreateButton, AddButton } from "./../buttons";
 import { list_item, list_item_info } from "./../list_component.module.css";
 import "./page.css";
-import {Hardware, Object, Project } from "../data_interfaces";
+import {Hardware, HardwareType, Object, Project, ProjectType } from "../data_interfaces";
 import { ListTools } from "../list_tools";
 import Modal from "../modal";
 import "../modal.module.css";
@@ -11,6 +11,7 @@ import { button, icon_button } from "../buttons.module.css";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useLocation } from "react-router-dom";
 import "../modal.module.css";
+import { useParams } from "react-router-dom";
 
 export interface ObjectPageProps {
     objectsList: Object[];
@@ -371,5 +372,42 @@ const AddHardwareForm = ({
         </Modal>
     );
 };
+
+export interface ObjectInfoPageProps {
+    objects: Object[];
+    projects: Project[];
+    hts: HardwareType[];
+}
+
+export function ObjectInfoPage({ objects, projects, hts}: ObjectInfoPageProps) {
+    const params = useParams();
+    const oId = Number(params["object_id"]);
+    const object = objects.find((e) => e.id === oId);
+
+    if (object === undefined) {
+        return <div className="content">Invalid object</div>;
+    }
+
+    return (
+        <div className="content">
+            <h1>Просмотр объекта</h1>
+            <h1>{object.name}</h1>
+            <p>Проект: {projects.find((e) => e.id === object.project_id).name}</p>
+            <p>Регистрационный номер: {object.registration_number}</p>
+            <p>Описание: {object.description}</p>
+            <p>Добавлен: {object.added}</p>
+            <h1>Оборудование:</h1>
+            {object.hardwares.map((h) => (
+                <div>
+                    <h2>{h.name}</h2>
+                    <p>Тип оборудования: {hts.find((e) => e.id === h.type_id).name}</p>
+                    {hts.find((e) => e.id === h.type_id).chs.map((ch) => (
+                        <p>{ch.name}: ???</p>
+                    ))}
+                </div>
+                ))}
+        </div>
+    );
+}
 
 

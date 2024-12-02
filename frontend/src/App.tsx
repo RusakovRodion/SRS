@@ -11,7 +11,7 @@ import { ProjectsPage } from "./ui/pages/projects_page";
 import { ObjectsPage } from "./ui/pages/objects_page";
 import { HardwarePage } from "./ui/pages/hardware_page";
 import { ProjectTypesPage } from "./ui/pages/project_types_page";
-import { HardwareTypesPage } from "./ui/pages/hardware_types_page";
+import { HardwareTypesPage, HtInfoPage } from "./ui/pages/hardware_types_page";
 import { CharacteristicsPage, CharacteristicsInfoPage } from "./ui/pages/characteristics_page";
 import { UnitsPage } from "./ui/pages/units_page";
 import { AddProjectForm } from "./ui/pages/add_project_form";
@@ -26,6 +26,7 @@ function App() {
     const [fakeUMs, setfakeUMs] = useState(fake_data.ums);
     const [fakeChs, setfakeChs] = useState(fake_data.characteristics);
     const [fakeHts, setfakeHts] = useState(fake_data.hardware_types);
+    const [fakeHardwares, setfakeHardwares] = useState(fake_data.hardwares);
 
     return (
         <>
@@ -150,6 +151,7 @@ function App() {
                     element={
                         <HardwareTypesPage
                             hardwareTypesList={fakeHts}
+                            hardwareList={fakeHardwares}
                             onAdd={() =>
                                 navigate("/handbook/hardware_types/add")
                             }
@@ -161,18 +163,25 @@ function App() {
                             onEdit={(hardwareTypeId: number) =>
                                 navigate("/handbook/hardware_types/add",  { state: { id:hardwareTypeId} })
                             }
+                            onDelete={(hardwareTypeId: number) => {
+                                let index = fakeHts.findIndex(d => d.id === hardwareTypeId)
+                                fakeHts.splice(index, 1)
+                                console.log('delete ht with id ', index)
+                                navigate('/handbook/hardware_types')
+                            }}
                         />
                     }
                 />
                 <Route
                     path="/handbook/hardware_types/:hardware_type_id"
-                    element={<div>Тип оборудования</div>}
+                    element={<HtInfoPage hts={fakeHts} hardwareList={fakeHardwares} />}
                 />
                  <Route
                     path="/handbook/hardware_types/add"
                     element={
                         <AddHtForm
                             htList={fakeHts}
+                            hardwareList={fakeHardwares}
                             onAdd={(newHt) => {
                                 const fakeDataNewID =
                                     Math.max(

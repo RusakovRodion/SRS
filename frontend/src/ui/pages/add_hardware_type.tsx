@@ -7,7 +7,7 @@ import {
     CompleteButton,
 } from "./../buttons";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { HardwareType, Characteristic } from "../data_interfaces";
+import { HardwareType, Hardware, Characteristic } from "../data_interfaces";
 import { UM } from "../data_interfaces";
 import { useState, useEffect, useRef } from "react";
 import Modal from "../modal";
@@ -27,12 +27,14 @@ export interface AddHtFormProps {
     onAdd: (ht: HardwareType) => void;
     onEdit: (ht: HardwareType) => void;
     htList: HardwareType[];
+    hardwareList: Hardware[];
 }
 
 export function AddHtForm({
     onAdd,
     onEdit,
     htList,
+    hardwareList,
 }: AddHtFormProps) {
     const { resetField, register, handleSubmit } = useForm<FormValues>();
     const location = useLocation();
@@ -87,6 +89,7 @@ export function AddHtForm({
     };
 
     return (
+        <>
         <div className="content">
             <form id="add_ht_form" onSubmit={handleSubmit(onSubmit)}>
                 <h3>Название</h3>
@@ -121,6 +124,25 @@ export function AddHtForm({
                 addedChsList={addedChs}
             />
         </div>
+        <div>
+                { id != -1 ? (
+                <div>
+                    <hr/>
+                    <h1>Оборудование:</h1>
+                    <div className="list">
+                        {hardwareList.map((h) => ( h.type_id == id ?
+                            <div key={h.id} className={list_item}>
+                                <div className={list_item_info}>{h.name}</div>
+                                <div className={list_item_info}>{h.type_id}</div>
+                                <div className={list_item_info}>{h.brand}</div>
+                                <div className={list_item_info}>{h.model}</div>
+                            </div> : ''
+                        ))}
+                    </div>
+                </div>
+            ) : ''}
+        </div>
+        </>
     );
 }
 

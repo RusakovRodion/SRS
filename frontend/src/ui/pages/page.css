@@ -10,7 +10,9 @@
 
 form > .save_btn_block {
     margin-top: 1em;
-    float: right;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
 }
 
 input[type="search"] {

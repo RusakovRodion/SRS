@@ -19,9 +19,10 @@ export interface ObjectPageProps {
     onAdd: (id: number) => void;
     onView: (id: number) => void;
     onEdit: (id: number) => void;
+    onDelete: (id: number) => void;
 }
 
-export function ObjectsPage({ objectsList, projectsList, onAdd, onView, onEdit }: ObjectPageProps) {
+export function ObjectsPage({ objectsList, projectsList, onAdd, onView, onEdit, onDelete }: ObjectPageProps) {
     const [isFormOpen, setFormOpen] = useState<boolean>(false);
     const handleOpenForm = () => {
         setFormOpen(true);
@@ -50,7 +51,7 @@ export function ObjectsPage({ objectsList, projectsList, onAdd, onView, onEdit }
                         <div className={list_item_info}>{object.name}</div>
                         <div className={list_item_info}>{projectsList[projectsList.findIndex((p) => p.id == object.project_id)].name}</div>
                         <div className={list_item_info}>{object.registration_number}</div>
-                        <ListTools onAdd={null} onView={() => onView(object.id)} onEdit={() => onEdit(object.id)} />
+                        <ListTools onAdd={null} onView={() => onView(object.id)} onEdit={() => onEdit(object.id) } onDelete={() => onDelete(object.id) }/>
                     </div>
                 ))}
             </div>

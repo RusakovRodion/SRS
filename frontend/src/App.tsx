@@ -110,6 +110,13 @@ function App() {
                             onView={(objectId: number) =>
                                 navigate(`/objects/${objectId}`)
                             }
+                            onDelete={(objId) =>{
+                                let index = fakeObjects.findIndex(d => d.id === objId)
+                                fakeObjects.splice(index, 1)
+                                console.log('delete object with id ', index)
+                                navigate('/objects')
+                            }
+                            }
                         />
                     }
                 />

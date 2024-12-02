@@ -10,12 +10,13 @@ import NavBar from "./ui/navbar";
 import { ProjectsPage } from "./ui/pages/projects_page";
 import { ObjectsPage } from "./ui/pages/objects_page";
 import { HardwarePage } from "./ui/pages/hardware_page";
-import { ProjectTypesPage } from "./ui/pages/project_types_page";
-import { HardwareTypesPage } from "./ui/pages/hardware_types_page";
+import { ProjectTypesPage, PtInfoPage } from "./ui/pages/project_types_page";
+import { HardwareTypesPage, HtInfoPage } from "./ui/pages/hardware_types_page";
 import { CharacteristicsPage, CharacteristicsInfoPage } from "./ui/pages/characteristics_page";
 import { UnitsPage } from "./ui/pages/units_page";
 import { AddProjectForm } from "./ui/pages/add_project_form";
 import { AddChForm } from "./ui/pages/add_characteristic_form";
+import { AddHtForm } from "./ui/pages/add_hardware_type";
 import { useState } from "react";
 
 function App() {
@@ -24,6 +25,9 @@ function App() {
     const [fakeProjects, setFakeProjects] = useState(fake_data.projects);
     const [fakeUMs, setfakeUMs] = useState(fake_data.ums);
     const [fakeChs, setfakeChs] = useState(fake_data.characteristics);
+    const [fakeHts, setfakeHts] = useState(fake_data.hardware_types);
+    const [fakeHardwares, setfakeHardwares] = useState(fake_data.hardwares);
+    const [fakePts, setfakePts] = useState(fake_data.project_types);
 
     return (
         <>
@@ -126,10 +130,34 @@ function App() {
                     path="/handbook/project_types"
                     element={
                         <ProjectTypesPage
-                            projectTypesList={fake_data.project_types}
-                            onAdd={() =>
-                                navigate("/handbook/project_types/add")
-                            }
+                            projectTypesList={fakePts}
+                            onAdd={(newPt) => {
+                                const fakeDataNewID =
+                                    Math.max(
+                                        ...fakePts.map(
+                                            (pt) => pt.id,
+                                        ),
+                                    ) + 1;
+                                newPt.id = fakeDataNewID;
+
+                                setfakePts(
+                                    fakePts.concat([newPt]),
+                                );
+                                navigate('/handbook/project_types')
+                                console.log(fakePts)
+                            }}
+                            onEdit={(ptId: number, newPt) =>{
+                                let index = fakePts.findIndex(d => d.id === ptId)
+                                newPt.id = ptId
+                                fakePts[index] = newPt
+                                console.log(fakePts);
+                            }}
+                            onDelete={(ptId: number) => {
+                                let index = fakePts.findIndex(d => d.id === ptId)
+                                fakePts.splice(index, 1)
+                                console.log('delete unit with id ', index)
+                                navigate('/handbook/project_types')
+                            }}
                             onView={(projectTypeId: number) =>
                                 navigate(
                                     `/handbook/project_types/${projectTypeId}`,
@@ -140,14 +168,15 @@ function App() {
                 />
                 <Route
                     path="/handbook/project_types/:project_type_id"
-                    element={<div>Тип проекта</div>}
+                    element={<PtInfoPage pts={fakePts} projectList={fakeProjects} />}
                 />
                 <Route />
                 <Route
                     path="/handbook/hardware_types"
                     element={
                         <HardwareTypesPage
-                            hardwareTypesList={fake_data.hardware_types}
+                            hardwareTypesList={fakeHts}
+                            hardwareList={fakeHardwares}
                             onAdd={() =>
                                 navigate("/handbook/hardware_types/add")
                             }
@@ -156,12 +185,52 @@ function App() {
                                     `/handbook/hardware_types/${hardwareTypeId}`,
                                 )
                             }
+                            onEdit={(hardwareTypeId: number) =>
+                                navigate("/handbook/hardware_types/add",  { state: { id:hardwareTypeId} })
+                            }
+                            onDelete={(hardwareTypeId: number) => {
+                                let index = fakeHts.findIndex(d => d.id === hardwareTypeId)
+                                fakeHts.splice(index, 1)
+                                console.log('delete ht with id ', index)
+                                navigate('/handbook/hardware_types')
+                            }}
                         />
                     }
                 />
                 <Route
                     path="/handbook/hardware_types/:hardware_type_id"
-                    element={<div>Тип оборудования</div>}
+                    element={<HtInfoPage hts={fakeHts} hardwareList={fakeHardwares} />}
+                />
+                 <Route
+                    path="/handbook/hardware_types/add"
+                    element={
+                        <AddHtForm
+                            htList={fakeHts}
+                            hardwareList={fakeHardwares}
+                            onAdd={(newHt) => {
+                                const fakeDataNewID =
+                                    Math.max(
+                                        ...fakeHts.map(
+                                            (ht) => ht.id,
+                                        ),
+                                    ) + 1;
+                                newHt.id = fakeDataNewID;
+
+                                setfakeHts(
+                                    fakeHts.concat([newHt]),
+                                );
+                                navigate('/handbook/hardware_types')
+                                console.log(fakeHts)
+                            }}
+                            onEdit={(newHt) =>{
+                                let index = fakeHts.findIndex(d => d.id === newHt.id)
+                                fakeHts[index] = newHt
+                                navigate('/handbook/hardware_types')
+                                console.log(fakeChs);
+                            }
+                        }
+                        />
+                    }
                 />
                 <Route />
                 <Route
@@ -177,6 +246,9 @@ function App() {
                                     `/handbook/characteristics/${characteristicId}`,
                                 )
                             }
+                            onEdit={(characteristicId: number) => {
+                                navigate('/handbook/characteristics/add', { state: { id:characteristicId} })
+                            }}
                             onDelete={(characteristicId: number) => {
                                 let index = fakeChs.findIndex(d => d.id === characteristicId)
                                 fakeChs.splice(index, 1)

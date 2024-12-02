@@ -33,6 +33,7 @@ export interface Hardware {
 export interface HardwareType {
     id: number;
     name: string;
+    chs: Characteristic[]
 }
 
 export interface Characteristic {

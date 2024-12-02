@@ -4,6 +4,7 @@ export interface Project {
     description: string;
     added: string;
     type_id: number;
+    hardwares: Hardware[];
 }
 
 export interface ProjectType {

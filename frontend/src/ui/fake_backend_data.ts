@@ -78,6 +78,7 @@ export const projects: type.Project[] = [
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
         type_id: 1,
         added: "",
+        hardwares:hardwares,
     },
     {
         id: 2,
@@ -85,6 +86,7 @@ export const projects: type.Project[] = [
         description: "",
         type_id: 2,
         added: "",
+        hardwares:[hardwares[1]],
     },
     {
         id: 3,
@@ -92,6 +94,7 @@ export const projects: type.Project[] = [
         description: "",
         type_id: 1,
         added: "",
+        hardwares:[hardwares[1]].concat([hardwares[2]]),
     },
     {
         id: 4,
@@ -99,6 +102,7 @@ export const projects: type.Project[] = [
         description: "",
         type_id: 2,
         added: "",
+        hardwares:[hardwares[0]].concat([hardwares[2]]),
     },
 ];
 
@@ -118,6 +122,30 @@ export const objects: type.Object[] = [
         registration_number: "hg112",
         added: "",
         description: "",
+    },
+    {
+        id: 3,
+        name: "object3",
+        project_id: 1,
+        registration_number: "hg12231",
+        added: "",
+        description: "xcvxcvxcv",
+    },
+    {
+        id: 4,
+        name: "object4",
+        project_id: 1,
+        registration_number: "hg12sdfsdfsd",
+        added: "",
+        description: "sdfsdf",
+    },
+    {
+        id: 5,
+        name: "object5",
+        project_id: 2,
+        registration_number: "hg12sdfsdfsd",
+        added: "",
+        description: "sdfsdf",
     },
 ];
 

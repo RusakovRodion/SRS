@@ -9,7 +9,7 @@ import * as fake_data from "./ui/fake_backend_data";
 import NavBar from "./ui/navbar";
 import { ProjectsPage } from "./ui/pages/projects_page";
 import { ObjectsPage, AddObjectForm, ObjectInfoPage } from "./ui/pages/objects_page";
-import { HardwarePage } from "./ui/pages/hardware_page";
+import {AddHardwareForm, HardwarePage } from "./ui/pages/hardware_page";
 import { ProjectTypesPage, PtInfoPage } from "./ui/pages/project_types_page";
 import { HardwareTypesPage, HtInfoPage } from "./ui/pages/hardware_types_page";
 import { CharacteristicsPage, CharacteristicsInfoPage } from "./ui/pages/characteristics_page";
@@ -165,8 +165,8 @@ function App() {
                     path="/hardwares"
                     element={
                         <HardwarePage
-                            hardwareList={fake_data.hardwares}
-                            onAdd={() => navigate("/hardwares/add")}
+                            hardwareList={fakeHardwares}
+                            onAdd={(htId) => navigate("/hardwares/add", { state: { htId:htId} })}
                             onView={(hardwareId: number) =>
                                 navigate(`/hardwares/${hardwareId}`)
                             }
@@ -179,7 +179,15 @@ function App() {
                 />
                 <Route
                     path="/hardwares/add"
-                    element={<div>Добавить оборудование</div>}
+                    element={<AddHardwareForm
+                        onAdd={()=>console.log("d")}
+                        onEdit={()=>console.log("d")}
+                        projects={fakeProjects}
+                        objects={fakeObjects}
+                        hardwares={fakeHardwares}
+                        characteristics={fakeChs}
+                        />
+                    }
                 />
                 <Route />
                 <Route

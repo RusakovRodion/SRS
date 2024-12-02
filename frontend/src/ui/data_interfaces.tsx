@@ -19,6 +19,7 @@ export interface Object {
     project_id: number;
     registration_number: string;
     added: string;
+    hardwares: Hardware[]
 }
 
 export interface Hardware {

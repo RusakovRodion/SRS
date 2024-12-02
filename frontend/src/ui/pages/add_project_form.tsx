@@ -117,10 +117,10 @@ export function AddProjectForm({ onAdd, onEdit, projectTypes, objectsList, proje
                     required
                 />
                 <div className={"label_and_add_button"}>
-                    <label>Характеристики</label>
+                    <label>Оборудование</label>
                     <AddButton onClick={handleOpenForm} />
                 </div>
-                <div className="list" {...register("hardwaress")}>
+                <div className="list" {...register("hardwares")}>
                     {addedHardwares.map((h) => (
                         <div key={h.id} className={list_item}>
                             <div className={list_item_info}>{h.name}</div>

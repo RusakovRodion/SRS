@@ -1,15 +1,16 @@
 import "./page.css";
 import { useParams } from "react-router-dom";
-import { Project, Object, HardwareType } from "../data_interfaces";
+import { Project, ProjectType, Object, HardwareType } from "../data_interfaces";
 import { list_item, list_item_info } from "./../list_component.module.css";
 
 export interface ProjectInfoPageProps {
     projects: Project[];
     objects: Object[];
     hts: HardwareType[];
+    pts: ProjectType[];
 }
 
-export function ProjectInfoPage({ projects, objects, hts }: ProjectInfoPageProps) {
+export function ProjectInfoPage({ projects, objects, hts, pts }: ProjectInfoPageProps) {
     const params = useParams();
     const pId = Number(params["project_id"]);
     const project = projects.find((e) => e.id === pId);
@@ -22,13 +23,13 @@ export function ProjectInfoPage({ projects, objects, hts }: ProjectInfoPageProps
         <div className="content">
             <h1>Просмотр проекта</h1>
             <h1>{project.name}</h1>
-            <p>{project.type_id}</p>
+            <p>Тип проекта: {pts.find((e) => e.id === project.type_id).name}</p>
             <p>{project.description}</p>
             <h1>Оборудование:</h1>
             {project.hardwares.map((h) => (
                 <div>
                     <h2>{h.name}</h2>
-                    <p>Тип: {hts.find((e) => e.id === h.type_id).name}</p>
+                    <p>Тип оборудования: {hts.find((e) => e.id === h.type_id).name}</p>
                     {hts.find((e) => e.id === h.type_id).chs.map((ch) => (
                         <p>{ch.name}: ???</p>
                     ))}

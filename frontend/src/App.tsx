@@ -42,18 +42,28 @@ function App() {
                     element={
                         <ProjectsPage
                             projectsList={fakeProjects}
+                            pts={fakePts}
                             onAdd={() => {
                                 navigate("/projects/add");
                             }}
                             onView={(projectId: number) => {
                                 navigate(`/projects/${projectId}`);
                             }}
+                            onEdit={(projectId: number) =>
+                                navigate("/projects/add",  { state: { id:projectId} })
+                            }
+                            onDelete={(projectId: number) => {
+                                let index = fakeProjects.findIndex(d => d.id === projectId)
+                                fakeProjects.splice(index, 1)
+                                console.log('delete project with id ', index)
+                                navigate('/projects')
+                            }}
                         />
                     }
                 />
                 <Route
                     path="/projects/:project_id"
-                    element={<ProjectInfoPage projects={fakeProjects} objects={fakeObjects} hts={fakeHts}/>}
+                    element={<ProjectInfoPage projects={fakeProjects} objects={fakeObjects} hts={fakeHts} pts={fakePts}/>}
                 />
                 <Route
                     path="/projects/add"
@@ -76,8 +86,15 @@ function App() {
 
                                 navigate("/projects");
                             }}
+                            onEdit={(newProject) =>{
+                                let index = fakeProjects.findIndex(d => d.id === newProject.id)
+                                fakeProjects[index] = newProject
+                                navigate('/projects')
+                                console.log(fakeProjects)
+                            }}
                             projectTypes={fakePts}
                             objectsList={fakeObjects}
+                            projectsList={fakeProjects}
                         />
                     }
                 />

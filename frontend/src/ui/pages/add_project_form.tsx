@@ -51,7 +51,7 @@ export function AddProjectForm({ onAdd, onEdit, projectTypes, objectsList, proje
         const project = {
             id: id,
             name: data.name,
-            type_id: data.type_id,
+            type_id: Number(data.type_id),
             description: data.description,
             hardwares: addedHardwares,
         } as Project;

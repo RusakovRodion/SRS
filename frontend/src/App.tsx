@@ -9,7 +9,7 @@ import * as fake_data from "./ui/fake_backend_data";
 import NavBar from "./ui/navbar";
 import { ProjectsPage } from "./ui/pages/projects_page";
 import { ObjectsPage, AddObjectForm, ObjectInfoPage } from "./ui/pages/objects_page";
-import { HardwarePage } from "./ui/pages/hardware_page";
+import {AddHardwareForm, HardwarePage, HardwareInfoPage } from "./ui/pages/hardware_page";
 import { ProjectTypesPage, PtInfoPage } from "./ui/pages/project_types_page";
 import { HardwareTypesPage, HtInfoPage } from "./ui/pages/hardware_types_page";
 import { CharacteristicsPage, CharacteristicsInfoPage } from "./ui/pages/characteristics_page";
@@ -165,21 +165,64 @@ function App() {
                     path="/hardwares"
                     element={
                         <HardwarePage
-                            hardwareList={fake_data.hardwares}
-                            onAdd={() => navigate("/hardwares/add")}
+                            hardwareList={fakeHardwares}
+                            onAdd={(htId) => navigate("/hardwares/add", { state: { htId:htId} })}
+                            onEdit={(hId) => navigate("/hardwares/add", { state: { id:hId} })}
                             onView={(hardwareId: number) =>
                                 navigate(`/hardwares/${hardwareId}`)
                             }
+                            onDelete={(hId) => {
+                                let index = fakeHardwares.findIndex(d => d.id === hId)
+                                fakeHardwares.splice(index, 1)
+                                console.log('delete hardware with id ', index)
+                                navigate('/hardwares')
+                            }}
                         />
                     }
                 />
                 <Route
                     path="/hardwares/:hardware_id"
-                    element={<div>Оборудование</div>}
+                    element={<HardwareInfoPage
+                        hardwares={fakeHardwares}
+                        projects={fakeProjects}
+                        objects={fakeObjects}
+                        hts={fakeHts}
+                        pts={fakePts}
+                        characteristics={fakeChs}
+                    />}
                 />
                 <Route
                     path="/hardwares/add"
-                    element={<div>Добавить оборудование</div>}
+                    element={<AddHardwareForm
+                        onAdd={(newHardware) => {
+                                console.log("new hardware", newHardware);
+                                const fakeDataNewID =
+                                    Math.max(
+                                        ...fakeHardwares.map(
+                                            (hardware) => hardware.id,
+                                        ),
+                                    ) + 1;
+                                newHardware.id = fakeDataNewID;
+
+                                setfakeHardwares(
+                                    fakeHardwares.concat([newHardware]),
+                                );
+
+                                 navigate('/hardwares')
+                            }}
+                            onEdit={(newHardware) =>{
+                                let index = fakeHardwares.findIndex(d => d.id === newHardware.id)
+                                fakeHardwares[index] = newHardware
+                                navigate('/hardwares')
+                                console.log(fakeHardwares)
+                            }}
+                        projects={fakeProjects}
+                        hts={fakeHts}
+                        objects={fakeObjects}
+                        hardwares={fakeHardwares}
+                        characteristics={fakeChs}
+                        />
+                    }
                 />
                 <Route />
                 <Route

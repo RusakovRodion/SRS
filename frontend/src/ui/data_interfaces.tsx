@@ -30,6 +30,13 @@ export interface Hardware {
     description: string;
     added: string;
     type_id: number;
+    chs: Hardware_ch[]
+}
+
+export interface  Hardware_ch {
+    ch_id: number
+    value: number
+    ums_id: number
 }
 
 export interface HardwareType {

@@ -46,6 +46,17 @@ textarea {
     justify-content: space-between;
 }
 
+.label_and_add_button > select{
+    margin-left: 1em;
+    width: 5%;
+}
+
+.label_and_add_button > input[type="number"] {
+    border-radius: 5px;
+    width: 100%;
+}
+
+
 .list {
     margin-top: 1em;
 }

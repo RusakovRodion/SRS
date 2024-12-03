@@ -49,6 +49,13 @@ export const hardwares: type.Hardware[] = [
         description: "lorem ipsum ",
         added: "",
         type_id: 1,
+        chs: [
+            {
+                ch_id: 0,
+                value: 1000,
+                ums_id: 1,
+            },
+        ]
     },
     {
         id: 2,
@@ -58,6 +65,13 @@ export const hardwares: type.Hardware[] = [
         description: "lorem ipsum ",
         added: "",
         type_id: 1,
+        chs: [
+            {
+                ch_id: 0,
+                value: 1230,
+                ums_id: 1,
+            },
+        ]
     },
     {
         id: 3,
@@ -67,6 +81,23 @@ export const hardwares: type.Hardware[] = [
         description: "lorem ipsum ",
         added: "",
         type_id: 2,
+        chs: [
+            {
+                ch_id: 0,
+                value: 150,
+                ums_id: 1,
+            },
+            {
+                ch_id: 1,
+                value: 1123,
+                ums_id: 2,
+            },
+            {
+                ch_id: 4,
+                value: 123423423,
+                ums_id: 4,
+            },
+        ]
     },
 ];
 

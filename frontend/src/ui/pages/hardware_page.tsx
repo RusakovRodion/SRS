@@ -1,7 +1,7 @@
 import { AddButton, Button, SaveButton } from "./../buttons";
 import { list_item, list_item_info } from "./../list_component.module.css";
 import "./page.css";
-import { Hardware, HardwareType, Project, Characteristic } from "../data_interfaces";
+import { Hardware, HardwareType, Hardware_ch, Project, Characteristic, Object, ProjectType, UM } from "../data_interfaces";
 import { ListTools } from "../list_tools";
 import Modal from "../modal";
 import { button, icon_button } from "../buttons.module.css";
@@ -15,13 +15,17 @@ import { useParams } from "react-router-dom";
 export interface HardwarePageProps {
     hardwareList: Hardware[];
     onAdd: (id: number) => void;
+    onEdit: (id: number) => void;
     onView: (id: number) => void;
+    onDelete: (id: number) => void;
 }
 
 export function HardwarePage({
     hardwareList,
     onAdd,
+    onEdit,
     onView,
+    onDelete,
 }: HardwarePageProps) {
     const [isFormOpen, setFormOpen] = useState<boolean>(false);
     const handleOpenForm = () => {
@@ -53,7 +57,7 @@ export function HardwarePage({
                         <div className={list_item_info}>{hardware.brand}</div>
                         <div className={list_item_info}>{hardware.model}</div>
 
-                        <ListTools onAdd={null} onView={() => onView(hardware.id)} />
+                        <ListTools onAdd={null} onView={() => onView(hardware.id)} onEdit={() => onEdit(hardware.id)} onDelete={() => onDelete(hardware.id)} />
                     </div>
                 ))}
             </div>
@@ -110,7 +114,7 @@ type FormValues = {
     brand: string;
     model: string;
     description: string;
-    chs: {};
+    chs: Hardware_ch[];
 };
 
 export interface AddHardwareFormProps {
@@ -119,10 +123,11 @@ export interface AddHardwareFormProps {
     projects: Project[];
     objects: Object[];
     hardwares: Hardware[]
+    hts: HardwareType[]
     characteristics: Characteristic[]
 }
 
-export function AddHardwareForm({ onAdd, onEdit, projects, objects, characteristics, hardwares}: AddHardwareFormProps) {
+export function AddHardwareForm({ onAdd, onEdit, projects, objects, hts, characteristics, hardwares}: AddHardwareFormProps) {
     const { resetField, register, handleSubmit } = useForm<FormValues>();
     const location = useLocation();
     var id = -1;
@@ -131,13 +136,29 @@ export function AddHardwareForm({ onAdd, onEdit, projects, objects, characterist
     if (location.state !== null) {
         if(location.state.id) {
             id = location.state.id;
-            console.log(hardwares[hardwares.findIndex((h) => h.id == id)].chs);
+            htId = Number(hardwares.find((h) => h.id == id).type_id);
         }
-         if(location.state.htId) htId = location.state.htId;
-
+        if(location.state.htId) {
+            htId = location.state.htId;
+        }
+        add_chs = hts.find((ht) => ht.id == htId).chs
     }
-    if (htId != -1) {
-        ///sdfsdfsdf
+    console.log(add_chs)
+    if (id != -1) {
+        let hardware = hardwares.find((h) => h.id == id)
+        console.log(hardware)
+        let ch_ids =  hardware.chs.map((ch) => ch.ch_id)
+        useEffect(() => {
+            //setAddedUms(add_ums)
+            resetField("name", { defaultValue: hardware.name });
+            resetField("brand", { defaultValue: hardware.brand });
+            resetField("model", { defaultValue: hardware.model });
+            resetField("description", { defaultValue: hardware.description });
+            for (let i = 0; i < ch_ids.length; i++) {
+                resetField("ch" + ch_ids[i], { defaultValue: hardware.chs.find((ch) => ch.ch_id == ch_ids[i]).value });
+                resetField("um" + ch_ids[i], { defaultValue: hardware.chs.find((ch) => ch.ch_id == ch_ids[i]).ums_id });
+            }
+        }, [hardware.name, hardware.description, hardware.brand, hardware.model]);
     }
     console.log('id', id)
     console.log('htid', htId)
@@ -145,32 +166,46 @@ export function AddHardwareForm({ onAdd, onEdit, projects, objects, characterist
     const [addedChs, setAddedChs] = useState(add_chs);
 
     const onSubmit: SubmitHandler<FormValues> = (data) => {
-        /*const object = {
-            id: objId,
+        console.log(data)
+        console.log(add_chs.map((ch) => ch.id))
+        const ch_ids =  add_chs.map((ch) => ch.id)
+        let new_chs = [] as Hardware_ch[]
+        for (let i = 0; i < ch_ids.length; i++) {
+          let hch = {
+              ch_id: ch_ids[i],
+              value: data["ch" + ch_ids[i]],
+              ums_id: Number(data["um" + ch_ids[i]]),
+          } as Hardware_ch
+          new_chs.push(hch)
+        }
+        console.log(new_chs)
+        const hardware = {
+            id: id,
             name: data.name,
+            brand: data.brand,
+            model: data.model,
             description: data.description,
-            project_id: Number(data.project_id),
-            registration_number: data.registration_number,
             added: "",
-            hardwares: addedHardwares,
-        } as Object;
-        if (object.id == -1) onAdd(object);
-        else onEdit(object);*/
+            type_id: htId,
+            chs: new_chs,
+        } as Hardware;
+        if (hardware.id == -1) onAdd(hardware);
+        else onEdit(hardware);
     };
     const [isFromOpen, setFormOpen] = useState<boolean>(false);
 
-    const handleDel = (id:number) => {
-        /*let index = addedHardwares.findIndex(
-            (d) => d.id === id,
-        );
-        let addedChs_del = [...addedHardwares.slice(0, index), ...addedHardwares.slice(index + 1)]
-        setAddedHardwares(addedChs_del)*/
+    const render_opt = (ch: Characteristic) => {
+        return (
+            ch.ums.map((um) => (
+                <option value={um.id}> {um.name} </option>
+            ))
+        )
     }
 
     return (
         <>
         <div className="content">
-            {htId == -1 ? <h2> Новое оборудование </h2>: <h2>Редактирование оборудования</h2>}
+            {id == -1 ? <h2> Новое оборудование </h2>: <h2>Редактирование оборудования</h2>}
             <form id="edit_project_form" onSubmit={handleSubmit(onSubmit)}>
                 <h3>Тип оборудования</h3>
                 <input
@@ -180,7 +215,7 @@ export function AddHardwareForm({ onAdd, onEdit, projects, objects, characterist
                     value={hardware_types.find((ht)=>ht.id == htId).name}
                     placeholder={hardware_types.find((ht)=>ht.id == htId).name}
                     required
-                    readonly
+                    readOnly
                 />
                 <h3>Название</h3>
                 <input
@@ -217,12 +252,113 @@ export function AddHardwareForm({ onAdd, onEdit, projects, objects, characterist
                 <div className={"label_and_add_button"}>
                     <label>Характеристики:</label>
                 </div>
+                {add_chs.map((ch) => (
+                    <>
+                    <p>{ch.name}</p>
+                    <div className={"label_and_add_button"}>
+                       <input
+                            type="number"
+                            {...register("ch" + String(ch.id))}
+                            placeholder="Значение"
+                            required
+                        />
+                        <select {...register("um" + String(ch.id))}>
+                            {render_opt(ch)}
+                        </select>
+                    </div>
+                    </>
+                ))}
                 <div className="save_btn_block">
                     <SaveButton />
                 </div>
             </form>
+            { id != -1 ? (
+                <div>
+                    <hr/>
+                    <h1>Проекты:</h1>
+                    <div className="list">
+                        {projects.map((pr) => ( pr.hardwares.find((h) =>h.id == id) ?
+                            <div key={pr.id} className={list_item}>
+                                <div className={list_item_info}>{pr.name}</div>
+                                <div className={list_item_info}>{pr.type_id}</div>
+                            </div> : ''
+                        ))}
+                    </div>
+                    <h1>Объекты:</h1>
+                    <div className="list">
+                        {objects.map((obj) => ( obj.hardwares.find((h) =>h.id == id) ?
+                            <div key={obj.id} className={list_item}>
+                                <div className={list_item_info}>{obj.name}</div>
+                                <div className={list_item_info}>{obj.registration_number}</div>
+                            </div> : ''
+                        ))}
+                    </div>
+                </div>
+            ) : ''}
         </div>
-
         </>
+    );
+}
+
+export interface HardwareInfoPageProps {
+    hardwares: Hardware[];
+    projects: Project[];
+    objects: Object[];
+    hts: HardwareType[];
+    pts: ProjectType[];
+    characteristics: Characteristic[]
+}
+
+export function HardwareInfoPage({hardwares, projects, objects, hts, pts, characteristics }: HardwareInfoPageProps) {
+    const params = useParams();
+    const hId = Number(params["hardware_id"]);
+    const hardware = hardwares.find((e) => e.id === hId);
+
+    if (hardware === undefined) {
+        return <div className="content">Invalid hardware</div>;
+    }
+
+    const renderChs = (chs: Hardware_ch[]) => {
+        return (
+            chs.map((ch) => (
+                <p>
+                    {characteristics.find((c) => c.id == ch.ch_id).name} :
+                    {ch.value} {characteristics.find((c) => c.id == ch.ch_id).ums
+                    .find((um) => um.id == ch.ums_id).name}
+                </p>
+            ))
+        )
+    }
+
+    return (
+        <div className="content">
+            <h1>Просмотр оборудования</h1>
+            <h1>{hardware.name}</h1>
+            <p>Тип оборудования: {hts.find((e) => e.id === hardware.type_id).name}</p>
+            <p>Марка: {hardware.brand}. Модель: {hardware.model}</p>
+            <p>Описание: {hardware.description}</p>
+            <p>Добавлено: {hardware.added}</p>
+            <h1>Характеристики:</h1>
+            {renderChs(hardware.chs)}
+            <hr/>
+                    <h1>Проекты:</h1>
+                    <div className="list">
+                        {projects.map((pr) => ( pr.hardwares.find((h) =>h.id == hardware.id) ?
+                            <div key={pr.id} className={list_item}>
+                                <div className={list_item_info}>{pr.name}</div>
+                                <div className={list_item_info}>{pts.find((e) => e.id === pr.type_id).name}</div>
+                            </div> : ''
+                        ))}
+                    </div>
+                    <h1>Объекты:</h1>
+                    <div className="list">
+                        {objects.map((obj) => ( obj.hardwares.find((h) =>h.id == hardware.id) ?
+                            <div key={obj.id} className={list_item}>
+                                <div className={list_item_info}>{obj.name}</div>
+                                <div className={list_item_info}>{obj.registration_number}</div>
+                            </div> : ''
+                        ))}
+                    </div>
+        </div>
     );
 }

@@ -1,0 +1,25 @@
+.projects_table {
+    border-collapse: separate;
+    width: 100%;
+    gap: 10px;
+    border-spacing: 0 10px;
+}
+
+.table_row {
+}
+
+.table_row td {
+    padding: 10px;
+    margin: 10px;
+    background-color: var(--color-2);
+}
+
+.table_row td:first-child {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.table_row td:last-child {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}

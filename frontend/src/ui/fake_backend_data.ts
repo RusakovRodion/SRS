@@ -1,6 +1,5 @@
 import * as type from "./data_interfaces";
 
-
 export const ums: type.UM[] = [
     {
         id: 1,
@@ -23,7 +22,6 @@ export const ums: type.UM[] = [
         accuracy: "2",
     },
 ];
-
 
 export const project_types: type.ProjectType[] = [
     {
@@ -55,7 +53,7 @@ export const hardwares: type.Hardware[] = [
                 value: 1000,
                 ums_id: 1,
             },
-        ]
+        ],
     },
     {
         id: 2,
@@ -71,7 +69,7 @@ export const hardwares: type.Hardware[] = [
                 value: 1230,
                 ums_id: 1,
             },
-        ]
+        ],
     },
     {
         id: 3,
@@ -97,7 +95,7 @@ export const hardwares: type.Hardware[] = [
                 value: 123423423,
                 ums_id: 4,
             },
-        ]
+        ],
     },
 ];
 
@@ -109,7 +107,7 @@ export const projects: type.Project[] = [
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
         type_id: 1,
         added: "",
-        hardwares:hardwares,
+        hardwares: hardwares,
     },
     {
         id: 2,
@@ -117,7 +115,7 @@ export const projects: type.Project[] = [
         description: "",
         type_id: 2,
         added: "",
-        hardwares:[hardwares[1]],
+        hardwares: [hardwares[1]],
     },
     {
         id: 3,
@@ -125,7 +123,7 @@ export const projects: type.Project[] = [
         description: "",
         type_id: 1,
         added: "",
-        hardwares:[hardwares[1]].concat([hardwares[2]]),
+        hardwares: [hardwares[1]].concat([hardwares[2]]),
     },
     {
         id: 4,
@@ -133,7 +131,7 @@ export const projects: type.Project[] = [
         description: "",
         type_id: 2,
         added: "",
-        hardwares:[hardwares[0]].concat([hardwares[2]]),
+        hardwares: [hardwares[0]].concat([hardwares[2]]),
     },
 ];
 
@@ -145,7 +143,9 @@ export const objects: type.Object[] = [
         registration_number: "hg12",
         added: "",
         description: "",
-        hardwares: projects[projects.findIndex((p) => p.id == 1)].hardwares.map((element) => element),
+        hardwares: projects[projects.findIndex((p) => p.id == 1)].hardwares.map(
+            (element) => element,
+        ),
     },
     {
         id: 2,
@@ -154,7 +154,9 @@ export const objects: type.Object[] = [
         registration_number: "hg112",
         added: "",
         description: "",
-        hardwares: projects[projects.findIndex((p) => p.id == 2)].hardwares.map((element) => element),
+        hardwares: projects[projects.findIndex((p) => p.id == 2)].hardwares.map(
+            (element) => element,
+        ),
     },
     {
         id: 3,
@@ -163,7 +165,9 @@ export const objects: type.Object[] = [
         registration_number: "hg12231",
         added: "",
         description: "xcvxcvxcv",
-        hardwares: projects[projects.findIndex((p) => p.id == 1)].hardwares.map((element) => element),
+        hardwares: projects[projects.findIndex((p) => p.id == 1)].hardwares.map(
+            (element) => element,
+        ),
     },
     {
         id: 4,
@@ -172,7 +176,9 @@ export const objects: type.Object[] = [
         registration_number: "hg12sdfsdfsd",
         added: "",
         description: "sdfsdf",
-        hardwares: projects[projects.findIndex((p) => p.id == 1)].hardwares.map((element) => element),
+        hardwares: projects[projects.findIndex((p) => p.id == 1)].hardwares.map(
+            (element) => element,
+        ),
     },
     {
         id: 5,
@@ -181,26 +187,27 @@ export const objects: type.Object[] = [
         registration_number: "hg12sdfsdfsd",
         added: "",
         description: "sdfsdf",
-        hardwares: projects[projects.findIndex((p) => p.id == 2)].hardwares.map((element) => element),
+        hardwares: projects[projects.findIndex((p) => p.id == 2)].hardwares.map(
+            (element) => element,
+        ),
     },
 ];
-
 
 export const characteristics: type.Characteristic[] = [
     {
         id: 0,
         name: "Мощность",
-        ums: [ums[0]]
+        ums: [ums[0]],
     },
     {
         id: 1,
         name: "Объем",
-        ums: [ums[1]]
+        ums: [ums[1]],
     },
     {
         id: 4,
         name: "Скорость",
-        ums: ums
+        ums: ums,
     },
 ];
 
@@ -216,4 +223,3 @@ export const hardware_types: type.HardwareType[] = [
         chs: characteristics,
     },
 ];
-

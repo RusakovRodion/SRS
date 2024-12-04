@@ -19,7 +19,7 @@ export interface Object {
     project_id: number;
     registration_number: string;
     added: string;
-    hardwares: Hardware[]
+    hardwares: Hardware[];
 }
 
 export interface Hardware {
@@ -30,19 +30,19 @@ export interface Hardware {
     description: string;
     added: string;
     type_id: number;
-    chs: Hardware_ch[]
+    chs: Hardware_ch[];
 }
 
-export interface  Hardware_ch {
-    ch_id: number
-    value: number
-    ums_id: number
+export interface Hardware_ch {
+    ch_id: number;
+    value: number;
+    ums_id: number;
 }
 
 export interface HardwareType {
     id: number;
     name: string;
-    chs: Characteristic[]
+    chs: Characteristic[];
 }
 
 export interface Characteristic {

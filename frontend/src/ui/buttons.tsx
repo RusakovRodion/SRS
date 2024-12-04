@@ -7,7 +7,7 @@ export interface ButtonProps {
 
     // https://feathericons.com/
     icon?: Icon | undefined;
-    type?: string
+    type?: string;
 }
 
 export interface ClickableProps {
@@ -30,7 +30,14 @@ export function Button({
 }
 
 export function AddButtonOnlyIcon({ onClick }: ClickableProps) {
-    return <Button className={icon_button} icon={Plus} onClick={onClick} type={'button'} />;
+    return (
+        <Button
+            className={icon_button}
+            icon={Plus}
+            onClick={onClick}
+            type={"button"}
+        />
+    );
 }
 
 export function ChangesButtonOnlyIcon({ onClick }: ClickableProps) {
@@ -46,7 +53,14 @@ export function EditButtonOnlyIcon({ onClick }: ClickableProps) {
 }
 
 export function DeleteButtonOnlyIcon({ onClick }: ClickableProps) {
-    return <Button className={icon_button} icon={Trash2} onClick={onClick} type={'button'}/>;
+    return (
+        <Button
+            className={icon_button}
+            icon={Trash2}
+            onClick={onClick}
+            type={"button"}
+        />
+    );
 }
 
 export function AddButton({ onClick }: ClickableProps) {
@@ -56,7 +70,7 @@ export function AddButton({ onClick }: ClickableProps) {
             className={button}
             icon={Plus}
             onClick={onClick}
-            type={'button'}
+            type={"button"}
         />
     );
 }
@@ -67,7 +81,7 @@ export function CompleteButton({ onClick }: ClickableProps) {
             text={"Готово"}
             className={button}
             onClick={onClick}
-            type={'submit'}
+            type={"submit"}
         />
     );
 }
@@ -84,7 +98,14 @@ export function CreateButton({ onClick }: ClickableProps) {
 }
 
 export function SaveButton({ onClick }: ClickableProps) {
-    return <Button text={"Сохранить"} className={button} onClick={onClick} type={'submit'}/>;
+    return (
+        <Button
+            text={"Сохранить"}
+            className={button}
+            onClick={onClick}
+            type={"submit"}
+        />
+    );
 }
 
 export function DoneButton({ onClick }: ClickableProps) {

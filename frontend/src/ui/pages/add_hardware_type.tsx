@@ -43,11 +43,11 @@ export function AddHtForm({
         id = location.state.id;
     }
     var input_val = "";
-    var add_chs = [] as Characteristic[]
-    console.log(id)
+    var add_chs = [] as Characteristic[];
+    console.log(id);
     if (id != -1) {
         let ht = htList[htList.findIndex((a) => a.id == id)];
-        console.log(ht)
+        console.log(ht);
         input_val = ht.name;
         add_chs = ht.chs.map((element) => element);
         useEffect(() => {
@@ -67,13 +67,14 @@ export function AddHtForm({
     };
     const [isFromOpen, setFormOpen] = useState<boolean>(false);
 
-    const handleDel = (id:number) => {
-        let index = addedChs.findIndex(
-            (d) => d.id === id,
-        );
-        let addedChs_del = [...addedChs.slice(0, index), ...addedChs.slice(index + 1)]
-        setAddedChs(addedChs_del)
-    }
+    const handleDel = (id: number) => {
+        let index = addedChs.findIndex((d) => d.id === id);
+        let addedChs_del = [
+            ...addedChs.slice(0, index),
+            ...addedChs.slice(index + 1),
+        ];
+        setAddedChs(addedChs_del);
+    };
 
     const handleOpenForm = () => {
         setFormOpen(true);
@@ -90,58 +91,72 @@ export function AddHtForm({
 
     return (
         <>
-        <div className="content">
-            <form id="add_ht_form" onSubmit={handleSubmit(onSubmit)}>
-                <h3>Название</h3>
-                <input
-                    type="text"
-                    id="name"
-                    {...register("name")}
-                    placeholder="Название"
-                    required
-                />
-                <div className={"label_and_add_button"}>
-                    <label>Характеристики</label>
-                    <AddButton onClick={handleOpenForm} />
-                </div>
-                <div className="list" {...register("chs")}>
-                    {addedChs.map((ch) => (
-                        <div key={ch.id} className={list_item}>
-                            <div className={list_item_info}>{ch.name}</div>
-                            <ListTools onDelete={() => handleDel(ch.id)} />
-                        </div>
-                    ))}
-                </div>
-                <div className="save_btn_block">
-                    <SaveButton />
-                </div>
-            </form>
-            <AddCharacteristicsForm
-                isOpen={isFromOpen}
-                onSubmit={handleFormSubmit}
-                onClose={handleCloseForm}
-                chsList={characteristics}
-                addedChsList={addedChs}
-            />
-        </div>
-        <div>
-                { id != -1 ? (
-                <div>
-                    <hr/>
-                    <h1>Оборудование:</h1>
-                    <div className="list">
-                        {hardwareList.map((h) => ( h.type_id == id ?
-                            <div key={h.id} className={list_item}>
-                                <div className={list_item_info}>{h.name}</div>
-                                <div className={list_item_info}>{h.type_id}</div>
-                                <div className={list_item_info}>{h.brand}</div>
-                                <div className={list_item_info}>{h.model}</div>
-                            </div> : ''
+            <div className="content">
+                <form id="add_ht_form" onSubmit={handleSubmit(onSubmit)}>
+                    <h3>Название</h3>
+                    <input
+                        type="text"
+                        id="name"
+                        {...register("name")}
+                        placeholder="Название"
+                        required
+                    />
+                    <div className={"label_and_add_button"}>
+                        <label>Характеристики</label>
+                        <AddButton onClick={handleOpenForm} />
+                    </div>
+                    <div className="list" {...register("chs")}>
+                        {addedChs.map((ch) => (
+                            <div key={ch.id} className={list_item}>
+                                <div className={list_item_info}>{ch.name}</div>
+                                <ListTools onDelete={() => handleDel(ch.id)} />
+                            </div>
                         ))}
                     </div>
-                </div>
-            ) : ''}
-        </div>
+                    <div className="save_btn_block">
+                        <SaveButton />
+                    </div>
+                </form>
+                <AddCharacteristicsForm
+                    isOpen={isFromOpen}
+                    onSubmit={handleFormSubmit}
+                    onClose={handleCloseForm}
+                    chsList={characteristics}
+                    addedChsList={addedChs}
+                />
+            </div>
+            <div>
+                {id != -1 ? (
+                    <div>
+                        <hr />
+                        <h1>Оборудование:</h1>
+                        <div className="list">
+                            {hardwareList.map((h) =>
+                                h.type_id == id ? (
+                                    <div key={h.id} className={list_item}>
+                                        <div className={list_item_info}>
+                                            {h.name}
+                                        </div>
+                                        <div className={list_item_info}>
+                                            {h.type_id}
+                                        </div>
+                                        <div className={list_item_info}>
+                                            {h.brand}
+                                        </div>
+                                        <div className={list_item_info}>
+                                            {h.model}
+                                        </div>
+                                    </div>
+                                ) : (
+                                    ""
+                                ),
+                            )}
+                        </div>
+                    </div>
+                ) : (
+                    ""
+                )}
+            </div>
         </>
     );
 }
@@ -164,7 +179,7 @@ const AddCharacteristicsForm = ({
     const focusInputRef = useRef<HTMLInputElement | null>(null);
     const [addedChs1, setAddedChs1] = useState(addedChsList);
     useEffect(() => {
-        setAddedChs1(addedChsList)
+        setAddedChs1(addedChsList);
     }, [addedChsList]);
 
     useEffect(() => {
@@ -190,27 +205,23 @@ const AddCharacteristicsForm = ({
         onSubmit(addedChs1);
     };
 
-    const handleAdd = (id:number) => {
-        let index = chsList.findIndex(
-            (d) => d.id === id,
-        );
+    const handleAdd = (id: number) => {
+        let index = chsList.findIndex((d) => d.id === id);
         /* NOTE: В реакте все обновления стейта должны быть только через функции стейта */
-        setAddedChs1(
-            addedChs1.concat([chsList[index]])
-        );
-    }
-    const handleDel = (id:number) => {
-        let index = addedChs1.findIndex(
-            (d) => d.id === id,
-        );
+        setAddedChs1(addedChs1.concat([chsList[index]]));
+    };
+    const handleDel = (id: number) => {
+        let index = addedChs1.findIndex((d) => d.id === id);
         if (addedChs1.length == 1) {
-            setAddedChs1([])
+            setAddedChs1([]);
+        } else {
+            let addedChs_del = [
+                ...addedChs1.slice(0, index),
+                ...addedChs1.slice(index + 1),
+            ];
+            setAddedChs1(addedChs_del);
         }
-        else {
-            let addedChs_del = [...addedChs1.slice(0, index), ...addedChs1.slice(index + 1)]
-            setAddedChs1(addedChs_del)
-        }
-    }
+    };
 
     return (
         <Modal hasCloseBtn={false} isOpen={isOpen} onClose={onClose}>
@@ -220,23 +231,24 @@ const AddCharacteristicsForm = ({
                     <input type="search" placeholder="Поиск" />
                     <CreateButton onClick={() => {}} />
                 </div>
-                <div className="list" >
-                    {chsList.map((ch) => ( 
-                        <div key={ch.id} className={list_item} >
+                <div className="list">
+                    {chsList.map((ch) => (
+                        <div key={ch.id} className={list_item}>
                             <div className={list_item_info}>{ch.name}</div>
 
                             {/* Если элемент уже есть в addedUms, то вместо кнопок показываем иконку с галочкой */}
-                            {addedChs1.findIndex((added) => added.id == ch.id) !=
-                            -1 ? (
+                            {addedChs1.findIndex(
+                                (added) => added.id == ch.id,
+                            ) != -1 ? (
                                 <ListTools
                                     onDelete={() => {
-                                        handleDel(ch.id)
+                                        handleDel(ch.id);
                                     }}
                                 />
                             ) : (
                                 <ListTools
                                     onAdd={() => {
-                                        handleAdd(ch.id)
+                                        handleAdd(ch.id);
                                     }}
                                 />
                             )}

@@ -41,9 +41,10 @@ export function AddChForm({
         id = location.state.id;
     }
     var input_val = "";
-    var add_ums = [] as UM[]
+    var add_ums = [] as UM[];
     if (id != -1) {
-        let ch = characteristicList[characteristicList.findIndex((a) => a.id == id)];
+        let ch =
+            characteristicList[characteristicList.findIndex((a) => a.id == id)];
         input_val = ch.name;
         add_ums = ch.ums.map((element) => element);
         useEffect(() => {
@@ -63,10 +64,8 @@ export function AddChForm({
     };
     const [isFromOpen, setFormOpen] = useState<boolean>(false);
 
-    const handleDel = (id:number) => {
-        let index = addedUms.findIndex(
-            (d) => d.id === id,
-        );
+    const handleDel = (id: number) => {
+        let index = addedUms.findIndex((d) => d.id === id);
         /*if (addedUms.length == 1) {
             setAddedUms([])
         }
@@ -74,9 +73,12 @@ export function AddChForm({
             let addedUms_del = addedUms.splice(index - 1, 1)
             setAddedUms(addedUms_del)
         }*/
-        let addedUms_del = [...addedUms.slice(0, index), ...addedUms.slice(index + 1)]
-        setAddedUms(addedUms_del)
-    }
+        let addedUms_del = [
+            ...addedUms.slice(0, index),
+            ...addedUms.slice(index + 1),
+        ];
+        setAddedUms(addedUms_del);
+    };
 
     const handleOpenForm = () => {
         setFormOpen(true);
@@ -147,7 +149,7 @@ const AddUnitForm = ({
     const focusInputRef = useRef<HTMLInputElement | null>(null);
     const [addedUms1, setAddedUms1] = useState(addedUmsList);
     useEffect(() => {
-        setAddedUms1(addedUmsList)
+        setAddedUms1(addedUmsList);
     }, [addedUmsList]);
 
     useEffect(() => {
@@ -173,27 +175,23 @@ const AddUnitForm = ({
         onSubmit(addedUms1);
     };
 
-    const handleAdd = (id:number) => {
-        let index = umsList.findIndex(
-            (d) => d.id === id,
-        );
+    const handleAdd = (id: number) => {
+        let index = umsList.findIndex((d) => d.id === id);
         /* NOTE: В реакте все обновления стейта должны быть только через функции стейта */
-        setAddedUms1(
-            addedUms1.concat([umsList[index]])
-        );
-    }
-    const handleDel = (id:number) => {
-        let index = addedUms1.findIndex(
-            (d) => d.id === id,
-        );
+        setAddedUms1(addedUms1.concat([umsList[index]]));
+    };
+    const handleDel = (id: number) => {
+        let index = addedUms1.findIndex((d) => d.id === id);
         if (addedUms1.length == 1) {
-            setAddedUms1([])
+            setAddedUms1([]);
+        } else {
+            let addedUms_del = [
+                ...addedUms1.slice(0, index),
+                ...addedUms1.slice(index + 1),
+            ];
+            setAddedUms1(addedUms_del);
         }
-        else {
-            let addedUms_del = [...addedUms1.slice(0, index), ...addedUms1.slice(index + 1)]
-            setAddedUms1(addedUms_del)
-        }
-    }
+    };
 
     return (
         <Modal hasCloseBtn={false} isOpen={isOpen} onClose={onClose}>
@@ -203,23 +201,24 @@ const AddUnitForm = ({
                     <input type="search" placeholder="Поиск" />
                     <CreateButton onClick={() => {}} />
                 </div>
-                <div className="list" >
+                <div className="list">
                     {umsList.map((um) => (
-                        <div key={um.id} className={list_item} >
+                        <div key={um.id} className={list_item}>
                             <div className={list_item_info}>{um.name}</div>
 
                             {/* Если элемент уже есть в addedUms, то вместо кнопок показываем иконку с галочкой */}
-                            {addedUms1.findIndex((added) => added.id == um.id) !=
-                            -1 ? (
+                            {addedUms1.findIndex(
+                                (added) => added.id == um.id,
+                            ) != -1 ? (
                                 <ListTools
                                     onDelete={() => {
-                                        handleDel(um.id)
+                                        handleDel(um.id);
                                     }}
                                 />
                             ) : (
                                 <ListTools
                                     onAdd={() => {
-                                        handleAdd(um.id)
+                                        handleAdd(um.id);
                                     }}
                                 />
                             )}

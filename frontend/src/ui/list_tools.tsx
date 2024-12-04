@@ -34,7 +34,11 @@ export function ListTools({
             )}
             {onView ? <WatchButtonOnlyIcon onClick={() => onView()} /> : ""}
             {onEdit ? <EditButtonOnlyIcon onClick={() => onEdit()} /> : ""}
-            {onDelete ? <DeleteButtonOnlyIcon onClick={() => onDelete()} /> : ""}
+            {onDelete ? (
+                <DeleteButtonOnlyIcon onClick={() => onDelete()} />
+            ) : (
+                ""
+            )}
         </div>
     );
 }

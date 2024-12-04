@@ -6,7 +6,7 @@ import { ListTools } from "../list_tools";
 
 export interface ProjectsPageProps {
     projectsList: Project[];
-    pts: ProjectType[]
+    pts: ProjectType[];
     onAdd: () => void;
     onView: (id: number) => void;
     onEdit: (id: number) => void;
@@ -33,8 +33,14 @@ export function ProjectsPage({
                 {projectsList.map((project) => (
                     <div key={project.id} className={list_item}>
                         <div className={list_item_info}>{project.name}</div>
-                        <div className={list_item_info}>{pts.find((e) => e.id == project.type_id).name}</div>
-                        <ListTools onView={() => onView(project.id)} onEdit={() => onEdit(project.id)} onDelete={() => onDelete(project.id)} />
+                        <div className={list_item_info}>
+                            {pts.find((e) => e.id == project.type_id).name}
+                        </div>
+                        <ListTools
+                            onView={() => onView(project.id)}
+                            onEdit={() => onEdit(project.id)}
+                            onDelete={() => onDelete(project.id)}
+                        />
                     </div>
                 ))}
             </div>

@@ -10,8 +10,8 @@ export interface HardwareTypesPageProps {
     hardwareList: Hardware[];
     onAdd: () => void;
     onView: (id: number) => void;
-    onEdit: (id: number) =>  void;
-    onDelete: (id: number) =>  void;
+    onEdit: (id: number) => void;
+    onDelete: (id: number) => void;
 }
 
 export function HardwareTypesPage({
@@ -36,7 +36,12 @@ export function HardwareTypesPage({
                         <div className={list_item_info}>
                             {hardwareType.name}
                         </div>
-                        <ListTools onAdd={null} onEdit={() => onEdit(hardwareType.id)} onView={() => onView(hardwareType.id)} onDelete={() => onDelete(hardwareType.id)} />
+                        <ListTools
+                            onAdd={null}
+                            onEdit={() => onEdit(hardwareType.id)}
+                            onView={() => onView(hardwareType.id)}
+                            onDelete={() => onDelete(hardwareType.id)}
+                        />
                     </div>
                 ))}
             </div>
@@ -51,8 +56,8 @@ export interface HtInfoPageProps {
 
 export function HtInfoPage({ hts, hardwareList }: HtInfoPageProps) {
     const params = useParams();
-    const htId = Number(params["hardware_type_id"])
-    const ht = hts.find((e) => e.id === htId)
+    const htId = Number(params["hardware_type_id"]);
+    const ht = hts.find((e) => e.id === htId);
     if (ht === undefined) {
         return <div className="content">Invalid ht</div>;
     }
@@ -70,17 +75,21 @@ export function HtInfoPage({ hts, hardwareList }: HtInfoPageProps) {
                     </div>
                 ))}
             </div>
-            <hr/>
+            <hr />
             <h1>Оборудование:</h1>
-             <div className="list">
-                {hardwareList.map((h) => ( h.type_id == htId ?
-                    <div key={h.id} className={list_item}>
-                        <div className={list_item_info}>{h.name}</div>
-                        <div className={list_item_info}>{h.type_id}</div>
-                        <div className={list_item_info}>{h.brand}</div>
-                        <div className={list_item_info}>{h.model}</div>
-                    </div> : ''
-                ))}
+            <div className="list">
+                {hardwareList.map((h) =>
+                    h.type_id == htId ? (
+                        <div key={h.id} className={list_item}>
+                            <div className={list_item_info}>{h.name}</div>
+                            <div className={list_item_info}>{h.type_id}</div>
+                            <div className={list_item_info}>{h.brand}</div>
+                            <div className={list_item_info}>{h.model}</div>
+                        </div>
+                    ) : (
+                        ""
+                    ),
+                )}
             </div>
         </div>
     );

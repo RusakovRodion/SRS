@@ -3,9 +3,7 @@ import { list_item, list_item_info } from "./../list_component.module.css";
 import "./page.css";
 import { ListTools } from "../list_tools";
 import { UM } from "../data_interfaces";
-import AddUnitForm,  {
-  AddUnitFormData, InitialData
-} from '../add_unit_form';
+import AddUnitForm, { AddUnitFormData, InitialData } from "../add_unit_form";
 import { useState } from "react";
 
 export interface UnitsPageProps {
@@ -16,43 +14,47 @@ export interface UnitsPageProps {
     onDelete: (id: number) => void;
 }
 
-export function UnitsPage({ unitsList, onAdd, onView, onEdit, onDelete }: UnitsPageProps) {
-     const [isFromOpen, setFormOpen] = useState<boolean>(false);
+export function UnitsPage({
+    unitsList,
+    onAdd,
+    onView,
+    onEdit,
+    onDelete,
+}: UnitsPageProps) {
+    const [isFromOpen, setFormOpen] = useState<boolean>(false);
 
-
-      const handleOpenForm = (um: UM) => {
+    const handleOpenForm = (um: UM) => {
         if (um !== undefined) {
-            InitialData.id = um.id
-            InitialData.name = um.name
-            InitialData.accuracy = um.accuracy
+            InitialData.id = um.id;
+            InitialData.name = um.name;
+            InitialData.accuracy = um.accuracy;
         }
         setFormOpen(true);
-      };
+    };
 
-      const handleCloseForm = () => {
+    const handleCloseForm = () => {
         setFormOpen(false);
-        InitialData.id = -1
-        InitialData.name = ''
-        InitialData.accuracy = ''
-      };
+        InitialData.id = -1;
+        InitialData.name = "";
+        InitialData.accuracy = "";
+    };
 
-      const handleFormSubmit = (data: AddUnitFormData): void => {
-        console.log(data)
+    const handleFormSubmit = (data: AddUnitFormData): void => {
+        console.log(data);
         const um = {
             id: -1,
             name: data.name,
             accuracy: data.accuracy,
         } as UM;
-        if (data.id == -1){
+        if (data.id == -1) {
             onAdd(um);
             handleCloseForm();
-        }
-        else {
-            console.log(data.id)
+        } else {
+            console.log(data.id);
             onEdit(data.id, um);
             handleCloseForm();
         }
-      };
+    };
 
     return (
         <div className="content">
@@ -67,14 +69,20 @@ export function UnitsPage({ unitsList, onAdd, onView, onEdit, onDelete }: UnitsP
                     <div key={unit.id} className={list_item}>
                         <div className={list_item_info}>{unit.name}</div>
                         <div className={list_item_info}>{unit.accuracy}</div>
-                        <ListTools onAdd={null} onView={null} onEdit={()=> handleOpenForm(unit)} onDelete={() => onDelete(unit.id)} />
+                        <ListTools
+                            onAdd={null}
+                            onView={null}
+                            onEdit={() => handleOpenForm(unit)}
+                            onDelete={() => onDelete(unit.id)}
+                        />
                     </div>
                 ))}
             </div>
             <AddUnitForm
-            isOpen={isFromOpen}
-            onSubmit={handleFormSubmit}
-            onClose={handleCloseForm} />
+                isOpen={isFromOpen}
+                onSubmit={handleFormSubmit}
+                onClose={handleCloseForm}
+            />
         </div>
     );
 }

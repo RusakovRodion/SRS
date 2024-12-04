@@ -1,7 +1,16 @@
 import { AddButton, Button, SaveButton } from "./../buttons";
 import { list_item, list_item_info } from "./../list_component.module.css";
 import "./page.css";
-import { Hardware, HardwareType, Hardware_ch, Project, Characteristic, Object, ProjectType, UM } from "../data_interfaces";
+import {
+    Hardware,
+    HardwareType,
+    Hardware_ch,
+    Project,
+    Characteristic,
+    Object,
+    ProjectType,
+    UM,
+} from "../data_interfaces";
 import { ListTools } from "../list_tools";
 import Modal from "../modal";
 import { button, icon_button } from "../buttons.module.css";
@@ -37,9 +46,9 @@ export function HardwarePage({
     };
 
     const handleFormSubmit = (htId: number): void => {
-        console.log(htId)
+        console.log(htId);
         handleCloseForm();
-        onAdd(htId)
+        onAdd(htId);
     };
     return (
         <div className="content">
@@ -57,7 +66,12 @@ export function HardwarePage({
                         <div className={list_item_info}>{hardware.brand}</div>
                         <div className={list_item_info}>{hardware.model}</div>
 
-                        <ListTools onAdd={null} onView={() => onView(hardware.id)} onEdit={() => onEdit(hardware.id)} onDelete={() => onDelete(hardware.id)} />
+                        <ListTools
+                            onAdd={null}
+                            onView={() => onView(hardware.id)}
+                            onEdit={() => onEdit(hardware.id)}
+                            onDelete={() => onDelete(hardware.id)}
+                        />
                     </div>
                 ))}
             </div>
@@ -85,7 +99,7 @@ const AddHardwareTypeForm = ({
     htsList,
 }: AddHardwareTypeFormProps) => {
     const handleAdd = (id: number): void => {
-        onSubmit(id)
+        onSubmit(id);
     };
 
     return (
@@ -95,11 +109,15 @@ const AddHardwareTypeForm = ({
                 <div className={"label_and_add_button"}>
                     <input type="search" placeholder="Поиск" />
                 </div>
-                <div className="list" >
+                <div className="list">
                     {htsList.map((p) => (
-                        <div key={p.id}  className={list_item} >
+                        <div key={p.id} className={list_item}>
                             <div className={list_item_info}>{p.name}</div>
-                            <ListTools onAdd={() => {handleAdd(p.id)}}/>
+                            <ListTools
+                                onAdd={() => {
+                                    handleAdd(p.id);
+                                }}
+                            />
                         </div>
                     ))}
                 </div>
@@ -122,32 +140,40 @@ export interface AddHardwareFormProps {
     onEdit: (hardware: Hardware) => void;
     projects: Project[];
     objects: Object[];
-    hardwares: Hardware[]
-    hts: HardwareType[]
-    characteristics: Characteristic[]
+    hardwares: Hardware[];
+    hts: HardwareType[];
+    characteristics: Characteristic[];
 }
 
-export function AddHardwareForm({ onAdd, onEdit, projects, objects, hts, characteristics, hardwares}: AddHardwareFormProps) {
+export function AddHardwareForm({
+    onAdd,
+    onEdit,
+    projects,
+    objects,
+    hts,
+    characteristics,
+    hardwares,
+}: AddHardwareFormProps) {
     const { resetField, register, handleSubmit } = useForm<FormValues>();
     const location = useLocation();
     var id = -1;
     var htId = -1;
-    var add_chs = [] as Characteristic[]
+    var add_chs = [] as Characteristic[];
     if (location.state !== null) {
-        if(location.state.id) {
+        if (location.state.id) {
             id = location.state.id;
             htId = Number(hardwares.find((h) => h.id == id).type_id);
         }
-        if(location.state.htId) {
+        if (location.state.htId) {
             htId = location.state.htId;
         }
-        add_chs = hts.find((ht) => ht.id == htId).chs
+        add_chs = hts.find((ht) => ht.id == htId).chs;
     }
-    console.log(add_chs)
+    console.log(add_chs);
     if (id != -1) {
-        let hardware = hardwares.find((h) => h.id == id)
-        console.log(hardware)
-        let ch_ids =  hardware.chs.map((ch) => ch.ch_id)
+        let hardware = hardwares.find((h) => h.id == id);
+        console.log(hardware);
+        let ch_ids = hardware.chs.map((ch) => ch.ch_id);
         useEffect(() => {
             //setAddedUms(add_ums)
             resetField("name", { defaultValue: hardware.name });
@@ -155,30 +181,43 @@ export function AddHardwareForm({ onAdd, onEdit, projects, objects, hts, charact
             resetField("model", { defaultValue: hardware.model });
             resetField("description", { defaultValue: hardware.description });
             for (let i = 0; i < ch_ids.length; i++) {
-                resetField("ch" + ch_ids[i], { defaultValue: hardware.chs.find((ch) => ch.ch_id == ch_ids[i]).value });
-                resetField("um" + ch_ids[i], { defaultValue: hardware.chs.find((ch) => ch.ch_id == ch_ids[i]).ums_id });
+                resetField("ch" + ch_ids[i], {
+                    defaultValue: hardware.chs.find(
+                        (ch) => ch.ch_id == ch_ids[i],
+                    ).value,
+                });
+                resetField("um" + ch_ids[i], {
+                    defaultValue: hardware.chs.find(
+                        (ch) => ch.ch_id == ch_ids[i],
+                    ).ums_id,
+                });
             }
-        }, [hardware.name, hardware.description, hardware.brand, hardware.model]);
+        }, [
+            hardware.name,
+            hardware.description,
+            hardware.brand,
+            hardware.model,
+        ]);
     }
-    console.log('id', id)
-    console.log('htid', htId)
+    console.log("id", id);
+    console.log("htid", htId);
 
     const [addedChs, setAddedChs] = useState(add_chs);
 
     const onSubmit: SubmitHandler<FormValues> = (data) => {
-        console.log(data)
-        console.log(add_chs.map((ch) => ch.id))
-        const ch_ids =  add_chs.map((ch) => ch.id)
-        let new_chs = [] as Hardware_ch[]
+        console.log(data);
+        console.log(add_chs.map((ch) => ch.id));
+        const ch_ids = add_chs.map((ch) => ch.id);
+        let new_chs = [] as Hardware_ch[];
         for (let i = 0; i < ch_ids.length; i++) {
-          let hch = {
-              ch_id: ch_ids[i],
-              value: data["ch" + ch_ids[i]],
-              ums_id: Number(data["um" + ch_ids[i]]),
-          } as Hardware_ch
-          new_chs.push(hch)
+            let hch = {
+                ch_id: ch_ids[i],
+                value: data["ch" + ch_ids[i]],
+                ums_id: Number(data["um" + ch_ids[i]]),
+            } as Hardware_ch;
+            new_chs.push(hch);
         }
-        console.log(new_chs)
+        console.log(new_chs);
         const hardware = {
             id: id,
             name: data.name,
@@ -195,107 +234,127 @@ export function AddHardwareForm({ onAdd, onEdit, projects, objects, hts, charact
     const [isFromOpen, setFormOpen] = useState<boolean>(false);
 
     const render_opt = (ch: Characteristic) => {
-        return (
-            ch.ums.map((um) => (
-                <option value={um.id}> {um.name} </option>
-            ))
-        )
-    }
+        return ch.ums.map((um) => <option value={um.id}> {um.name} </option>);
+    };
 
     return (
         <>
-        <div className="content">
-            {id == -1 ? <h2> Новое оборудование </h2>: <h2>Редактирование оборудования</h2>}
-            <form id="edit_project_form" onSubmit={handleSubmit(onSubmit)}>
-                <h3>Тип оборудования</h3>
-                <input
-                    type="text"
-                    id="type_id"
-                    {...register("type_id")}
-                    value={hardware_types.find((ht)=>ht.id == htId).name}
-                    placeholder={hardware_types.find((ht)=>ht.id == htId).name}
-                    required
-                    readOnly
-                />
-                <h3>Название</h3>
-                <input
-                    type="text"
-                    id="name"
-                    {...register("name")}
-                    placeholder="Название"
-                    required
-                />
-                <h3>Марка</h3>
-                <input
-                    type="text"
-                    id="brand"
-                    {...register("brand")}
-                    placeholder="Марка"
-                    required
-                />
-                <h3>Модель</h3>
-                <input
-                    type="text"
-                    id="model"
-                    {...register("model")}
-                    placeholder="Модель"
-                    required
-                />
-                <h3>Описание</h3>
-                <textarea
-                    id="description"
-                    {...register("description")}
-                    rows={5}
-                    placeholder="Описание"
-                    required
-                />
-                <div className={"label_and_add_button"}>
-                    <label>Характеристики:</label>
-                </div>
-                {add_chs.map((ch) => (
-                    <>
-                    <p>{ch.name}</p>
+            <div className="content">
+                {id == -1 ? (
+                    <h2> Новое оборудование </h2>
+                ) : (
+                    <h2>Редактирование оборудования</h2>
+                )}
+                <form id="edit_project_form" onSubmit={handleSubmit(onSubmit)}>
+                    <h3>Тип оборудования</h3>
+                    <input
+                        type="text"
+                        id="type_id"
+                        {...register("type_id")}
+                        value={hardware_types.find((ht) => ht.id == htId).name}
+                        placeholder={
+                            hardware_types.find((ht) => ht.id == htId).name
+                        }
+                        required
+                        readOnly
+                    />
+                    <h3>Название</h3>
+                    <input
+                        type="text"
+                        id="name"
+                        {...register("name")}
+                        placeholder="Название"
+                        required
+                    />
+                    <h3>Марка</h3>
+                    <input
+                        type="text"
+                        id="brand"
+                        {...register("brand")}
+                        placeholder="Марка"
+                        required
+                    />
+                    <h3>Модель</h3>
+                    <input
+                        type="text"
+                        id="model"
+                        {...register("model")}
+                        placeholder="Модель"
+                        required
+                    />
+                    <h3>Описание</h3>
+                    <textarea
+                        id="description"
+                        {...register("description")}
+                        rows={5}
+                        placeholder="Описание"
+                        required
+                    />
                     <div className={"label_and_add_button"}>
-                       <input
-                            type="number"
-                            {...register("ch" + String(ch.id))}
-                            placeholder="Значение"
-                            required
-                        />
-                        <select {...register("um" + String(ch.id))}>
-                            {render_opt(ch)}
-                        </select>
+                        <label>Характеристики:</label>
                     </div>
-                    </>
-                ))}
-                <div className="save_btn_block">
-                    <SaveButton />
-                </div>
-            </form>
-            { id != -1 ? (
-                <div>
-                    <hr/>
-                    <h1>Проекты:</h1>
-                    <div className="list">
-                        {projects.map((pr) => ( pr.hardwares.find((h) =>h.id == id) ?
-                            <div key={pr.id} className={list_item}>
-                                <div className={list_item_info}>{pr.name}</div>
-                                <div className={list_item_info}>{pr.type_id}</div>
-                            </div> : ''
-                        ))}
+                    {add_chs.map((ch) => (
+                        <>
+                            <p>{ch.name}</p>
+                            <div className={"label_and_add_button"}>
+                                <input
+                                    type="number"
+                                    {...register("ch" + String(ch.id))}
+                                    placeholder="Значение"
+                                    required
+                                />
+                                <select {...register("um" + String(ch.id))}>
+                                    {render_opt(ch)}
+                                </select>
+                            </div>
+                        </>
+                    ))}
+                    <div className="save_btn_block">
+                        <SaveButton />
                     </div>
-                    <h1>Объекты:</h1>
-                    <div className="list">
-                        {objects.map((obj) => ( obj.hardwares.find((h) =>h.id == id) ?
-                            <div key={obj.id} className={list_item}>
-                                <div className={list_item_info}>{obj.name}</div>
-                                <div className={list_item_info}>{obj.registration_number}</div>
-                            </div> : ''
-                        ))}
+                </form>
+                {id != -1 ? (
+                    <div>
+                        <hr />
+                        <h1>Проекты:</h1>
+                        <div className="list">
+                            {projects.map((pr) =>
+                                pr.hardwares.find((h) => h.id == id) ? (
+                                    <div key={pr.id} className={list_item}>
+                                        <div className={list_item_info}>
+                                            {pr.name}
+                                        </div>
+                                        <div className={list_item_info}>
+                                            {pr.type_id}
+                                        </div>
+                                    </div>
+                                ) : (
+                                    ""
+                                ),
+                            )}
+                        </div>
+                        <h1>Объекты:</h1>
+                        <div className="list">
+                            {objects.map((obj) =>
+                                obj.hardwares.find((h) => h.id == id) ? (
+                                    <div key={obj.id} className={list_item}>
+                                        <div className={list_item_info}>
+                                            {obj.name}
+                                        </div>
+                                        <div className={list_item_info}>
+                                            {obj.registration_number}
+                                        </div>
+                                    </div>
+                                ) : (
+                                    ""
+                                ),
+                            )}
+                        </div>
                     </div>
-                </div>
-            ) : ''}
-        </div>
+                ) : (
+                    ""
+                )}
+            </div>
         </>
     );
 }
@@ -306,10 +365,17 @@ export interface HardwareInfoPageProps {
     objects: Object[];
     hts: HardwareType[];
     pts: ProjectType[];
-    characteristics: Characteristic[]
+    characteristics: Characteristic[];
 }
 
-export function HardwareInfoPage({hardwares, projects, objects, hts, pts, characteristics }: HardwareInfoPageProps) {
+export function HardwareInfoPage({
+    hardwares,
+    projects,
+    objects,
+    hts,
+    pts,
+    characteristics,
+}: HardwareInfoPageProps) {
     const params = useParams();
     const hId = Number(params["hardware_id"]);
     const hardware = hardwares.find((e) => e.id === hId);
@@ -319,46 +385,64 @@ export function HardwareInfoPage({hardwares, projects, objects, hts, pts, charac
     }
 
     const renderChs = (chs: Hardware_ch[]) => {
-        return (
-            chs.map((ch) => (
-                <p>
-                    {characteristics.find((c) => c.id == ch.ch_id).name} :
-                    {ch.value} {characteristics.find((c) => c.id == ch.ch_id).ums
-                    .find((um) => um.id == ch.ums_id).name}
-                </p>
-            ))
-        )
-    }
+        return chs.map((ch) => (
+            <p>
+                {characteristics.find((c) => c.id == ch.ch_id).name} :{ch.value}{" "}
+                {
+                    characteristics
+                        .find((c) => c.id == ch.ch_id)
+                        .ums.find((um) => um.id == ch.ums_id).name
+                }
+            </p>
+        ));
+    };
 
     return (
         <div className="content">
             <h1>Просмотр оборудования</h1>
             <h1>{hardware.name}</h1>
-            <p>Тип оборудования: {hts.find((e) => e.id === hardware.type_id).name}</p>
-            <p>Марка: {hardware.brand}. Модель: {hardware.model}</p>
+            <p>
+                Тип оборудования:{" "}
+                {hts.find((e) => e.id === hardware.type_id).name}
+            </p>
+            <p>
+                Марка: {hardware.brand}. Модель: {hardware.model}
+            </p>
             <p>Описание: {hardware.description}</p>
             <p>Добавлено: {hardware.added}</p>
             <h1>Характеристики:</h1>
             {renderChs(hardware.chs)}
-            <hr/>
-                    <h1>Проекты:</h1>
-                    <div className="list">
-                        {projects.map((pr) => ( pr.hardwares.find((h) =>h.id == hardware.id) ?
-                            <div key={pr.id} className={list_item}>
-                                <div className={list_item_info}>{pr.name}</div>
-                                <div className={list_item_info}>{pts.find((e) => e.id === pr.type_id).name}</div>
-                            </div> : ''
-                        ))}
-                    </div>
-                    <h1>Объекты:</h1>
-                    <div className="list">
-                        {objects.map((obj) => ( obj.hardwares.find((h) =>h.id == hardware.id) ?
-                            <div key={obj.id} className={list_item}>
-                                <div className={list_item_info}>{obj.name}</div>
-                                <div className={list_item_info}>{obj.registration_number}</div>
-                            </div> : ''
-                        ))}
-                    </div>
+            <hr />
+            <h1>Проекты:</h1>
+            <div className="list">
+                {projects.map((pr) =>
+                    pr.hardwares.find((h) => h.id == hardware.id) ? (
+                        <div key={pr.id} className={list_item}>
+                            <div className={list_item_info}>{pr.name}</div>
+                            <div className={list_item_info}>
+                                {pts.find((e) => e.id === pr.type_id).name}
+                            </div>
+                        </div>
+                    ) : (
+                        ""
+                    ),
+                )}
+            </div>
+            <h1>Объекты:</h1>
+            <div className="list">
+                {objects.map((obj) =>
+                    obj.hardwares.find((h) => h.id == hardware.id) ? (
+                        <div key={obj.id} className={list_item}>
+                            <div className={list_item_info}>{obj.name}</div>
+                            <div className={list_item_info}>
+                                {obj.registration_number}
+                            </div>
+                        </div>
+                    ) : (
+                        ""
+                    ),
+                )}
+            </div>
         </div>
     );
 }

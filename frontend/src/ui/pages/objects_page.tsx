@@ -1,7 +1,19 @@
-import { Button, SaveButton, CompleteButton, CreateButton, AddButton } from "./../buttons";
+import {
+    Button,
+    SaveButton,
+    CompleteButton,
+    CreateButton,
+    AddButton,
+} from "./../buttons";
 import { list_item, list_item_info } from "./../list_component.module.css";
 import "./page.css";
-import {Hardware, HardwareType, Object, Project, ProjectType } from "../data_interfaces";
+import {
+    Hardware,
+    HardwareType,
+    Object,
+    Project,
+    ProjectType,
+} from "../data_interfaces";
 import { ListTools } from "../list_tools";
 import Modal from "../modal";
 import "../modal.module.css";
@@ -15,14 +27,21 @@ import { useParams } from "react-router-dom";
 
 export interface ObjectPageProps {
     objectsList: Object[];
-    projectsList: Project[]
+    projectsList: Project[];
     onAdd: (id: number) => void;
     onView: (id: number) => void;
     onEdit: (id: number) => void;
     onDelete: (id: number) => void;
 }
 
-export function ObjectsPage({ objectsList, projectsList, onAdd, onView, onEdit, onDelete }: ObjectPageProps) {
+export function ObjectsPage({
+    objectsList,
+    projectsList,
+    onAdd,
+    onView,
+    onEdit,
+    onDelete,
+}: ObjectPageProps) {
     const [isFormOpen, setFormOpen] = useState<boolean>(false);
     const handleOpenForm = () => {
         setFormOpen(true);
@@ -33,9 +52,9 @@ export function ObjectsPage({ objectsList, projectsList, onAdd, onView, onEdit, 
     };
 
     const handleFormSubmit = (prId: number): void => {
-        console.log(prId)
+        console.log(prId);
         handleCloseForm();
-        onAdd(prId)
+        onAdd(prId);
     };
     return (
         <div className="content">
@@ -49,9 +68,24 @@ export function ObjectsPage({ objectsList, projectsList, onAdd, onView, onEdit, 
                 {objectsList.map((object) => (
                     <div key={object.id} className={list_item}>
                         <div className={list_item_info}>{object.name}</div>
-                        <div className={list_item_info}>{projectsList[projectsList.findIndex((p) => p.id == object.project_id)].name}</div>
-                        <div className={list_item_info}>{object.registration_number}</div>
-                        <ListTools onAdd={null} onView={() => onView(object.id)} onEdit={() => onEdit(object.id) } onDelete={() => onDelete(object.id) }/>
+                        <div className={list_item_info}>
+                            {
+                                projectsList[
+                                    projectsList.findIndex(
+                                        (p) => p.id == object.project_id,
+                                    )
+                                ].name
+                            }
+                        </div>
+                        <div className={list_item_info}>
+                            {object.registration_number}
+                        </div>
+                        <ListTools
+                            onAdd={null}
+                            onView={() => onView(object.id)}
+                            onEdit={() => onEdit(object.id)}
+                            onDelete={() => onDelete(object.id)}
+                        />
                     </div>
                 ))}
             </div>
@@ -79,7 +113,7 @@ const AddProjectForm = ({
     projectsList,
 }: AddProjectFormProps) => {
     const handleAdd = (id: number): void => {
-        onSubmit(id)
+        onSubmit(id);
     };
 
     return (
@@ -88,14 +122,25 @@ const AddProjectForm = ({
                 <label>Выбрать проект</label>
                 <div className={"label_and_add_button"}>
                     <input type="search" placeholder="Поиск" />
-                    <Button className={button} text={"Без проекта +"} onClick={() => {handleAdd(null)}} type={'button'}/>
+                    <Button
+                        className={button}
+                        text={"Без проекта +"}
+                        onClick={() => {
+                            handleAdd(null);
+                        }}
+                        type={"button"}
+                    />
                 </div>
-                <div className="list" >
+                <div className="list">
                     {projectsList.map((p) => (
-                        <div key={p.id}  className={list_item} >
+                        <div key={p.id} className={list_item}>
                             <div className={list_item_info}>{p.name}</div>
                             <div className={list_item_info}>{p.type_id}</div>
-                            <ListTools onAdd={() => {handleAdd(p.id)}}/>
+                            <ListTools
+                                onAdd={() => {
+                                    handleAdd(p.id);
+                                }}
+                            />
                         </div>
                     ))}
                 </div>
@@ -119,41 +164,56 @@ export interface AddObjectFormProps {
     objects: Object[];
 }
 
-export function AddObjectForm({ onAdd, onEdit, projects, objects}: AddObjectFormProps) {
+export function AddObjectForm({
+    onAdd,
+    onEdit,
+    projects,
+    objects,
+}: AddObjectFormProps) {
     const { resetField, register, handleSubmit } = useForm<FormValues>();
     const location = useLocation();
     var id = -1;
     var objId = -1;
-    var add_hardwares = [] as Hardware[]
+    var add_hardwares = [] as Hardware[];
     if (location.state !== null) {
-        if(location.state.id) {
+        if (location.state.id) {
             id = location.state.id;
-            add_hardwares = projects[projects.findIndex((p) => p.id == id)].hardwares.map((element) => element);
+            add_hardwares = projects[
+                projects.findIndex((p) => p.id == id)
+            ].hardwares.map((element) => element);
         }
-         if(location.state.objId) objId = location.state.objId;
-
+        if (location.state.objId) objId = location.state.objId;
     }
     if (objId != -1) {
         let object = objects[objects.findIndex((a) => a.id == objId)];
-        console.log(object)
+        console.log(object);
         add_hardwares = object.hardwares.map((element) => element);
         useEffect(() => {
             //setAddedUms(add_ums)
             resetField("name", { defaultValue: object.name });
             resetField("description", { defaultValue: object.description });
             resetField("project_id", { defaultValue: object.project_id });
-            resetField("registration_number", { defaultValue: object.registration_number });
-        }, [object.name, object.description, object.project_id, object.description]);
+            resetField("registration_number", {
+                defaultValue: object.registration_number,
+            });
+        }, [
+            object.name,
+            object.description,
+            object.project_id,
+            object.description,
+        ]);
     }
-    console.log('id', id)
-    console.log('objid', objId)
+    console.log("id", id);
+    console.log("objid", objId);
 
     const [addedHardwares, setAddedHardwares] = useState(add_hardwares);
 
     function handleChange(event) {
-        add_hardwares = projects[projects.findIndex((p) => p.id == Number(event.target.value))].hardwares.map((element) => element);
+        add_hardwares = projects[
+            projects.findIndex((p) => p.id == Number(event.target.value))
+        ].hardwares.map((element) => element);
         setAddedHardwares(add_hardwares);
-    };
+    }
     const onSubmit: SubmitHandler<FormValues> = (data) => {
         const object = {
             id: objId,
@@ -169,13 +229,14 @@ export function AddObjectForm({ onAdd, onEdit, projects, objects}: AddObjectForm
     };
     const [isFromOpen, setFormOpen] = useState<boolean>(false);
 
-    const handleDel = (id:number) => {
-        let index = addedHardwares.findIndex(
-            (d) => d.id === id,
-        );
-        let addedChs_del = [...addedHardwares.slice(0, index), ...addedHardwares.slice(index + 1)]
-        setAddedHardwares(addedChs_del)
-    }
+    const handleDel = (id: number) => {
+        let index = addedHardwares.findIndex((d) => d.id === id);
+        let addedChs_del = [
+            ...addedHardwares.slice(0, index),
+            ...addedHardwares.slice(index + 1),
+        ];
+        setAddedHardwares(addedChs_del);
+    };
 
     const handleOpenForm = () => {
         setFormOpen(true);
@@ -192,76 +253,81 @@ export function AddObjectForm({ onAdd, onEdit, projects, objects}: AddObjectForm
 
     return (
         <>
-        <div className="content">
-            {objId == -1 ? <h2> Новый объект </h2>: <h2>Редактирование объекта</h2>}
-            <form id="edit_project_form" onSubmit={handleSubmit(onSubmit)}>
-                <h3>Проект</h3>
-                <select
-                    id="project_id"
-                    onInput={handleChange}
-                    {...register("project_id")}
-                    defaultValue={id != -1? id: null}
+            <div className="content">
+                {objId == -1 ? (
+                    <h2> Новый объект </h2>
+                ) : (
+                    <h2>Редактирование объекта</h2>
+                )}
+                <form id="edit_project_form" onSubmit={handleSubmit(onSubmit)}>
+                    <h3>Проект</h3>
+                    <select
+                        id="project_id"
+                        onInput={handleChange}
+                        {...register("project_id")}
+                        defaultValue={id != -1 ? id : null}
                     >
-                    {projects.map((p) => {
-                        return (
-                            <option key={p.id} value={p.id}>
-                                {p.name}
-                            </option>
-                        );
-                    })}
-                </select>
-                <h3>Название</h3>
-                <input
-                    type="text"
-                    id="name"
-                    {...register("name")}
-                    placeholder="Название"
-                    required
+                        {projects.map((p) => {
+                            return (
+                                <option key={p.id} value={p.id}>
+                                    {p.name}
+                                </option>
+                            );
+                        })}
+                    </select>
+                    <h3>Название</h3>
+                    <input
+                        type="text"
+                        id="name"
+                        {...register("name")}
+                        placeholder="Название"
+                        required
+                    />
+                    <h3>Регистрационный номер</h3>
+                    <input
+                        type="text"
+                        id="registration_number"
+                        {...register("registration_number")}
+                        placeholder="Регистрационный номер"
+                        required
+                    />
+                    <h3>Описание</h3>
+                    <textarea
+                        id="description"
+                        {...register("description")}
+                        rows={5}
+                        placeholder="Описание"
+                        required
+                    />
+                    <div className={"label_and_add_button"}>
+                        <label>Оборудование</label>
+                        <AddButton onClick={handleOpenForm} />
+                    </div>
+                    <div className="list" {...register("hardwares")}>
+                        {addedHardwares.map((h) => (
+                            <div key={h.id} className={list_item}>
+                                <div className={list_item_info}>{h.name}</div>
+                                <div className={list_item_info}>
+                                    {h.type_id}
+                                </div>
+                                <div className={list_item_info}>{h.brand}</div>
+                                <div className={list_item_info}>{h.model}</div>
+                                <ListTools onDelete={() => handleDel(h.id)} />
+                            </div>
+                        ))}
+                    </div>
+                    <div className="save_btn_block">
+                        <SaveButton />
+                    </div>
+                </form>
+                <AddHardwareForm
+                    isOpen={isFromOpen}
+                    onSubmit={handleFormSubmit}
+                    onClose={handleCloseForm}
+                    hardwaresList={hardwares}
+                    addedHardwaresList={addedHardwares}
                 />
-                <h3>Регистрационный номер</h3>
-                <input
-                    type="text"
-                    id="registration_number"
-                    {...register("registration_number")}
-                    placeholder="Регистрационный номер"
-                    required
-                />
-                <h3>Описание</h3>
-                <textarea
-                    id="description"
-                    {...register("description")}
-                    rows={5}
-                    placeholder="Описание"
-                    required
-                />
-                <div className={"label_and_add_button"}>
-                    <label>Оборудование</label>
-                    <AddButton onClick={handleOpenForm} />
-                </div>
-                <div className="list" {...register("hardwares")}>
-                    {addedHardwares.map((h) => (
-                        <div key={h.id} className={list_item}>
-                            <div className={list_item_info}>{h.name}</div>
-                            <div className={list_item_info}>{h.type_id}</div>
-                            <div className={list_item_info}>{h.brand}</div>
-                            <div className={list_item_info}>{h.model}</div>
-                            <ListTools onDelete={() => handleDel(h.id)} />
-                        </div>
-                    ))}
-                </div>
-                <div className="save_btn_block">
-                    <SaveButton />
-                </div>
-            </form>
-            <AddHardwareForm
-                isOpen={isFromOpen}
-                onSubmit={handleFormSubmit}
-                onClose={handleCloseForm}
-                hardwaresList={hardwares}
-                addedHardwaresList={addedHardwares}
-            />
-        </div>
-
+            </div>
         </>
     );
 }
@@ -284,7 +350,7 @@ const AddHardwareForm = ({
     const focusInputRef = useRef<HTMLInputElement | null>(null);
     const [addedHardwares1, setAddedHardwares1] = useState(addedHardwaresList);
     useEffect(() => {
-        setAddedHardwares1(addedHardwaresList)
+        setAddedHardwares1(addedHardwaresList);
     }, [addedHardwaresList]);
 
     useEffect(() => {
@@ -310,27 +376,23 @@ const AddHardwareForm = ({
         onSubmit(addedHardwares1);
     };
 
-    const handleAdd = (id:number) => {
-        let index = hardwaresList.findIndex(
-            (d) => d.id === id,
-        );
+    const handleAdd = (id: number) => {
+        let index = hardwaresList.findIndex((d) => d.id === id);
         /* NOTE: В реакте все обновления стейта должны быть только через функции стейта */
-        setAddedHardwares1(
-            addedHardwares1.concat([hardwaresList[index]])
-        );
-    }
-    const handleDel = (id:number) => {
-        let index = addedHardwares1.findIndex(
-            (d) => d.id === id,
-        );
+        setAddedHardwares1(addedHardwares1.concat([hardwaresList[index]]));
+    };
+    const handleDel = (id: number) => {
+        let index = addedHardwares1.findIndex((d) => d.id === id);
         if (addedHardwares1.length == 1) {
-            setAddedHardwares1([])
+            setAddedHardwares1([]);
+        } else {
+            let addedHardwares_del = [
+                ...addedHardwares1.slice(0, index),
+                ...addedHardwares1.slice(index + 1),
+            ];
+            setAddedHardwares1(addedHardwares_del);
         }
-        else {
-            let addedHardwares_del = [...addedHardwares1.slice(0, index), ...addedHardwares1.slice(index + 1)]
-            setAddedHardwares1(addedHardwares_del)
-        }
-    }
+    };
 
     return (
         <Modal hasCloseBtn={false} isOpen={isOpen} onClose={onClose}>
@@ -340,26 +402,27 @@ const AddHardwareForm = ({
                     <input type="search" placeholder="Поиск" />
                     <CreateButton onClick={() => {}} />
                 </div>
-                <div className="list" >
+                <div className="list">
                     {hardwaresList.map((h) => (
-                        <div key={h.id} className={list_item} >
+                        <div key={h.id} className={list_item}>
                             <div className={list_item_info}>{h.name}</div>
                             <div className={list_item_info}>{h.type_id}</div>
                             <div className={list_item_info}>{h.brand}</div>
                             <div className={list_item_info}>{h.model}</div>
-                            {console.log("addedHardwares1",addedHardwares1)}
+                            {console.log("addedHardwares1", addedHardwares1)}
                             {/* Если элемент уже есть в addedUms, то вместо кнопок показываем иконку с галочкой */}
-                            {addedHardwares1.findIndex((added) => added.id == h.id) !=
-                            -1 ? (
+                            {addedHardwares1.findIndex(
+                                (added) => added.id == h.id,
+                            ) != -1 ? (
                                 <ListTools
                                     onDelete={() => {
-                                        handleDel(h.id)
+                                        handleDel(h.id);
                                     }}
                                 />
                             ) : (
                                 <ListTools
                                     onAdd={() => {
-                                        handleAdd(h.id)
+                                        handleAdd(h.id);
                                     }}
                                 />
                             )}
@@ -380,7 +443,11 @@ export interface ObjectInfoPageProps {
     hts: HardwareType[];
 }
 
-export function ObjectInfoPage({ objects, projects, hts}: ObjectInfoPageProps) {
+export function ObjectInfoPage({
+    objects,
+    projects,
+    hts,
+}: ObjectInfoPageProps) {
     const params = useParams();
     const oId = Number(params["object_id"]);
     const object = objects.find((e) => e.id === oId);
@@ -393,7 +460,9 @@ export function ObjectInfoPage({ objects, projects, hts}: ObjectInfoPageProps) {
         <div className="content">
             <h1>Просмотр объекта</h1>
             <h1>{object.name}</h1>
-            <p>Проект: {projects.find((e) => e.id === object.project_id).name}</p>
+            <p>
+                Проект: {projects.find((e) => e.id === object.project_id).name}
+            </p>
             <p>Регистрационный номер: {object.registration_number}</p>
             <p>Описание: {object.description}</p>
             <p>Добавлен: {object.added}</p>
@@ -401,14 +470,17 @@ export function ObjectInfoPage({ objects, projects, hts}: ObjectInfoPageProps) {
             {object.hardwares.map((h) => (
                 <div>
                     <h2>{h.name}</h2>
-                    <p>Тип оборудования: {hts.find((e) => e.id === h.type_id).name}</p>
-                    {hts.find((e) => e.id === h.type_id).chs.map((ch) => (
-                        <p>{ch.name}: ???</p>
-                    ))}
+                    <p>
+                        Тип оборудования:{" "}
+                        {hts.find((e) => e.id === h.type_id).name}
+                    </p>
+                    {hts
+                        .find((e) => e.id === h.type_id)
+                        .chs.map((ch) => (
+                            <p>{ch.name}: ???</p>
+                        ))}
                 </div>
-                ))}
+            ))}
         </div>
     );
 }
-
-

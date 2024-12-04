@@ -10,7 +10,12 @@ export interface ProjectInfoPageProps {
     pts: ProjectType[];
 }
 
-export function ProjectInfoPage({ projects, objects, hts, pts }: ProjectInfoPageProps) {
+export function ProjectInfoPage({
+    projects,
+    objects,
+    hts,
+    pts,
+}: ProjectInfoPageProps) {
     const params = useParams();
     const pId = Number(params["project_id"]);
     const project = projects.find((e) => e.id === pId);
@@ -29,21 +34,32 @@ export function ProjectInfoPage({ projects, objects, hts, pts }: ProjectInfoPage
             {project.hardwares.map((h) => (
                 <div>
                     <h2>{h.name}</h2>
-                    <p>Тип оборудования: {hts.find((e) => e.id === h.type_id).name}</p>
-                    {hts.find((e) => e.id === h.type_id).chs.map((ch) => (
-                        <p>{ch.name}: ???</p>
-                    ))}
+                    <p>
+                        Тип оборудования:{" "}
+                        {hts.find((e) => e.id === h.type_id).name}
+                    </p>
+                    {hts
+                        .find((e) => e.id === h.type_id)
+                        .chs.map((ch) => (
+                            <p>{ch.name}: ???</p>
+                        ))}
                 </div>
-                ))}
-            <hr/>
+            ))}
+            <hr />
             <h1>Объекты:</h1>
-             <div className="list">
-                {objects.map((obj) => ( obj.project_id == pId ?
-                    <div key={obj.id} className={list_item}>
-                        <div className={list_item_info}>{obj.name}</div>
-                        <div className={list_item_info}>{obj.registration_number}</div>
-                    </div> : ''
-                ))}
+            <div className="list">
+                {objects.map((obj) =>
+                    obj.project_id == pId ? (
+                        <div key={obj.id} className={list_item}>
+                            <div className={list_item_info}>{obj.name}</div>
+                            <div className={list_item_info}>
+                                {obj.registration_number}
+                            </div>
+                        </div>
+                    ) : (
+                        ""
+                    ),
+                )}
             </div>
         </div>
     );

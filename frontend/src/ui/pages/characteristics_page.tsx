@@ -21,7 +21,7 @@ export function CharacteristicsPage({
     onEdit,
     onDelete,
 }: CharacteristicsPageProps) {
-    console.log("ch_list:", characteristicList)
+    console.log("ch_list:", characteristicList);
     return (
         <div className="content">
             <h2>Характеристики</h2>
@@ -36,7 +36,12 @@ export function CharacteristicsPage({
                         <div className={list_item_info}>
                             {characteristic.name}
                         </div>
-                        <ListTools onAdd={null} onView={() => onView(characteristic.id)} onEdit={() => onEdit(characteristic.id)} onDelete={() => onDelete(characteristic.id)} />
+                        <ListTools
+                            onAdd={null}
+                            onView={() => onView(characteristic.id)}
+                            onEdit={() => onEdit(characteristic.id)}
+                            onDelete={() => onDelete(characteristic.id)}
+                        />
                     </div>
                 ))}
             </div>
@@ -50,8 +55,8 @@ export interface ChInfoPageProps {
 
 export function CharacteristicsInfoPage({ chs }: ChInfoPageProps) {
     const params = useParams();
-    console.log(params["characteristic_id"])
-    const ch = chs.find((e) => e.id === Number(params["characteristic_id"]))
+    console.log(params["characteristic_id"]);
+    const ch = chs.find((e) => e.id === Number(params["characteristic_id"]));
     if (ch === undefined) {
         return <div className="content">Invalid ch</div>;
     }

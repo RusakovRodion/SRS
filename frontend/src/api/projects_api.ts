@@ -62,3 +62,17 @@ export async function deleteProjectById(id: number): Promise<void> {
         );
     }
 }
+
+export async function getProjects(): Promise<Project[]> {
+    const response = await fetch(`/api/projects`, {
+        method: "GET",
+    });
+    if (!response.ok) {
+        throw new Error(
+            `Can't get projects: ${response.status} ${response.statusText}`,
+        );
+    }
+
+    const json = await response.json();
+    return json as Project[];
+}

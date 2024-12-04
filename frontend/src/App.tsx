@@ -52,8 +52,7 @@ function App() {
                     path="/projects"
                     element={
                         <ProjectsPage
-                            projectsList={fakeProjects}
-                            pts={fakePts}
+                            projectTypes={fakePts}
                             onAdd={() => {
                                 navigate("/projects/add");
                             }}

@@ -7,6 +7,41 @@ export interface Project {
     hardwares: Hardware[];
 }
 
+export interface ProjectFull {
+    id: number;
+    name: string;
+    description: string;
+    added: string;
+    type: {
+        id: number;
+        name: string;
+    };
+    hardware: {
+        brand: string;
+        description: string;
+        hardware_id: number;
+        model: string;
+        type: string;
+        objects: {
+            added: string;
+            description: string;
+            name: string;
+            object_id: number;
+            registration_number: string;
+        }[];
+    }[];
+    characteristics: {
+        characteristics_id: number;
+        id: number;
+        name: string;
+        value: number;
+        unit: {
+            id: number;
+            name: string;
+        };
+    }[];
+}
+
 export interface ProjectType {
     id: number;
     name: string;

@@ -1,4 +1,4 @@
-import { Project, ProjectType } from "../ui/data_interfaces";
+import { Project, ProjectFull, ProjectType } from "../ui/data_interfaces";
 
 export async function createProject(project: Project): Promise<void> {
     const response = await fetch("/api/project", {
@@ -26,7 +26,7 @@ export async function getProjectByName(name: string): Promise<Project> {
     return json as Project;
 }
 
-export async function getProjectById(id: number): Promise<Project> {
+export async function getProjectById(id: number): Promise<ProjectFull> {
     const response = await fetch(`/api/project/${id}`, {
         method: "GET",
     });
@@ -37,7 +37,7 @@ export async function getProjectById(id: number): Promise<Project> {
     }
 
     const json = await response.json();
-    return json as Project;
+    return json as ProjectFull;
 }
 
 export async function updateProject(project: Project): Promise<void> {

@@ -2,58 +2,79 @@ import "./page.css";
 import { useParams } from "react-router-dom";
 import { Project, ProjectType, Object, HardwareType } from "../data_interfaces";
 import { list_item, list_item_info } from "./../list_component.module.css";
+import { useQuery } from "@tanstack/react-query";
+import { getProjectById, getProjectTypes } from "../../api/projects_api";
+import { ErrorBanner, LoadingBanner } from "../status_banner";
+import { getObjectById, getObjects } from "../../api/objects_api";
 
-export interface ProjectInfoPageProps {
-    projects: Project[];
-    objects: Object[];
-    hts: HardwareType[];
-    pts: ProjectType[];
-}
+export interface ProjectInfoPageProps {}
 
-export function ProjectInfoPage({
-    projects,
-    objects,
-    hts,
-    pts,
-}: ProjectInfoPageProps) {
+export function ProjectInfoPage({}: ProjectInfoPageProps) {
     const params = useParams();
-    const pId = Number(params["project_id"]);
-    const project = projects.find((e) => e.id === pId);
+    const projectId = Number(params["project_id"]);
 
-    if (project === undefined) {
-        return <div className="content">Invalid project</div>;
+    const projectQuery = useQuery({
+        queryKey: [`project_${projectId}`],
+        queryFn: () => getProjectById(projectId),
+    });
+
+    const objectsQuery = useQuery({
+        queryKey: ["objects"],
+        queryFn: getObjects,
+    });
+
+    const projectTypesQuery = useQuery({
+        queryKey: ["project_types"],
+        queryFn: getProjectTypes,
+    });
+
+    if (projectQuery.error || objectsQuery.error || projectTypesQuery.error) {
+        return <ErrorBanner />;
     }
+
+    if (
+        projectQuery.isLoading ||
+        objectsQuery.isLoading ||
+        projectTypesQuery.isLoading
+    ) {
+        return <LoadingBanner />;
+    }
+
+    const project = projectQuery.data;
+    if (project == undefined) {
+        return <ErrorBanner text={"Проект не найден"} />;
+    }
+
+    // const objects = objectsQuery.data ?? [];
+    const projectTypes = projectTypesQuery.data ?? [];
+    const projectType = projectTypes.find((e) => e.id == project.type.id);
 
     return (
         <div className="content">
             <h1>Просмотр проекта</h1>
             <h1>{project.name}</h1>
-            <p>Тип проекта: {pts.find((e) => e.id === project.type_id).name}</p>
+            <p>Тип проекта: {projectType?.name}</p>
             <p>{project.description}</p>
             <h1>Оборудование:</h1>
-            {project.hardwares.map((h) => (
-                <div>
-                    <h2>{h.name}</h2>
-                    <p>
-                        Тип оборудования:{" "}
-                        {hts.find((e) => e.id === h.type_id).name}
-                    </p>
-                    {hts
-                        .find((e) => e.id === h.type_id)
-                        .chs.map((ch) => (
-                            <p>{ch.name}: ???</p>
-                        ))}
+            {project.hardware.map((h) => (
+                <div key={h.hardware_id}>
+                    <h2>
+                        {h.type} {h.brand} {h.model}
+                    </h2>
+                    <p>{h.description}</p>
                 </div>
             ))}
             <hr />
+            {/*
+            TODO: нужно исправить роут
             <h1>Объекты:</h1>
             <div className="list">
-                {objects.map((obj) =>
-                    obj.project_id == pId ? (
-                        <div key={obj.id} className={list_item}>
-                            <div className={list_item_info}>{obj.name}</div>
+                {objects.map((object) =>
+                    object.project_id == project.id ? (
+                        <div key={object.id} className={list_item}>
+                            <div className={list_item_info}>{object.name}</div>
                             <div className={list_item_info}>
-                                {obj.registration_number}
+                                {object.registration_number}
                             </div>
                         </div>
                     ) : (
@@ -61,6 +82,7 @@ export function ProjectInfoPage({
                     ),
                 )}
             </div>
+            */}
         </div>
     );
 }

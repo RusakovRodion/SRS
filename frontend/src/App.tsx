@@ -63,27 +63,13 @@ function App() {
                                     state: { id: projectId },
                                 })
                             }
-                            onDelete={(projectId: number) => {
-                                let index = fakeProjects.findIndex(
-                                    (d) => d.id === projectId,
-                                );
-                                fakeProjects.splice(index, 1);
-                                console.log("delete project with id ", index);
-                                navigate("/projects");
-                            }}
+                            onDelete={(projectId: number) => {}}
                         />
                     }
                 />
                 <Route
                     path="/projects/:project_id"
-                    element={
-                        <ProjectInfoPage
-                            projects={fakeProjects}
-                            objects={fakeObjects}
-                            hts={fakeHts}
-                            pts={fakePts}
-                        />
-                    }
+                    element={<ProjectInfoPage />}
                 />
                 <Route
                     path="/projects/add"

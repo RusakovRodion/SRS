@@ -62,3 +62,17 @@ export async function deleteObjectById(id: number): Promise<void> {
         );
     }
 }
+
+export async function getObjects(): Promise<Object[]> {
+    const response = await fetch(`/api/objects`, {
+        method: "GET",
+    });
+    if (!response.ok) {
+        throw new Error(
+            `Can't get objects ${response.status} ${response.statusText}`,
+        );
+    }
+
+    const json = await response.json();
+    return json as Object[];
+}

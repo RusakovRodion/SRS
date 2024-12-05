@@ -5,7 +5,11 @@ import "./page.css";
 import { ProjectType } from "../data_interfaces";
 import { ListTools } from "../list_tools";
 import { useQuery } from "@tanstack/react-query";
-import { getProjects, getProjectTypes } from "../../api/projects_api";
+import {
+    deleteProjectById,
+    getProjects,
+    getProjectTypes,
+} from "../../api/projects_api";
 import { ErrorBanner, LoadingBanner } from "../status_banner";
 import { useState } from "react";
 
@@ -44,6 +48,19 @@ export function ProjectsPage({
 
     const projects = projectsQuery.data ?? [];
     const projectTypes = projectTypesQuery.data ?? [];
+
+    const deleteProject = async (id: number) => {
+        try {
+            if (confirm(`Удалить проект?`)) {
+                deleteProjectById(id);
+                onDelete(id);
+                projectsQuery.refetch();
+            }
+        } catch (error) {
+            console.error(error);
+            alert("Не получилось удалить проект");
+        }
+    };
 
     return (
         <div className="content">
@@ -84,7 +101,9 @@ export function ProjectsPage({
                                     <ListTools
                                         onView={() => onView(project.id)}
                                         onEdit={() => onEdit(project.id)}
-                                        onDelete={() => onDelete(project.id)}
+                                        onDelete={() =>
+                                            deleteProject(project.id)
+                                        }
                                     />
                                 </td>
                             </tr>

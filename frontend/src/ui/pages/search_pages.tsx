@@ -12,7 +12,6 @@ import {
 } from "../../api/search_api";
 import { ErrorBanner, LoadingBanner } from "../status_banner";
 import { table, table_row } from "../tables.module.css";
-import { characteristics } from "../fake_backend_data";
 import { getCharacteristics } from "../../api/characteristics_api";
 
 export function SearchPage() {

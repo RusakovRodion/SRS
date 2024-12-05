@@ -1,4 +1,4 @@
-import { Project } from "../ui/data_interfaces";
+import { Project, ProjectType } from "../ui/data_interfaces";
 
 export async function createProject(project: Project): Promise<void> {
     const response = await fetch("/api/project", {
@@ -75,4 +75,18 @@ export async function getProjects(): Promise<Project[]> {
 
     const json = await response.json();
     return json as Project[];
+}
+
+export async function getProjectTypes(): Promise<ProjectType[]> {
+    const response = await fetch(`/api/project_types`, {
+        method: "GET",
+    });
+    if (!response.ok) {
+        throw new Error(
+            `Can't get project types: ${response.status} ${response.statusText}`,
+        );
+    }
+
+    const json = await response.json();
+    return json as ProjectType[];
 }

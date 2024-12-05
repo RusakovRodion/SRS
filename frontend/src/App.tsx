@@ -52,7 +52,6 @@ function App() {
                     path="/projects"
                     element={
                         <ProjectsPage
-                            projectTypes={fakePts}
                             onAdd={() => {
                                 navigate("/projects/add");
                             }}

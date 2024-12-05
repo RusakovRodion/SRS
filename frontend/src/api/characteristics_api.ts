@@ -58,3 +58,17 @@ export async function deleteCharacteristicById(id: number): Promise<void> {
         );
     }
 }
+
+export async function getCharacteristics(): Promise<Characteristic[]> {
+    const response = await fetch(`/api/characteristics`, {
+        method: "GET",
+    });
+    if (!response.ok) {
+        throw new Error(
+            `Can't get characteristics ${response.status} ${response.statusText}`,
+        );
+    }
+
+    const json = await response.json();
+    return json as Characteristic[];
+}

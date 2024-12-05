@@ -8,7 +8,7 @@
     text-align: right;
 }
 
-form > .save_btn_block {
+.save_btn_block {
     margin-top: 1em;
     display: flex;
     align-items: center;
@@ -62,4 +62,16 @@ textarea {
 
 .form-row + .form-row {
     margin-top: 1em;
+}
+
+dialog {
+    width: 50%;
+    min-width: 300px;
+    background-color: var(--color-1);
+    color: var(--main-text);
+    border: none;
+}
+
+::backdrop {
+    backdrop-filter: blur(3px);
 }

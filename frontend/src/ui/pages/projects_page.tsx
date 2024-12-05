@@ -1,6 +1,6 @@
 import { AddButton } from "./../buttons";
 import { list_item, list_item_info } from "./../list_component.module.css";
-import { projects_table, table_row } from "../tables.module.css";
+import { table, table_row } from "../tables.module.css";
 import "./page.css";
 import { ProjectType } from "../data_interfaces";
 import { ListTools } from "../list_tools";
@@ -75,7 +75,7 @@ export function ProjectsPage({
                 />
             </div>
 
-            <table className={projects_table}>
+            <table className={table}>
                 {projects.map((project) => {
                     const projectType = projectTypes.find(
                         (e) => e.id == project.type_id,

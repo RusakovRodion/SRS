@@ -76,3 +76,17 @@ export async function deleteHardwareById(id: number): Promise<void> {
         );
     }
 }
+
+export async function getHardwares(): Promise<Hardware[]> {
+    const response = await fetch(`/api/hardware`, {
+        method: "GET",
+    });
+    if (!response.ok) {
+        throw new Error(
+            `Can't get hardware by id ${response.status} ${response.statusText}`,
+        );
+    }
+
+    const json = await response.json();
+    return json as Hardware[];
+}

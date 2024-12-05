@@ -1,0 +1,13 @@
+.search_controls {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.search_input {
+    width: 600px;
+}
+
+.search_mode_controls {
+}

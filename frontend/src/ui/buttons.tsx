@@ -111,5 +111,3 @@ export function SaveButton({ onClick }: ClickableProps) {
 export function DoneButton({ onClick }: ClickableProps) {
     return <Button text={"Готово"} className={button} onClick={onClick} />;
 }
-
-// TODO: доделать другие кнопки

@@ -29,6 +29,7 @@ import { AddProjectForm } from "./ui/pages/add_project_form";
 import { AddChForm } from "./ui/pages/add_characteristic_form";
 import { AddHtForm } from "./ui/pages/add_hardware_type";
 import { useState } from "react";
+import { SearchPage } from "./ui/pages/search_pages";
 
 function App() {
     const navigate = useNavigate();
@@ -100,7 +101,6 @@ function App() {
                                 navigate("/projects");
                                 console.log(fakeProjects);
                             }}
-                            projectTypes={fakePts}
                             objectsList={fakeObjects}
                             projectsList={fakeProjects}
                         />
@@ -482,7 +482,7 @@ function App() {
                     path="/users"
                     element={<div>Страница пользователей</div>}
                 />
-                <Route path="/search" element={<div>Страница поиска</div>} />
+                <Route path="/search" element={<SearchPage />} />
 
                 {/* Для невалидного пути будет открываться первая страница - проекты */}
                 <Route

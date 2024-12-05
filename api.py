@@ -368,26 +368,26 @@ def get_project_by_id(id):
                             "name": oh.objects.name,
                             "description": oh.objects.description,
                             "registration_number": oh.objects.registration_number,
-                            "added": oh.objects.added
+                            "added": oh.objects.added,
                         }
                         for oh in ph.hardware.objects_hardware  # Связанные объекты через Hardware
-                    ]
+                    ],
+                    "characteristics": [
+                                {
+                                    "id": ch.id,
+                                    "characteristics_id": ch.characteristics_id,
+                                    "name": ch.characteristics.name if ch.characteristics else None,
+                                    "value": ch.value,
+                                    "unit": {
+                                        "id": ch.unit_of_measurement.id if ch.unit_of_measurement else None,
+                                        "name": ch.unit_of_measurement.name if ch.unit_of_measurement else None
+                                    }
+                                }
+                                for ch in project.characteristics_hardware  # CharacteristicsHardware relationships
+                            ]  
                 }
                 for ph in project.project_hardware  # ProjectHardware relationships
-            ],
-            "characteristics": [
-                {
-                    "id": ch.id,
-                    "characteristics_id": ch.characteristics_id,
-                    "name": ch.characteristics.name if ch.characteristics else None,
-                    "value": ch.value,
-                    "unit": {
-                        "id": ch.unit_of_measurement.id if ch.unit_of_measurement else None,
-                        "name": ch.unit_of_measurement.name if ch.unit_of_measurement else None
-                    }
-                }
-                for ch in project.characteristics_hardware  # CharacteristicsHardware relationships
-            ]            
+            ]          
         }), 200
     else:
         return jsonify({"error": "Project not found"}), 404
@@ -435,6 +435,21 @@ def delete_project(id):
             return jsonify({"error": str(e)}), 400
     else:
         return jsonify({"error": "Project not found"}), 404
+
+
+# ----------- Project Types -----------
+
+@api_blueprint.route('/project_types', methods=['GET'])
+def get_all_project_types():
+    project_types = ProjectType.query.all()
+    if project_types:
+        return jsonify([
+            {
+                "id": project_type.id,
+                "name": project_type.name
+            } for project_type in project_types
+        ]), 200
+    return jsonify({"error": "No project types found"}), 404
 
 
 # ----------- Objects -----------
@@ -584,6 +599,7 @@ def get_all_hardware():
                 "model": hw.model,
                 "description": hw.description,
                 "added": hw.added,
+                "type_name": hw.hardware_type.name,
                 "type_id": hw.type_id
             } for hw in hardware_list
         ]), 200
@@ -904,4 +920,143 @@ def delete_unit_of_measurement(id):
             return jsonify({"error": str(e)}), 400
     else:
         return jsonify({"error": "Unit_of_measurement not found"}), 404
+
+
+# ----------- Search -----------
+
+@api_blueprint.route('/search/hardware', methods=['GET'])
+def search_hardware():
+    query = request.args.get('query', '')
+    if not query:
+        return jsonify({"error": "Query parameter is required"}), 400
+
+    try:
+        # Выполняем нечёткий поиск по таблице hardware
+        hardware_list = Hardware.query.filter(
+            (Hardware.brand.ilike(f'%{query}%')) |
+            (Hardware.model.ilike(f'%{query}%')) |
+            (Hardware.description.ilike(f'%{query}%'))
+        ).all()
+
+        # Формируем результат
+        result = []
+        for hardware in hardware_list:
+            # Собираем характеристики
+            characteristics = [
+                {
+                    "characteristic_id": ch.characteristics_id,
+                    "characteristic_value": ch.value
+                }
+                for ch in hardware.characteristics_hardware
+            ]
+
+            result.append({
+                "id": hardware.id,
+                "type": hardware.hardware_type.name if hardware.hardware_type else None,
+                "name": f"{hardware.brand} {hardware.model}" if hardware.model else hardware.brand,
+                "description": hardware.description,
+                "type_id": hardware.type_id,
+                "characteristics": characteristics
+            })
+
+        return jsonify(result), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@api_blueprint.route('/search/objects', methods=['GET'])
+def search_objects():
+    query = request.args.get('query', '')
+    if not query:
+        return jsonify({"error": "Query parameter is required"}), 400
+
+    try:
+        # Выполняем нечёткий поиск по таблице objects
+        objects_list = Objects.query.filter(
+            (Objects.name.ilike(f'%{query}%')) |
+            (Objects.description.ilike(f'%{query}%')) |
+            (Objects.registration_number.ilike(f'%{query}%'))
+        ).all()
+
+        # Формируем результат
+        result = []
+        for obj in objects_list:
+            # Собираем связанное оборудование
+            hardware = [
+                {
+                    "hardware_id": oh.hardware.id,
+                    "name": f"{oh.hardware.brand} {oh.hardware.model}" if oh.hardware.model else oh.hardware.brand,
+                    "type": oh.hardware.hardware_type.name if oh.hardware.hardware_type else None,
+                    "description": oh.hardware.description
+                }
+                for oh in obj.objects_hardware
+            ]
+
+            result.append({
+                "id": obj.id,
+                "name": obj.name,
+                "description": obj.description,
+                "registration_number": obj.registration_number,
+                "added": obj.added,
+                "hardware": hardware
+            })
+
+        return jsonify(result), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@api_blueprint.route('/search/projects', methods=['GET'])
+def search_projects():
+    query = request.args.get('query', '')
+    if not query:
+        return jsonify({"error": "Query parameter is required"}), 400
+
+    try:
+        # Выполняем нечёткий поиск по таблице projects
+        projects_list = Projects.query.filter(
+            (Projects.name.ilike(f'%{query}%')) |
+            (Projects.description.ilike(f'%{query}%'))
+        ).all()
+
+        # Формируем результат
+        result = []
+        for project in projects_list:
+            # Собираем связанное оборудование
+            hardware = [
+                {
+                    "hardware_id": ph.hardware.id,
+                    "name": f"{ph.hardware.brand} {ph.hardware.model}" if ph.hardware.model else ph.hardware.brand,
+                    "type": ph.hardware.hardware_type.name if ph.hardware.hardware_type else None,
+                    "description": ph.hardware.description
+                }
+                for ph in project.project_hardware
+            ]
+
+            # Собираем характеристики
+            characteristics = [
+                {
+                    "characteristic_id": ch.characteristics_id,
+                    "characteristic_value": ch.value,
+                    "unit": ch.unit_of_measurement.name if ch.unit_of_measurement else None
+                }
+                for ch in project.characteristics_hardware
+            ]
+
+            result.append({
+                "id": project.id,
+                "name": project.name,
+                "description": project.description,
+                "added": project.added,
+                "type": project.project_type.name if project.project_type else None,
+                "hardware": hardware,
+                "characteristics": characteristics
+            })
+
+        return jsonify(result), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
